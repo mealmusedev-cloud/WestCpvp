@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WestCPvP | Support</title>
+  <link rel="icon" href="Logo.png?v=5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #101010;
+      --panel: #1c1c1e;
+      --panel-dark: #151516;
+      --text: #fff;
+      --muted: rgba(255,255,255,.68);
+      --muted-soft: rgba(255,255,255,.44);
+      --blue: #13b7f4;
+      --cyan: #34e7ff;
+      --discord: #5865f2;
+      --green: #22c55e;
+      --danger: #fb7185;
+      --radius: 22px;
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #111;
+      padding: 38px 22px 30px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(800px 520px at 18% 12%, rgba(19,183,244,.13), transparent 65%),
+        radial-gradient(700px 500px at 82% 74%, rgba(88,101,242,.10), transparent 66%),
+        linear-gradient(180deg, #111 0%, #0d0d0d 100%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(940px, 100%);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 16px 35px rgba(0,0,0,.36);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav a, .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 39px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.07);
+      color: white;
+      text-decoration: none;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .nav a:hover, .button:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(19,183,244,.95), rgba(88,101,242,.72)),
+        radial-gradient(circle at 74% 30%, rgba(255,255,255,.30), transparent 35%);
+      box-shadow: 0 28px 70px rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.10);
+      display: grid;
+      align-items: end;
+      padding: 28px;
+      margin-bottom: 24px;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background: conic-gradient(from 180deg, transparent, rgba(255,255,255,.24), transparent 28%);
+      animation: spinGlow 9s linear infinite;
+      opacity: .48;
+      z-index: -1;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, transparent 0%, rgba(0,0,0,.50) 100%),
+        radial-gradient(500px 260px at 80% 26%, rgba(255,255,255,.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    @keyframes spinGlow { to { transform: rotate(1turn); } }
+
+    .hero-content { position: relative; z-index: 2; max-width: 650px; }
+
+    .eyebrow {
+      color: rgba(255,255,255,.75);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .88;
+      font-weight: 900;
+      letter-spacing: -.075em;
+      text-shadow: 0 14px 34px rgba(0,0,0,.35);
+    }
+
+    .subtitle {
+      max-width: 700px;
+      margin-top: 16px;
+      color: rgba(255,255,255,.78);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 700;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: rgba(28,28,30,.92);
+      border: 1px solid rgba(255,255,255,.075);
+      box-shadow: 0 22px 60px rgba(0,0,0,.28);
+      padding: 24px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.10), transparent 30%, transparent 66%, rgba(255,255,255,.035));
+      opacity: .55;
+    }
+
+    .card > * { position: relative; z-index: 1; }
+
+    h2 {
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      margin-bottom: 12px;
+    }
+
+    p, li {
+      color: rgba(255,255,255,.72);
+      font-size: 14px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    ul { padding-left: 20px; margin-top: 8px; }
+    li + li { margin-top: 5px; }
+
+    .callout {
+      margin-top: 16px;
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(52,231,255,.18);
+      background: rgba(52,231,255,.07);
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      line-height: 1.7;
+      font-weight: 800;
+    }
+
+    .action-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .primary {
+      background: var(--cyan);
+      color: #061014;
+      border-color: transparent;
+      box-shadow: 0 14px 30px rgba(52,231,255,.20);
+    }
+
+    .discord {
+      background: var(--discord);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 14px 30px rgba(88,101,242,.22);
+    }
+
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      color: rgba(255,255,255,.38);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.85;
+    }
+
+    .footer-links {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer a {
+      color: rgba(255,255,255,.52);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .footer a:hover { color: white; }
+
+    .copy-toast {
+      position: fixed;
+      left: 50%;
+      bottom: 26px;
+      z-index: 50;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 36px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.15);
+      background: rgba(18,18,20,.86);
+      color: rgba(255,255,255,.92);
+      box-shadow: 0 14px 30px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08);
+      backdrop-filter: blur(14px);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      opacity: 0;
+      pointer-events: none;
+      transform: translate(-50%, 12px) scale(.96);
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .copy-toast::before {
+      content: "✓";
+      display: inline-grid;
+      place-items: center;
+      width: 17px;
+      height: 17px;
+      border-radius: 999px;
+      background: var(--cyan);
+      color: #061014;
+      font-size: 11px;
+      line-height: 1;
+      letter-spacing: 0;
+      box-shadow: 0 0 16px rgba(52,231,255,.36);
+    }
+
+    .copy-toast.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+
+    @media (max-width: 680px) {
+      body { padding: 16px 12px 22px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .nav { justify-content: flex-start; }
+      .hero { min-height: 230px; padding: 22px; }
+      .card { padding: 20px; }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="Back to WestCPvP home">
+        <img class="brand-logo" src="Logo.png?v=5" alt="WestCPvP Logo">
+        <span>WestCPvP</span>
+      </a>
+      <nav class="nav" aria-label="Site links">
+        <a href="index.html">Home</a><a href="privacy.html">Privacy</a><a href="support.html" aria-current="page">Support</a><a href="terms.html">Terms</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Need help?</div>
+        <h1>Support</h1>
+        <p class="subtitle">Get the server address, join Discord, and find the fastest way to contact staff.</p>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <article class="card">
+        <h2>Quick Help</h2>
+        <p>Need help joining WestCPvP, reporting a player, appealing a punishment, or asking staff a question? Use the official Discord server for the fastest support.</p>
+        <div class="action-row">
+          <a class="button discord" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Join Discord</a>
+          <button class="button primary" onclick="copyServerIP()">Copy Server IP</button>
+        </div>
+      </article>
+      <article class="card">
+        <h2>Server Address</h2>
+        <p>Java Edition server address:</p>
+        <p class="callout">westcpvp.net</p>
+        <p>Open Minecraft Java Edition, go to Multiplayer, choose Add Server, and paste the address above.</p>
+      </article>
+      <article class="card">
+        <h2>Before Asking For Help</h2>
+        <ul>
+          <li>Make sure you are using Minecraft Java Edition.</li>
+          <li>Double-check that the server address is typed exactly as westcpvp.net.</li>
+          <li>Restart Minecraft if your server list is not refreshing.</li>
+          <li>Check Discord for announcements about maintenance, updates, or downtime.</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>Reports & Appeals</h2>
+        <p>For player reports, include names, screenshots, recordings, timestamps, and a clear description. For appeals, include your Minecraft username and explain what happened respectfully.</p>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <div>WestCPvP</div>
+      <div>Not associated with Mojang or Microsoft © 2026 WestCPvP. All Rights Reserved.</div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="support.html">Support</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </footer>
+  </main>
+
+  <div class="copy-toast" id="copy-toast">IP Copied</div>
+  <script>
+    const SERVER_IP = "westcpvp.net";
+    function copyServerIP() {
+      const toast = document.getElementById("copy-toast");
+      const showToast = () => {
+        if (!toast) return;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1700);
+      };
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(SERVER_IP).then(showToast).catch(showToast);
+      } else {
+        const temp = document.createElement("textarea");
+        temp.value = SERVER_IP;
+        temp.style.position = "fixed";
+        temp.style.opacity = "0";
+        document.body.appendChild(temp);
+        temp.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        temp.remove();
+        showToast();
+      }
+    }
+  </script>
+
+</body>
+</html>
