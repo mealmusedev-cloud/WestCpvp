@@ -18,7 +18,10 @@
   <meta name="theme-color"        content="#34e7ff" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
+  <link rel="dns-prefetch" href="https://api.mcstatus.io">
+  <link rel="dns-prefetch" href="https://discord.com">
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -853,7 +856,7 @@
       <!-- Logo + Copy strip -->
       <div class="area-ip">
         <button class="logo-card" onclick="copyServerIP('ip-toast')" aria-label="Copy server IP">
-          <img src="Logo.png?v=6" alt="WestCPvP Logo" class="server-logo">
+          <img src="Logo.png?v=6" alt="WestCPvP Logo" class="server-logo" loading="eager" fetchpriority="high">
           <span class="copied" id="ip-toast">IP Copied</span>
         </button>
 
@@ -869,7 +872,7 @@
 
       <!-- Hero -->
       <article class="card hero-card">
-        <video class="media" src="nature.mp4" autoplay muted loop playsinline></video>
+        <video class="media" src="nature.mp4" autoplay muted loop playsinline preload="metadata"></video>
         <div class="hero-content">
           <div class="eyebrow">Competitive Minecraft PvP</div>
           <h1 class="headline">Jump in.<br>Queue up.<br>Win fights.</h1>
@@ -903,7 +906,7 @@
 
       <!-- Stats -->
       <article class="card stats-card">
-        <video class="media" src="snow.mp4" autoplay muted loop playsinline></video>
+        <video class="media" src="snow.mp4" autoplay muted loop playsinline preload="metadata"></video>
         <div class="title">Server Stats</div>
         <div class="live-badge"><span class="dot"></span>Live</div>
         <div class="stats-content">
@@ -953,7 +956,7 @@
 
       <!-- How To Join -->
       <article class="card join-card">
-        <video class="media" src="minecraft-aquarium.3840x2160.mp4" autoplay muted loop playsinline></video>
+        <video class="media" src="minecraft-aquarium.3840x2160.mp4" autoplay muted loop playsinline preload="metadata"></video>
         <div class="title">How To Join</div>
         <div class="join-content">
           <div class="join-panel">
