@@ -675,6 +675,124 @@
       to   { background-position: -200% 0; }
     }
 
+    /* ── Leaderboard ── */
+    .leaderboard-section {
+      margin-top: 16px;
+      border-radius: var(--radius);
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.07);
+      box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.04) inset;
+      overflow: hidden;
+      animation: fadeUp .55s .38s ease both;
+    }
+
+    .lb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px 14px;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+
+    .lb-title {
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+    }
+
+    .lb-refresh {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.3);
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,.35);
+      transition: color .18s ease;
+    }
+    .lb-refresh:hover { color: var(--cyan); }
+    .lb-refresh svg { width: 13px; height: 13px; }
+
+    .lb-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .lb-table thead tr {
+      background: rgba(0,0,0,.2);
+    }
+
+    .lb-table th {
+      padding: 9px 22px;
+      text-align: left;
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.35);
+    }
+
+    .lb-table th:not(:first-child) { text-align: right; }
+
+    .lb-table tbody tr {
+      border-top: 1px solid rgba(255,255,255,.04);
+      transition: background .15s ease;
+    }
+
+    .lb-table tbody tr:hover { background: rgba(255,255,255,.03); }
+
+    .lb-table td {
+      padding: 11px 22px;
+      font-size: 13px;
+      font-weight: 700;
+      color: rgba(255,255,255,.75);
+    }
+
+    .lb-table td:not(:first-child):not(:nth-child(2)) { text-align: right; }
+
+    .lb-rank {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .06em;
+      color: rgba(255,255,255,.3);
+      width: 36px;
+    }
+
+    .lb-rank.gold   { color: #fbbf24; text-shadow: 0 0 14px rgba(251,191,36,.5); }
+    .lb-rank.silver { color: #94a3b8; text-shadow: 0 0 10px rgba(148,163,184,.3); }
+    .lb-rank.bronze { color: #c2714a; text-shadow: 0 0 10px rgba(194,113,74,.3); }
+
+    .lb-name {
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .lb-kills {
+      color: var(--cyan);
+      font-weight: 900;
+      text-shadow: 0 0 12px rgba(52,231,255,.3);
+    }
+
+    .lb-kdr { color: rgba(255,255,255,.6); }
+
+    .lb-streak { color: var(--danger); font-weight: 800; }
+
+    .lb-empty {
+      text-align: center;
+      padding: 36px;
+      color: rgba(255,255,255,.28);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
     /* ── Footer ── */
     .footer {
       margin-top: 22px;
@@ -849,6 +967,35 @@
 
     </section>
 
+    <!-- Leaderboard -->
+    <div class="leaderboard-section">
+      <div class="lb-header">
+        <span class="lb-title">&#9876; Top Players</span>
+        <button class="lb-refresh" onclick="refreshLeaderboard()" aria-label="Refresh leaderboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 4v6h-6M1 20v-6h6"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+      <table class="lb-table" aria-label="Player leaderboard">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Player</th>
+            <th>Kills</th>
+            <th>Deaths</th>
+            <th>K/D</th>
+            <th>Best Streak</th>
+          </tr>
+        </thead>
+        <tbody id="lb-body">
+          <tr><td colspan="6" class="lb-empty"><span class="skeleton" style="width:160px;height:14px;"></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
     <footer class="footer">
       <div>WestCPvP &mdash; Not associated with Mojang or Microsoft</div>
       <div>&copy; 2026 WestCPvP. All Rights Reserved.</div>
@@ -950,10 +1097,44 @@
       }
     }
 
+    const LEADERBOARD_API = "http://play.westcpvp.net:8080/leaderboard";
+
+    const rankClass = i => i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "";
+    const rankLabel = i => i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
+
+    async function refreshLeaderboard() {
+      const tbody = document.getElementById("lb-body");
+      try {
+        const res = await fetch(LEADERBOARD_API, { cache: "reload" });
+        const data = await res.json();
+        if (!data.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="lb-empty">No stats yet — start playing!</td></tr>';
+          return;
+        }
+        tbody.innerHTML = data.map((p, i) => `
+          <tr>
+            <td class="lb-rank ${rankClass(i)}">${rankLabel(i)}</td>
+            <td class="lb-name">${escapeHtml(p.name)}</td>
+            <td class="lb-kills">${p.kills.toLocaleString()}</td>
+            <td>${p.deaths.toLocaleString()}</td>
+            <td class="lb-kdr">${p.kdr}</td>
+            <td class="lb-streak">${p.bestStreak}</td>
+          </tr>`).join("");
+      } catch {
+        tbody.innerHTML = '<tr><td colspan="6" class="lb-empty">Leaderboard offline — check back soon.</td></tr>';
+      }
+    }
+
+    function escapeHtml(s) {
+      return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+    }
+
     refreshServerStats();
     refreshDiscord();
+    refreshLeaderboard();
     setInterval(refreshServerStats, 30000);
     setInterval(refreshDiscord, 60000);
+    setInterval(refreshLeaderboard, 60000);
   </script>
 </body>
 </html>

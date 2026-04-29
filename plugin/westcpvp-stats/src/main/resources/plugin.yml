@@ -1,0 +1,18 @@
+name: WestCPvPStats
+version: 1.0.0
+main: net.westcpvp.stats.WestCPvPStats
+api-version: '1.21'
+description: Tracks PvP stats and exposes a leaderboard JSON API.
+authors: [WestCPvP]
+
+commands:
+  wcstats:
+    description: View your stats or another player's stats.
+    usage: /wcstats [player]
+  wcleaderboard:
+    description: View the top players leaderboard.
+    usage: /wcleaderboard
+  wcreset:
+    description: Reset a player's stats.
+    usage: /wcreset <player>
+    permission: westcpvp.stats.reset

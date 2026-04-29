@@ -1,0 +1,9 @@
+# Port the leaderboard HTTP API listens on.
+# Make sure this port is open in your firewall.
+api-port: 8080
+
+# How many players to show on the leaderboard.
+leaderboard-size: 10
+
+# How often (in seconds) to auto-save stats to disk.
+save-interval: 300
