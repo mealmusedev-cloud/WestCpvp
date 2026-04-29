@@ -7,50 +7,53 @@
   <link rel="icon" href="Logo.png?v=5" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #101010;
-      --panel: #1c1c1e;
-      --panel-dark: #151516;
+      --bg: #0a0a0c;
+      --panel: #141416;
+      --panel-light: #1a1a1e;
       --text: #fff;
-      --muted: rgba(255,255,255,.68);
-      --muted-soft: rgba(255,255,255,.44);
-      --blue: #13b7f4;
-      --blue-dark: #0479d6;
+      --muted: rgba(255,255,255,.62);
+      --muted-soft: rgba(255,255,255,.38);
       --cyan: #34e7ff;
+      --cyan-dim: rgba(52,231,255,.18);
+      --blue: #4f8fff;
       --discord: #5865f2;
       --green: #22c55e;
       --danger: #fb7185;
-      --radius: 22px;
+      --radius: 20px;
+      --radius-sm: 14px;
     }
 
     html, body { min-height: 100%; }
 
     body {
       min-height: 100vh;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: Inter, system-ui, -apple-system, sans-serif;
       color: var(--text);
-      background: #111;
+      background: var(--bg);
       display: grid;
       place-items: center;
-      padding: 38px 22px 30px;
+      padding: 40px 22px 32px;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
+    /* ── Background layers ── */
     body::before {
       content: "";
       position: fixed;
       inset: 0;
       z-index: -2;
       background:
-        radial-gradient(800px 520px at 18% 12%, rgba(19,183,244,.13), transparent 65%),
-        radial-gradient(700px 500px at 82% 74%, rgba(88,101,242,.10), transparent 66%),
-        linear-gradient(180deg, #111 0%, #0d0d0d 100%);
+        radial-gradient(ellipse 900px 600px at 15% 10%, rgba(52,231,255,.09) 0%, transparent 60%),
+        radial-gradient(ellipse 700px 500px at 85% 80%, rgba(79,143,255,.11) 0%, transparent 60%),
+        radial-gradient(ellipse 500px 400px at 50% 50%, rgba(88,101,242,.07) 0%, transparent 55%),
+        linear-gradient(180deg, #0d0d10 0%, #08080b 100%);
     }
 
     body::after {
@@ -59,76 +62,108 @@
       inset: 0;
       z-index: -1;
       pointer-events: none;
-      background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
-      background-size: 28px 28px;
-      mask-image: radial-gradient(circle at center, black, transparent 78%);
+      background-image: radial-gradient(rgba(255,255,255,.028) 1px, transparent 1px);
+      background-size: 26px 26px;
+      mask-image: radial-gradient(ellipse 80% 80% at center, black 30%, transparent 75%);
     }
 
-    .page {
-      width: min(1092px, 100%);
+    /* ── Entrance animation ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
+
+    .bento > * {
+      animation: fadeUp .55s ease both;
+    }
+    .bento > *:nth-child(1) { animation-delay: .05s; }
+    .bento > *:nth-child(2) { animation-delay: .12s; }
+    .bento > *:nth-child(3) { animation-delay: .19s; }
+    .bento > *:nth-child(4) { animation-delay: .26s; }
+    .bento > *:nth-child(5) { animation-delay: .33s; }
+
+    /* ── Layout ── */
+    .page { width: min(1100px, 100%); }
 
     .bento {
       display: grid;
-      grid-template-columns: 290px 240px 290px 220px;
+      grid-template-columns: 284px 1fr 1fr 210px;
       grid-template-rows: 300px 300px;
-      gap: 24px;
+      gap: 16px;
     }
 
+    /* ── Base card ── */
     .card, .logo-card, .copy-strip {
       position: relative;
       overflow: hidden;
       border-radius: var(--radius);
-      background: var(--panel);
-      box-shadow: 0 22px 60px rgba(0,0,0,.34);
     }
 
     .card {
-      border: 1px solid rgba(255,255,255,.055);
+      background: var(--panel);
+      border: 1px solid rgba(255,255,255,.07);
+      box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.04) inset;
       isolation: isolate;
-      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
     }
 
-    .card:hover, .logo-card:hover, .copy-strip:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 28px 70px rgba(0,0,0,.46);
-      border-color: rgba(255,255,255,.12);
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow:
+        0 16px 48px rgba(0,0,0,.6),
+        0 0 0 1px rgba(52,231,255,.14),
+        0 1px 0 rgba(255,255,255,.06) inset;
+      border-color: rgba(52,231,255,.18);
     }
 
-    .card::after, .logo-card::after {
+    /* glass sheen */
+    .card::after {
       content: "";
       position: absolute;
       inset: 0;
       z-index: 3;
       pointer-events: none;
-      background: linear-gradient(135deg, rgba(255,255,255,.13), transparent 29%, transparent 64%, rgba(255,255,255,.04));
-      opacity: .45;
+      background: linear-gradient(135deg, rgba(255,255,255,.07) 0%, transparent 40%, transparent 60%, rgba(255,255,255,.025) 100%);
     }
 
-    .area-ip { grid-column: 1; grid-row: 1; display: grid; grid-template-rows: 230px 58px; gap: 12px; }
-    .hero-card { grid-column: 2 / 4; grid-row: 1; }
+    /* ── Grid positions ── */
+    .area-ip    { grid-column: 1; grid-row: 1; display: grid; grid-template-rows: 1fr 58px; gap: 12px; }
+    .hero-card  { grid-column: 2 / 4; grid-row: 1; }
     .discord-card { grid-column: 4; grid-row: 1; }
     .stats-card { grid-column: 1 / 3; grid-row: 2; }
-    .join-card { grid-column: 3 / 5; grid-row: 2; }
+    .join-card  { grid-column: 3 / 5; grid-row: 2; }
 
+    /* ── Logo card ── */
     .logo-card {
-      background: #0bb6ee;
-      border: 1px solid rgba(255,255,255,.12);
+      background: #000;
+      border: 1px solid rgba(52,231,255,.18);
       display: block;
       padding: 0;
       cursor: pointer;
       isolation: isolate;
-      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+      box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 0 40px rgba(52,231,255,.06);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .logo-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      border-color: rgba(52,231,255,.38);
+      box-shadow: 0 16px 48px rgba(0,0,0,.6), 0 0 60px rgba(52,231,255,.14);
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: .5; }
+      50%       { opacity: 1; }
     }
 
     .logo-card::before {
-      display: none;
-    }
-
-    @keyframes spinGlow { to { transform: rotate(1turn); } }
-
-    .logo-card .logo-bg {
-      display: none;
+      content: "";
+      position: absolute;
+      inset: -2px;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(52,231,255,.22), transparent 50%, rgba(79,143,255,.14));
+      z-index: 0;
+      animation: glowPulse 3.5s ease-in-out infinite;
     }
 
     .server-logo {
@@ -139,67 +174,73 @@
       height: 100%;
       object-fit: cover;
       object-position: center;
-      image-rendering: auto;
-      filter: none;
-      transform: none;
-      transition: transform .24s ease;
+      transition: transform .28s ease;
     }
 
-    .logo-card:hover .server-logo { transform: scale(1.035); }
+    .logo-card:hover .server-logo { transform: scale(1.045); }
 
+    /* ── Copy strip ── */
     .copy-strip {
-      overflow: visible;
-      border: 0;
-      background: #202020;
+      border: 1px solid rgba(255,255,255,.09);
+      background: linear-gradient(135deg, #1a1a1e, #141416);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      padding: 0 20px;
+      gap: 12px;
+      padding: 0 18px;
       color: white;
       font: inherit;
-      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,.4);
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
     }
 
-    .copy-strip:hover { background: #242424; }
+    .copy-strip:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, #202026, #1a1a20);
+      border-color: rgba(52,231,255,.22);
+      box-shadow: 0 8px 28px rgba(0,0,0,.5), 0 0 20px rgba(52,231,255,.07);
+    }
 
-    .copy-strip svg { width: 29px; height: 29px; flex: 0 0 auto; }
+    .copy-strip svg { width: 22px; height: 22px; flex: 0 0 auto; opacity: .7; }
 
     .ip-text {
-      font-size: 21px;
+      font-size: 13px;
       font-weight: 900;
-      letter-spacing: -.02em;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      text-shadow: 2px 2px 0 rgba(0,0,0,.28);
+      background: linear-gradient(90deg, var(--cyan), #a0e8ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
+    /* ── Toast ── */
     .copied {
       position: absolute;
       left: 50%;
-      right: auto;
-      top: -42px;
+      top: -44px;
       z-index: 30;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      height: 31px;
+      gap: 6px;
+      height: 30px;
       min-width: max-content;
       padding: 0 12px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.15);
-      background: rgba(18,18,20,.84);
+      border: 1px solid rgba(52,231,255,.22);
+      background: rgba(10,10,14,.9);
       color: rgba(255,255,255,.92);
-      box-shadow: 0 14px 30px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.08);
-      backdrop-filter: blur(14px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 16px rgba(52,231,255,.14);
+      backdrop-filter: blur(16px);
       font-size: 10px;
       font-weight: 900;
-      letter-spacing: .10em;
+      letter-spacing: .12em;
       text-transform: uppercase;
       opacity: 0;
       pointer-events: none;
-      transform: translate(-50%, 8px) scale(.96);
+      transform: translate(-50%, 8px) scale(.94);
       transition: opacity .18s ease, transform .18s ease;
     }
 
@@ -207,31 +248,36 @@
       content: "✓";
       display: inline-grid;
       place-items: center;
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       border-radius: 999px;
       background: var(--cyan);
-      color: #061014;
-      font-size: 11px;
-      line-height: 1;
-      letter-spacing: 0;
-      box-shadow: 0 0 16px rgba(52,231,255,.36);
+      color: #03111a;
+      font-size: 10px;
+      font-weight: 900;
     }
 
     .copied.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
 
+    /* ── Card title tag ── */
     .title {
       position: absolute;
       z-index: 5;
       left: 16px;
       top: 15px;
-      font-size: 28px;
-      line-height: 1;
+      font-size: 11px;
       font-weight: 900;
-      letter-spacing: -.045em;
-      text-shadow: 3px 3px 0 rgba(0,0,0,.28), 0 12px 24px rgba(0,0,0,.40);
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+      background: rgba(0,0,0,.3);
+      backdrop-filter: blur(10px);
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.1);
     }
 
+    /* ── Media ── */
     .media {
       position: absolute;
       inset: 0;
@@ -239,28 +285,27 @@
       height: 100%;
       object-fit: cover;
       z-index: 0;
-      filter: saturate(1.12) contrast(1.04);
+      filter: saturate(1.1) brightness(.95);
     }
 
-    .hero-card::before,
-    .stats-card::before,
-    .join-card::before {
+    /* ── Hero ── */
+    .hero-card::before {
       content: "";
       position: absolute;
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.16) 0%, rgba(0,0,0,.70) 100%),
-        radial-gradient(420px 220px at 76% 30%, rgba(52,231,255,.18), transparent 62%);
+        linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.72) 100%),
+        radial-gradient(500px 280px at 80% 20%, rgba(52,231,255,.13), transparent 65%);
       pointer-events: none;
     }
 
-    .hero-card .hero-content {
+    .hero-content {
       position: absolute;
       z-index: 4;
-      left: 18px;
-      right: 18px;
-      bottom: 16px;
+      left: 22px;
+      right: 22px;
+      bottom: 20px;
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
@@ -268,91 +313,107 @@
     }
 
     .eyebrow {
-      font-size: 11px;
-      font-weight: 900;
+      font-size: 10.5px;
+      font-weight: 800;
       letter-spacing: .18em;
       text-transform: uppercase;
-      color: rgba(255,255,255,.66);
-      margin-bottom: 7px;
+      color: var(--cyan);
+      margin-bottom: 9px;
+      text-shadow: 0 0 20px rgba(52,231,255,.5);
     }
 
     .headline {
-      max-width: 350px;
-      font-size: 35px;
-      line-height: .95;
+      max-width: 340px;
+      font-size: 36px;
+      line-height: .94;
       font-weight: 900;
-      letter-spacing: -.06em;
-      text-shadow: 0 4px 26px rgba(0,0,0,.55);
+      letter-spacing: -.055em;
+      background: linear-gradient(160deg, #fff 30%, rgba(255,255,255,.75));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      filter: drop-shadow(0 4px 20px rgba(0,0,0,.6));
     }
 
+    /* ── Pill button ── */
     .pill {
       position: relative;
       overflow: visible;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 9px;
-      height: 45px;
-      padding: 0 18px;
-      border: 1px solid rgba(255,255,255,.18);
+      gap: 8px;
+      height: 44px;
+      padding: 0 20px;
+      border: 1px solid rgba(52,231,255,.3);
       border-radius: 999px;
-      color: #070707;
-      background: rgba(255,255,255,.94);
+      color: #03111a;
+      background: linear-gradient(135deg, var(--cyan), #7ef8ff);
       font: inherit;
       font-size: 13px;
       font-weight: 900;
       text-decoration: none;
       cursor: pointer;
       white-space: nowrap;
-      box-shadow: 0 14px 28px rgba(0,0,0,.28);
-      transition: transform .18s ease, background .18s ease;
+      box-shadow: 0 8px 24px rgba(52,231,255,.22), 0 0 40px rgba(52,231,255,.1);
+      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
     }
 
-    .pill:hover { transform: translateY(-2px); background: white; }
+    .pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(52,231,255,.34), 0 0 60px rgba(52,231,255,.16);
+      filter: brightness(1.06);
+    }
 
+    /* ── Discord card ── */
     .discord-card {
       display: grid;
       place-items: center;
       text-align: center;
-      padding: 24px;
-      background: #202020;
+      padding: 28px 20px;
+      background: linear-gradient(160deg, #14141a, #101018);
     }
 
     .discord-card::before {
       content: "";
       position: absolute;
-      inset: -60px -50px auto -50px;
-      height: 230px;
-      background: radial-gradient(circle, rgba(88,101,242,.25), transparent 64%);
+      inset: 0;
+      background:
+        radial-gradient(circle 180px at 50% 35%, rgba(88,101,242,.22), transparent 65%),
+        radial-gradient(circle 120px at 50% 85%, rgba(88,101,242,.08), transparent 60%);
       z-index: 0;
     }
 
-    .discord-inner { position: relative; z-index: 4; display: grid; justify-items: center; }
+    .discord-inner { position: relative; z-index: 4; display: grid; justify-items: center; gap: 2px; }
 
     .discord-icon {
-      width: 68px;
-      height: 68px;
-      margin-bottom: 17px;
+      width: 52px;
+      height: 52px;
+      margin-bottom: 14px;
       fill: var(--discord);
-      filter: drop-shadow(0 10px 18px rgba(88,101,242,.38));
+      filter: drop-shadow(0 0 18px rgba(88,101,242,.55));
     }
 
     .discord-count {
-      font-size: 32px;
+      font-size: 34px;
       line-height: 1;
       font-weight: 900;
       letter-spacing: -.06em;
-      text-shadow: 2px 2px 0 rgba(0,0,0,.32);
+      background: linear-gradient(135deg, #fff, rgba(255,255,255,.8));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .mini-line {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 7px;
-      margin-top: 8px;
-      color: white;
-      font-size: 13px;
+      gap: 6px;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
       font-weight: 700;
     }
 
@@ -361,62 +422,81 @@
       height: 7px;
       border-radius: 999px;
       background: var(--green);
-      box-shadow: 0 0 0 0 rgba(34,197,94,.65);
-      animation: pulse 1.8s infinite;
+      box-shadow: 0 0 0 0 rgba(34,197,94,.7);
+      animation: pulse 2s infinite;
       flex: 0 0 auto;
     }
 
     @keyframes pulse {
-      70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+      0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.7); }
+      70%  { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
       100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
     }
 
     .discord-button {
-      margin-top: 17px;
+      margin-top: 18px;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      gap: 7px;
       height: 38px;
-      padding: 0 15px;
+      padding: 0 18px;
       border-radius: 999px;
       background: var(--discord);
       color: white;
       font-size: 12px;
       font-weight: 900;
       text-decoration: none;
-      box-shadow: 0 14px 30px rgba(88,101,242,.22);
-      transition: transform .18s ease, filter .18s ease;
+      box-shadow: 0 8px 24px rgba(88,101,242,.3);
+      transition: transform .18s ease, box-shadow .18s ease;
     }
 
-    .discord-button:hover { transform: translateY(-2px); filter: brightness(1.08); }
+    .discord-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(88,101,242,.45);
+    }
 
-    .stats-card, .join-card { background: #1c1c1e; }
-    .stats-card .stats-content, .join-card .join-content { position: relative; z-index: 4; height: 100%; }
+    /* ── Stats card ── */
+    .stats-card { background: var(--panel); }
 
-    .stats-card .stats-content {
+    .stats-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.65) 100%),
+        radial-gradient(400px 240px at 80% 20%, rgba(52,231,255,.12), transparent 65%);
+      pointer-events: none;
+    }
+
+    .stats-content {
+      position: relative;
+      z-index: 4;
+      height: 100%;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
-      padding: 22px 16px 16px;
+      padding: 20px 16px 16px;
     }
 
     .live-badge {
       position: absolute;
-      right: 16px;
-      top: 16px;
+      right: 14px;
+      top: 14px;
       z-index: 5;
       display: inline-flex;
       align-items: center;
-      gap: 7px;
-      height: 31px;
-      padding: 0 12px;
+      gap: 6px;
+      height: 28px;
+      padding: 0 11px;
       border-radius: 999px;
-      background: rgba(0,0,0,.36);
-      border: 1px solid rgba(255,255,255,.12);
-      color: white;
-      font-size: 11px;
+      background: rgba(0,0,0,.45);
+      border: 1px solid rgba(34,197,94,.25);
+      color: rgba(255,255,255,.85);
+      font-size: 10px;
       font-weight: 900;
-      letter-spacing: .10em;
+      letter-spacing: .12em;
       text-transform: uppercase;
       backdrop-filter: blur(12px);
     }
@@ -424,87 +504,113 @@
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 8px;
     }
 
     .stat-box {
-      min-height: 80px;
       padding: 14px;
-      border-radius: 17px;
-      background: rgba(0,0,0,.42);
-      border: 1px solid rgba(255,255,255,.11);
-      backdrop-filter: blur(10px);
+      border-radius: var(--radius-sm);
+      background: rgba(0,0,0,.48);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(12px);
+      transition: border-color .2s ease;
     }
 
+    .stat-box:hover { border-color: rgba(52,231,255,.2); }
+
     .stat-label {
-      color: rgba(255,255,255,.60);
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .12em;
+      color: rgba(255,255,255,.45);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
       text-transform: uppercase;
-      margin-bottom: 9px;
+      margin-bottom: 10px;
     }
 
     .stat-value {
       display: block;
       color: #fff;
-      font-size: 24px;
+      font-size: 26px;
       line-height: 1;
       font-weight: 900;
       letter-spacing: -.04em;
-      text-shadow: 2px 2px 0 rgba(0,0,0,.30);
     }
 
-    .stat-value.online { color: var(--green); }
-    .stat-value.offline { color: var(--danger); }
+    .stat-value.online {
+      color: var(--green);
+      text-shadow: 0 0 20px rgba(34,197,94,.4);
+    }
+    .stat-value.offline {
+      color: var(--danger);
+      text-shadow: 0 0 20px rgba(251,113,133,.3);
+    }
 
+    /* ── Join card ── */
     .join-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
       background:
-        linear-gradient(90deg, rgba(0,0,0,.74), rgba(0,0,0,.46)),
-        radial-gradient(360px 210px at 90% 20%, rgba(19,183,244,.18), transparent 72%);
-      backdrop-filter: blur(2px);
+        linear-gradient(100deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.44) 100%),
+        radial-gradient(400px 240px at 90% 15%, rgba(52,231,255,.16), transparent 65%);
+      pointer-events: none;
     }
 
     .join-content {
-      min-height: 100%;
-      padding: 58px 22px 20px;
+      position: relative;
+      z-index: 4;
+      height: 100%;
+      padding: 56px 26px 22px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
     .join-panel {
-      width: min(430px, 100%);
-      margin: 0 auto;
+      width: min(420px, 100%);
       display: grid;
-      gap: 13px;
+      gap: 12px;
     }
 
     .field-label {
-      color: rgba(255,255,255,.50);
-      font-size: 20px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -.04em;
-      text-shadow: 2px 2px 0 rgba(0,0,0,.45);
+      color: rgba(255,255,255,.45);
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
     }
 
     .mc-field {
-      min-height: 52px;
-      border: 2px solid rgba(255,255,255,.75);
-      background: rgba(0,0,0,.82);
+      min-height: 50px;
+      border: 1.5px solid rgba(255,255,255,.6);
+      background: rgba(0,0,0,.78);
       display: flex;
       align-items: center;
       padding: 0 14px;
       color: white;
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 800;
-      letter-spacing: -.04em;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,.75), 0 12px 22px rgba(0,0,0,.22);
+      letter-spacing: -.03em;
+      border-radius: 6px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 4px 16px rgba(0,0,0,.3);
     }
 
-    .mc-field.muted { border-color: rgba(255,255,255,.55); }
-    .cursor { display: inline-block; width: 10px; height: 1.05em; margin-left: 4px; background: white; animation: blink 1s steps(2, start) infinite; transform: translateY(3px); }
+    .mc-field.muted {
+      border-color: rgba(255,255,255,.4);
+      color: rgba(255,255,255,.75);
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1em;
+      margin-left: 4px;
+      background: white;
+      animation: blink 1s steps(2, start) infinite;
+      transform: translateY(2px);
+    }
     @keyframes blink { 50% { opacity: 0; } }
 
     .join-actions {
@@ -515,104 +621,114 @@
     }
 
     .join-actions .pill {
-      height: 41px;
-      color: #051111;
-      background: var(--cyan);
+      height: 40px;
+      font-size: 12px;
     }
 
-    .join-actions .ghost {
+    .ghost {
       display: inline-flex;
       align-items: center;
-      height: 41px;
-      padding: 0 14px;
+      height: 40px;
+      padding: 0 16px;
       border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.16);
-      background: rgba(255,255,255,.08);
-      color: white;
+      border: 1px solid rgba(255,255,255,.13);
+      background: rgba(255,255,255,.06);
+      color: rgba(255,255,255,.8);
       text-decoration: none;
       font-size: 12px;
-      font-weight: 900;
+      font-weight: 800;
       backdrop-filter: blur(10px);
-      transition: transform .18s ease, background .18s ease;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
     }
 
-    .join-actions .ghost:hover { transform: translateY(-2px); background: rgba(255,255,255,.13); }
+    .ghost:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.11);
+      border-color: rgba(255,255,255,.22);
+    }
 
+    /* ── Skeleton loader ── */
     .skeleton {
       display: inline-block;
-      width: 58px;
-      height: 20px;
       border-radius: 8px;
-      background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.22), rgba(255,255,255,.08));
+      background: linear-gradient(90deg,
+        rgba(255,255,255,.06),
+        rgba(255,255,255,.14),
+        rgba(255,255,255,.06));
       background-size: 200% 100%;
-      animation: shimmer 1.15s infinite linear;
+      animation: shimmer 1.3s infinite linear;
     }
 
-    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    @keyframes shimmer {
+      from { background-position: 200% 0; }
+      to   { background-position: -200% 0; }
+    }
 
+    /* ── Footer ── */
     .footer {
-      margin-top: 24px;
+      margin-top: 22px;
       text-align: center;
-      color: rgba(255,255,255,.38);
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 1.85;
+      color: rgba(255,255,255,.3);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.9;
+      animation: fadeUp .55s .4s ease both;
     }
 
     .footer-links {
-      margin-top: 8px;
+      margin-top: 6px;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 14px;
+      gap: 18px;
     }
 
     .footer a {
-      color: rgba(255,255,255,.52);
+      color: rgba(255,255,255,.38);
       text-decoration: none;
       font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .09em;
+      font-weight: 800;
+      letter-spacing: .1em;
       text-transform: uppercase;
+      transition: color .18s ease;
     }
 
-    .footer a:hover { color: white; }
+    .footer a:hover { color: var(--cyan); }
 
-    @media (max-width: 1120px) {
+    /* ── Responsive ── */
+    @media (max-width: 1100px) {
       .bento {
-        grid-template-columns: minmax(230px, 1fr) minmax(220px, 1fr) minmax(220px, 1fr);
+        grid-template-columns: minmax(220px, 1fr) minmax(200px, 1fr) minmax(200px, 1fr);
         grid-template-rows: 300px 280px 280px;
       }
-      .area-ip { grid-column: 1; grid-row: 1; }
-      .hero-card { grid-column: 2 / 4; grid-row: 1; }
+      .area-ip      { grid-column: 1; grid-row: 1; }
+      .hero-card    { grid-column: 2 / 4; grid-row: 1; }
       .discord-card { grid-column: 1; grid-row: 2; }
-      .stats-card { grid-column: 2 / 4; grid-row: 2; }
-      .join-card { grid-column: 1 / 4; grid-row: 3; }
+      .stats-card   { grid-column: 2 / 4; grid-row: 2; }
+      .join-card    { grid-column: 1 / 4; grid-row: 3; }
     }
 
-    @media (max-width: 760px) {
-      body { padding: 16px 12px 22px; place-items: start center; }
+    @media (max-width: 720px) {
+      body { padding: 14px 12px 20px; place-items: start center; }
       .bento {
         grid-template-columns: 1fr;
-        grid-template-rows: 300px 255px 230px 255px 320px;
-        gap: 14px;
+        grid-template-rows: 300px 240px 220px 240px 320px;
+        gap: 12px;
       }
       .area-ip, .hero-card, .discord-card, .stats-card, .join-card { grid-column: 1; }
-      .area-ip { grid-row: 1; }
-      .hero-card { grid-row: 2; }
+      .area-ip      { grid-row: 1; }
+      .hero-card    { grid-row: 2; }
       .discord-card { grid-row: 3; }
-      .stats-card { grid-row: 4; }
-      .join-card { grid-row: 5; }
-      .hero-card .hero-content { align-items: flex-start; flex-direction: column; justify-content: flex-end; }
+      .stats-card   { grid-row: 4; }
+      .join-card    { grid-row: 5; }
+      .hero-content { align-items: flex-start; flex-direction: column; }
       .headline { font-size: 30px; }
       .stats-grid { grid-template-columns: 1fr; }
-      .stat-box { min-height: 58px; display: flex; align-items: center; justify-content: space-between; }
+      .stat-box { min-height: 56px; display: flex; align-items: center; justify-content: space-between; }
       .stat-label { margin-bottom: 0; }
-      .join-content { padding: 62px 16px 16px; }
-      .join-panel { width: 100%; margin: 0 auto; }
-      .field-label { font-size: 17px; }
-      .mc-field { font-size: 20px; }
-      .title { font-size: 26px; }
+      .join-content { padding: 54px 14px 16px; }
+      .join-panel { width: 100%; }
+      .mc-field { font-size: 18px; }
     }
   </style>
 </head>
@@ -620,33 +736,36 @@
 <body>
   <main class="page">
     <section class="bento" aria-label="WestCPvP landing page">
+
+      <!-- Logo + Copy strip -->
       <div class="area-ip">
-        <button class="logo-card" onclick="copyServerIP('ip-toast')" aria-label="Copy server address">
-          <span class="logo-bg"></span>
+        <button class="logo-card" onclick="copyServerIP('ip-toast')" aria-label="Copy server IP">
           <img src="Logo.png?v=4" alt="WestCPvP Logo" class="server-logo">
+          <span class="copied" id="ip-toast">IP Copied</span>
         </button>
 
-        <button class="copy-strip" onclick="copyServerIP('ip-toast')" aria-label="Copy WESTCPVP.NET">
+        <button class="copy-strip card" onclick="copyServerIP('strip-toast')" aria-label="Copy play.westcpvp.net">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M8 8.5H5.7c-1.1 0-2 .9-2 2v8.3c0 1.1.9 2 2 2H14c1.1 0 2-.9 2-2v-2.3" stroke="white" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10 3.2h8.3c1.1 0 2 .9 2 2v8.3c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2V5.2c0-1.1.9-2 2-2Z" stroke="white" stroke-width="2.35" stroke-linejoin="round"/>
+            <path d="M8 8.5H5.7c-1.1 0-2 .9-2 2v8.3c0 1.1.9 2 2 2H14c1.1 0 2-.9 2-2v-2.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 3.2h8.3c1.1 0 2 .9 2 2v8.3c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2V5.2c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
           </svg>
-          <span class="ip-text">WESTCPVP.NET</span>
-          <span class="copied" id="ip-toast">IP Copied</span>
+          <span class="ip-text">PLAY.WESTCPVP.NET</span>
+          <span class="copied" id="strip-toast">IP Copied</span>
         </button>
       </div>
 
+      <!-- Hero -->
       <article class="card hero-card">
         <video class="media" src="nature.mp4" autoplay muted loop playsinline></video>
         <div class="title">WestCPvP</div>
         <div class="hero-content">
           <div>
             <div class="eyebrow">Competitive Minecraft PvP</div>
-            <h1 class="headline">Jump in. Queue up. Win fights.</h1>
+            <h1 class="headline">Jump in.<br>Queue up.<br>Win fights.</h1>
           </div>
           <button class="pill" onclick="copyServerIP('hero-toast')">
             Copy IP
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
             <span class="copied" id="hero-toast">IP Copied</span>
@@ -654,39 +773,45 @@
         </div>
       </article>
 
+      <!-- Discord -->
       <article class="card discord-card">
         <div class="discord-inner">
           <svg class="discord-icon" viewBox="0 0 71 55" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
             <path d="M60.105 4.898A58.55 58.55 0 0 0 45.653.415a.22.22 0 0 0-.233.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0-.484-1.164-1.201-2.587-1.828-3.697a.228.228 0 0 0-.233-.11 58.386 58.386 0 0 0-14.451 4.483.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.38a.244.244 0 0 0 .093.166c6.073 4.46 11.955 7.167 17.729 8.962a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .233.028c.356.293.728.586 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.794 11.684-4.502 17.757-8.961a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.398a.18.18 0 0 0-.093-.084zm-36.38 32.427c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.827-7.156 6.38-7.156 3.583 0 6.438 3.24 6.382 7.156 0 3.945-2.827 7.156-6.381 7.156zm23.593 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156z"/>
           </svg>
-          <div class="discord-count" id="discord-count"><span class="skeleton" style="width: 78px; height: 31px;"></span></div>
+          <div class="discord-count" id="discord-count"><span class="skeleton" style="width:72px;height:32px;"></span></div>
           <div class="mini-line" id="discord-line"><span class="dot"></span><span>Discord Members</span></div>
-          <a class="discord-button" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Join Discord</a>
+          <a class="discord-button" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 71 55" fill="currentColor" aria-hidden="true" style="opacity:.9"><path d="M60.105 4.898A58.55 58.55 0 0 0 45.653.415a.22.22 0 0 0-.233.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0-.484-1.164-1.201-2.587-1.828-3.697a.228.228 0 0 0-.233-.11 58.386 58.386 0 0 0-14.451 4.483.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.38a.244.244 0 0 0 .093.166c6.073 4.46 11.955 7.167 17.729 8.962a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .233.028c.356.293.728.586 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.794 11.684-4.502 17.757-8.961a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.398a.18.18 0 0 0-.093-.084zm-36.38 32.427c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.827-7.156 6.38-7.156 3.583 0 6.438 3.24 6.382 7.156 0 3.945-2.827 7.156-6.381 7.156zm23.593 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156z"/></svg>
+            Join Discord
+          </a>
         </div>
       </article>
 
+      <!-- Stats -->
       <article class="card stats-card">
         <video class="media" src="snow.mp4" autoplay muted loop playsinline></video>
-        <div class="title">Stats</div>
+        <div class="title">Server Stats</div>
         <div class="live-badge"><span class="dot"></span>Live</div>
         <div class="stats-content">
           <div class="stats-grid">
             <div class="stat-box">
-              <div class="stat-label">Online</div>
-              <span class="stat-value" id="stat-online"><span class="skeleton"></span></span>
+              <div class="stat-label">Players Online</div>
+              <span class="stat-value" id="stat-online"><span class="skeleton" style="width:52px;height:22px;"></span></span>
             </div>
             <div class="stat-box">
               <div class="stat-label">Version</div>
-              <span class="stat-value" id="stat-version"><span class="skeleton"></span></span>
+              <span class="stat-value" id="stat-version"><span class="skeleton" style="width:60px;height:22px;"></span></span>
             </div>
             <div class="stat-box">
               <div class="stat-label">Status</div>
-              <span class="stat-value" id="stat-status"><span class="skeleton"></span></span>
+              <span class="stat-value" id="stat-status"><span class="skeleton" style="width:52px;height:22px;"></span></span>
             </div>
           </div>
         </div>
       </article>
 
+      <!-- How To Join -->
       <article class="card join-card">
         <video class="media" src="minecraft-aquarium.3840x2160.mp4" autoplay muted loop playsinline></video>
         <div class="title">How To Join</div>
@@ -701,17 +826,21 @@
               <div class="mc-field muted">play.westcpvp.net</div>
             </div>
             <div class="join-actions">
-              <button class="pill" onclick="copyServerIP('join-toast')">Copy Address<span class="copied" id="join-toast">IP Copied</span></button>
+              <button class="pill" onclick="copyServerIP('join-toast')">
+                Copy Address
+                <span class="copied" id="join-toast">IP Copied</span>
+              </button>
               <a class="ghost" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Get Help</a>
             </div>
           </div>
         </div>
       </article>
+
     </section>
 
     <footer class="footer">
-      <div>WestCPvP</div>
-      <div>Not associated with Mojang or Microsoft © 2026 WestCPvP. All Rights Reserved.</div>
+      <div>WestCPvP &mdash; Not associated with Mojang or Microsoft</div>
+      <div>&copy; 2026 WestCPvP. All Rights Reserved.</div>
       <div class="footer-links">
         <a href="privacy.html">Privacy Policy</a>
         <a href="support.html">Support</a>
@@ -729,19 +858,17 @@
       const showToast = () => {
         if (!toast) return;
         toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 1450);
+        setTimeout(() => toast.classList.remove("show"), 1500);
       };
-
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(SERVER_IP).then(showToast).catch(showToast);
       } else {
         const temp = document.createElement("textarea");
         temp.value = SERVER_IP;
-        temp.style.position = "fixed";
-        temp.style.opacity = "0";
+        temp.style.cssText = "position:fixed;opacity:0";
         document.body.appendChild(temp);
         temp.select();
-        try { document.execCommand("copy"); } catch (e) {}
+        try { document.execCommand("copy"); } catch {}
         temp.remove();
         showToast();
       }
@@ -755,37 +882,30 @@
     }
 
     function animateNumber(el, target) {
-      const startValue = parseInt((el.textContent || "0").replace(/[^\d]/g, ""), 10) || 0;
       const start = performance.now();
-      const duration = 850;
-
-      function step(now) {
-        const progress = Math.min(1, (now - start) / duration);
-        const eased = 1 - Math.pow(1 - progress, 3);
-        el.textContent = Math.floor(startValue + (target - startValue) * eased).toLocaleString();
-        if (progress < 1) requestAnimationFrame(step);
-      }
-
-      requestAnimationFrame(step);
+      const from = parseInt((el.textContent || "0").replace(/\D/g, ""), 10) || 0;
+      (function step(now) {
+        const p = Math.min(1, (now - start) / 850);
+        const e = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.floor(from + (target - from) * e).toLocaleString();
+        if (p < 1) requestAnimationFrame(step);
+      })(start);
     }
 
     async function refreshServerStats() {
       try {
         const res = await fetch("https://api.mcstatus.io/v2/status/java/" + SERVER_IP, { cache: "reload" });
         const data = await res.json();
-
         if (!data.online) {
           setStat("stat-online", "0", "offline");
           setStat("stat-version", "—");
           setStat("stat-status", "Offline", "offline");
           return;
         }
-
         const onlineEl = document.getElementById("stat-online");
         onlineEl.className = "stat-value online";
         if (onlineEl.querySelector(".skeleton")) onlineEl.textContent = "0";
         animateNumber(onlineEl, data.players?.online ?? 0);
-
         const version = data.version?.name_clean?.replace(/^[a-z]+\s+/i, "") || "—";
         setStat("stat-version", version);
         setStat("stat-status", "Online", "online");
@@ -800,12 +920,10 @@
       try {
         const res = await fetch("https://discord.com/api/v9/invites/" + DISCORD_INVITE + "?with_counts=true", { cache: "reload" });
         const data = await res.json();
-
         const count = data.approximate_member_count;
         const active = data.approximate_presence_count;
         const countEl = document.getElementById("discord-count");
-        const lineEl = document.getElementById("discord-line");
-
+        const lineEl  = document.getElementById("discord-line");
         if (count) {
           countEl.textContent = count >= 1000
             ? (count / 1000).toFixed(1).replace(".0", "") + "K+"
@@ -813,9 +931,8 @@
         } else {
           countEl.textContent = "Join Us";
         }
-
         if (active != null) {
-          lineEl.innerHTML = '<span class="dot"></span><span>' + active.toLocaleString() + ' online</span>';
+          lineEl.innerHTML = '<span class="dot"></span><span>' + active.toLocaleString() + ' online now</span>';
         }
       } catch {
         document.getElementById("discord-count").textContent = "Join Us";
