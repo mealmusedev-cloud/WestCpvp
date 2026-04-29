@@ -306,45 +306,55 @@
       inset: 0;
       z-index: 1;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.08) 0%, rgba(0,0,0,.72) 100%),
-        radial-gradient(500px 280px at 80% 20%, rgba(52,231,255,.13), transparent 65%);
+        linear-gradient(180deg, rgba(0,0,0,.02) 0%, rgba(0,0,0,.22) 40%, rgba(0,0,0,.82) 100%),
+        linear-gradient(90deg, rgba(0,0,0,.35) 0%, transparent 55%);
       pointer-events: none;
     }
 
     .hero-content {
       position: absolute;
       z-index: 4;
-      left: 22px;
-      right: 22px;
-      bottom: 20px;
+      left: 24px;
+      right: 24px;
+      bottom: 22px;
       display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      gap: 18px;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 14px;
     }
 
     .eyebrow {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
-      letter-spacing: .18em;
+      letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--cyan);
-      margin-bottom: 9px;
-      text-shadow: 0 0 20px rgba(52,231,255,.5);
+      text-shadow: 0 0 16px rgba(52,231,255,.6);
     }
 
     .headline {
-      max-width: 340px;
-      font-size: 36px;
-      line-height: .94;
+      font-size: 42px;
+      line-height: .92;
       font-weight: 900;
       letter-spacing: -.055em;
-      background: linear-gradient(160deg, #fff 30%, rgba(255,255,255,.75));
+      background: linear-gradient(160deg, #fff 40%, rgba(255,255,255,.7));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      text-shadow: none;
-      filter: drop-shadow(0 4px 20px rgba(0,0,0,.6));
+      filter: drop-shadow(0 2px 12px rgba(0,0,0,.7));
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .hero-ip {
+      font-size: 12px;
+      font-weight: 700;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .04em;
     }
 
     /* ── Pill button ── */
@@ -860,19 +870,19 @@
       <!-- Hero -->
       <article class="card hero-card">
         <video class="media" src="nature.mp4" autoplay muted loop playsinline></video>
-        <div class="title">WestCPvP</div>
         <div class="hero-content">
-          <div>
-            <div class="eyebrow">Competitive Minecraft PvP</div>
-            <h1 class="headline">Jump in.<br>Queue up.<br>Win fights.</h1>
+          <div class="eyebrow">Competitive Minecraft PvP</div>
+          <h1 class="headline">Jump in.<br>Queue up.<br>Win fights.</h1>
+          <div class="hero-actions">
+            <button class="pill" onclick="copyServerIP('hero-toast')">
+              Copy IP
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <span class="copied" id="hero-toast">IP Copied</span>
+            </button>
+            <span class="hero-ip">play.westcpvp.net</span>
           </div>
-          <button class="pill" onclick="copyServerIP('hero-toast')">
-            Copy IP
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-            <span class="copied" id="hero-toast">IP Copied</span>
-          </button>
         </div>
       </article>
 
