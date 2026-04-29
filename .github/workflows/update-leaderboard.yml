@@ -1,0 +1,28 @@
+name: Update Leaderboard
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch leaderboard from server
+        run: |
+          curl -f -s --max-time 10 "http://172.96.141.106:8123/leaderboard" -o leaderboard.json \
+            || echo "[]" > leaderboard.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add leaderboard.json
+          git diff --staged --quiet || git commit -m "chore: update leaderboard data"
+          git push
