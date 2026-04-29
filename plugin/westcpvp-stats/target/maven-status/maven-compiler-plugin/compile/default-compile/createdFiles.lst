@@ -1,0 +1,6 @@
+net\westcpvp\stats\WestCPvPStats.class
+net\westcpvp\stats\StatsCommand.class
+net\westcpvp\stats\LeaderboardAPI.class
+net\westcpvp\stats\PlayerListener.class
+net\westcpvp\stats\PlayerStats.class
+net\westcpvp\stats\StatsManager.class
