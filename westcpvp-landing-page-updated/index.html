@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WestCPvP | Home</title>
+  <link rel="icon" href="Logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #101010;
+      --panel: #1c1c1e;
+      --panel-dark: #151516;
+      --text: #fff;
+      --muted: rgba(255,255,255,.68);
+      --muted-soft: rgba(255,255,255,.44);
+      --blue: #13b7f4;
+      --blue-dark: #0479d6;
+      --cyan: #34e7ff;
+      --discord: #5865f2;
+      --green: #22c55e;
+      --danger: #fb7185;
+      --radius: 22px;
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #111;
+      display: grid;
+      place-items: center;
+      padding: 38px 22px 30px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(800px 520px at 18% 12%, rgba(19,183,244,.13), transparent 65%),
+        radial-gradient(700px 500px at 82% 74%, rgba(88,101,242,.10), transparent 66%),
+        linear-gradient(180deg, #111 0%, #0d0d0d 100%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(1092px, 100%);
+    }
+
+    .bento {
+      display: grid;
+      grid-template-columns: 290px 240px 290px 220px;
+      grid-template-rows: 300px 300px;
+      gap: 24px;
+    }
+
+    .card, .logo-card, .copy-strip {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: 0 22px 60px rgba(0,0,0,.34);
+    }
+
+    .card {
+      border: 1px solid rgba(255,255,255,.055);
+      isolation: isolate;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+    .card:hover, .logo-card:hover, .copy-strip:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 28px 70px rgba(0,0,0,.46);
+      border-color: rgba(255,255,255,.12);
+    }
+
+    .card::after, .logo-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.13), transparent 29%, transparent 64%, rgba(255,255,255,.04));
+      opacity: .45;
+    }
+
+    .area-ip { grid-column: 1; grid-row: 1; display: grid; grid-template-rows: 230px 58px; gap: 12px; }
+    .hero-card { grid-column: 2 / 4; grid-row: 1; }
+    .discord-card { grid-column: 4; grid-row: 1; }
+    .stats-card { grid-column: 1 / 3; grid-row: 2; }
+    .join-card { grid-column: 3 / 5; grid-row: 2; }
+
+    .logo-card {
+      background:
+        radial-gradient(circle at 29% 23%, rgba(255,255,255,.38), transparent 17%),
+        radial-gradient(circle at 72% 33%, rgba(255,255,255,.24), transparent 21%),
+        linear-gradient(135deg, #18c8ff 0%, #0bb6ee 47%, #08a0e0 100%);
+      border: 1px solid rgba(255,255,255,.12);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
+    }
+
+    .logo-card::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: conic-gradient(from 180deg, transparent, rgba(255,255,255,.20), transparent 28%);
+      animation: spinGlow 8s linear infinite;
+      opacity: .55;
+    }
+
+    @keyframes spinGlow { to { transform: rotate(1turn); } }
+
+    .logo-card .logo-bg {
+      position: absolute;
+      inset: 8px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 42%, rgba(255,255,255,.16), transparent 32%);
+      z-index: 1;
+    }
+
+    .server-logo {
+      position: relative;
+      z-index: 2;
+      width: 142px;
+      height: 142px;
+      object-fit: contain;
+      image-rendering: pixelated;
+      filter: drop-shadow(0 18px 22px rgba(0,0,0,.35));
+      transform: rotate(-7deg) scale(1.75);
+      transition: transform .24s ease;
+    }
+
+    .logo-card:hover .server-logo { transform: rotate(-3deg) scale(1.86); }
+
+    .copy-strip {
+      border: 0;
+      background: #202020;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 0 20px;
+      color: white;
+      font: inherit;
+      transition: transform .22s ease, box-shadow .22s ease, background .22s ease;
+    }
+
+    .copy-strip:hover { background: #242424; }
+
+    .copy-strip svg { width: 29px; height: 29px; flex: 0 0 auto; }
+
+    .ip-text {
+      font-size: 21px;
+      font-weight: 900;
+      letter-spacing: -.02em;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 0 rgba(0,0,0,.28);
+    }
+
+    .copied {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-38%);
+      color: var(--green);
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      opacity: 0;
+      transition: opacity .18s ease, transform .18s ease;
+    }
+
+    .copied.show { opacity: 1; transform: translateY(-50%); }
+
+    .title {
+      position: absolute;
+      z-index: 5;
+      left: 16px;
+      top: 15px;
+      font-size: 28px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      text-shadow: 3px 3px 0 rgba(0,0,0,.28), 0 12px 24px rgba(0,0,0,.40);
+    }
+
+    .media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: saturate(1.12) contrast(1.04);
+    }
+
+    .hero-card::before,
+    .stats-card::before,
+    .join-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.16) 0%, rgba(0,0,0,.70) 100%),
+        radial-gradient(420px 220px at 76% 30%, rgba(52,231,255,.18), transparent 62%);
+      pointer-events: none;
+    }
+
+    .hero-card .hero-content {
+      position: absolute;
+      z-index: 4;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 18px;
+    }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.66);
+      margin-bottom: 7px;
+    }
+
+    .headline {
+      max-width: 350px;
+      font-size: 35px;
+      line-height: .95;
+      font-weight: 900;
+      letter-spacing: -.06em;
+      text-shadow: 0 4px 26px rgba(0,0,0,.55);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      height: 45px;
+      padding: 0 18px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      color: #070707;
+      background: rgba(255,255,255,.94);
+      font: inherit;
+      font-size: 13px;
+      font-weight: 900;
+      text-decoration: none;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 14px 28px rgba(0,0,0,.28);
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .pill:hover { transform: translateY(-2px); background: white; }
+
+    .discord-card {
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+      background: #202020;
+    }
+
+    .discord-card::before {
+      content: "";
+      position: absolute;
+      inset: -60px -50px auto -50px;
+      height: 230px;
+      background: radial-gradient(circle, rgba(88,101,242,.25), transparent 64%);
+      z-index: 0;
+    }
+
+    .discord-inner { position: relative; z-index: 4; display: grid; justify-items: center; }
+
+    .discord-icon {
+      width: 68px;
+      height: 68px;
+      margin-bottom: 17px;
+      fill: var(--discord);
+      filter: drop-shadow(0 10px 18px rgba(88,101,242,.38));
+    }
+
+    .discord-count {
+      font-size: 32px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.06em;
+      text-shadow: 2px 2px 0 rgba(0,0,0,.32);
+    }
+
+    .mini-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      margin-top: 8px;
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 0 0 rgba(34,197,94,.65);
+      animation: pulse 1.8s infinite;
+      flex: 0 0 auto;
+    }
+
+    @keyframes pulse {
+      70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    }
+
+    .discord-button {
+      margin-top: 17px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 38px;
+      padding: 0 15px;
+      border-radius: 999px;
+      background: var(--discord);
+      color: white;
+      font-size: 12px;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 14px 30px rgba(88,101,242,.22);
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .discord-button:hover { transform: translateY(-2px); filter: brightness(1.08); }
+
+    .stats-card, .join-card { background: #1c1c1e; }
+    .stats-card .stats-content, .join-card .join-content { position: relative; z-index: 4; height: 100%; }
+
+    .stats-card .stats-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 22px 16px 16px;
+    }
+
+    .live-badge {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      z-index: 5;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      height: 31px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.36);
+      border: 1px solid rgba(255,255,255,.12);
+      color: white;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .10em;
+      text-transform: uppercase;
+      backdrop-filter: blur(12px);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .stat-box {
+      min-height: 80px;
+      padding: 14px;
+      border-radius: 17px;
+      background: rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.11);
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-label {
+      color: rgba(255,255,255,.60);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      margin-bottom: 9px;
+    }
+
+    .stat-value {
+      display: block;
+      color: #fff;
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      text-shadow: 2px 2px 0 rgba(0,0,0,.30);
+    }
+
+    .stat-value.online { color: var(--green); }
+    .stat-value.offline { color: var(--danger); }
+
+    .join-card::before {
+      background:
+        linear-gradient(90deg, rgba(0,0,0,.74), rgba(0,0,0,.46)),
+        radial-gradient(360px 210px at 90% 20%, rgba(19,183,244,.18), transparent 72%);
+      backdrop-filter: blur(2px);
+    }
+
+    .join-content {
+      padding: 67px 16px 16px;
+    }
+
+    .join-panel {
+      max-width: 430px;
+      margin-left: auto;
+      display: grid;
+      gap: 13px;
+    }
+
+    .field-label {
+      color: rgba(255,255,255,.50);
+      font-size: 20px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.04em;
+      text-shadow: 2px 2px 0 rgba(0,0,0,.45);
+    }
+
+    .mc-field {
+      min-height: 52px;
+      border: 2px solid rgba(255,255,255,.75);
+      background: rgba(0,0,0,.82);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      color: white;
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.75), 0 12px 22px rgba(0,0,0,.22);
+    }
+
+    .mc-field.muted { border-color: rgba(255,255,255,.55); }
+    .cursor { display: inline-block; width: 10px; height: 1.05em; margin-left: 4px; background: white; animation: blink 1s steps(2, start) infinite; transform: translateY(3px); }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .join-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .join-actions .pill {
+      height: 41px;
+      color: #051111;
+      background: var(--cyan);
+    }
+
+    .join-actions .ghost {
+      display: inline-flex;
+      align-items: center;
+      height: 41px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.08);
+      color: white;
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      backdrop-filter: blur(10px);
+      transition: transform .18s ease, background .18s ease;
+    }
+
+    .join-actions .ghost:hover { transform: translateY(-2px); background: rgba(255,255,255,.13); }
+
+    .skeleton {
+      display: inline-block;
+      width: 58px;
+      height: 20px;
+      border-radius: 8px;
+      background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.22), rgba(255,255,255,.08));
+      background-size: 200% 100%;
+      animation: shimmer 1.15s infinite linear;
+    }
+
+    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      color: rgba(255,255,255,.38);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.85;
+    }
+
+    .footer-links {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer a {
+      color: rgba(255,255,255,.52);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .footer a:hover { color: white; }
+
+    @media (max-width: 1120px) {
+      .bento {
+        grid-template-columns: minmax(230px, 1fr) minmax(220px, 1fr) minmax(220px, 1fr);
+        grid-template-rows: 300px 280px 280px;
+      }
+      .area-ip { grid-column: 1; grid-row: 1; }
+      .hero-card { grid-column: 2 / 4; grid-row: 1; }
+      .discord-card { grid-column: 1; grid-row: 2; }
+      .stats-card { grid-column: 2 / 4; grid-row: 2; }
+      .join-card { grid-column: 1 / 4; grid-row: 3; }
+    }
+
+    @media (max-width: 760px) {
+      body { padding: 16px 12px 22px; place-items: start center; }
+      .bento {
+        grid-template-columns: 1fr;
+        grid-template-rows: 300px 255px 230px 255px 320px;
+        gap: 14px;
+      }
+      .area-ip, .hero-card, .discord-card, .stats-card, .join-card { grid-column: 1; }
+      .area-ip { grid-row: 1; }
+      .hero-card { grid-row: 2; }
+      .discord-card { grid-row: 3; }
+      .stats-card { grid-row: 4; }
+      .join-card { grid-row: 5; }
+      .hero-card .hero-content { align-items: flex-start; flex-direction: column; justify-content: flex-end; }
+      .headline { font-size: 30px; }
+      .stats-grid { grid-template-columns: 1fr; }
+      .stat-box { min-height: 58px; display: flex; align-items: center; justify-content: space-between; }
+      .stat-label { margin-bottom: 0; }
+      .join-content { padding-top: 66px; }
+      .join-panel { margin-left: 0; }
+      .field-label { font-size: 17px; }
+      .mc-field { font-size: 20px; }
+      .title { font-size: 26px; }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <section class="bento" aria-label="WestCPvP landing page">
+      <div class="area-ip">
+        <button class="logo-card" onclick="copyServerIP('ip-toast')" aria-label="Copy server address">
+          <span class="logo-bg"></span>
+          <img src="Logo.png" alt="WestCPvP Logo" class="server-logo">
+        </button>
+
+        <button class="copy-strip" onclick="copyServerIP('ip-toast')" aria-label="Copy WESTCPVP.NET">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M8 8.5H5.7c-1.1 0-2 .9-2 2v8.3c0 1.1.9 2 2 2H14c1.1 0 2-.9 2-2v-2.3" stroke="white" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M10 3.2h8.3c1.1 0 2 .9 2 2v8.3c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2V5.2c0-1.1.9-2 2-2Z" stroke="white" stroke-width="2.35" stroke-linejoin="round"/>
+          </svg>
+          <span class="ip-text">WESTCPVP.NET</span>
+          <span class="copied" id="ip-toast">COPIED</span>
+        </button>
+      </div>
+
+      <article class="card hero-card">
+        <video class="media" src="nature.mp4" autoplay muted loop playsinline></video>
+        <div class="title">WestCPvP</div>
+        <div class="hero-content">
+          <div>
+            <div class="eyebrow">Competitive Minecraft PvP</div>
+            <h1 class="headline">Jump in. Queue up. Win fights.</h1>
+          </div>
+          <button class="pill" onclick="copyServerIP('hero-toast')">
+            Copy IP
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="copied" id="hero-toast">COPIED</span>
+          </button>
+        </div>
+      </article>
+
+      <article class="card discord-card">
+        <div class="discord-inner">
+          <svg class="discord-icon" viewBox="0 0 71 55" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M60.105 4.898A58.55 58.55 0 0 0 45.653.415a.22.22 0 0 0-.233.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0-.484-1.164-1.201-2.587-1.828-3.697a.228.228 0 0 0-.233-.11 58.386 58.386 0 0 0-14.451 4.483.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.38a.244.244 0 0 0 .093.166c6.073 4.46 11.955 7.167 17.729 8.962a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .233.028c.356.293.728.586 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.794 11.684-4.502 17.757-8.961a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.398a.18.18 0 0 0-.093-.084zm-36.38 32.427c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.827-7.156 6.38-7.156 3.583 0 6.438 3.24 6.382 7.156 0 3.945-2.827 7.156-6.381 7.156zm23.593 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156z"/>
+          </svg>
+          <div class="discord-count" id="discord-count"><span class="skeleton" style="width: 78px; height: 31px;"></span></div>
+          <div class="mini-line" id="discord-line"><span class="dot"></span><span>Discord Members</span></div>
+          <a class="discord-button" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Join Discord</a>
+        </div>
+      </article>
+
+      <article class="card stats-card">
+        <video class="media" src="snow.mp4" autoplay muted loop playsinline></video>
+        <div class="title">Stats</div>
+        <div class="live-badge"><span class="dot"></span>Live</div>
+        <div class="stats-content">
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-label">Online</div>
+              <span class="stat-value" id="stat-online"><span class="skeleton"></span></span>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Version</div>
+              <span class="stat-value" id="stat-version"><span class="skeleton"></span></span>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Status</div>
+              <span class="stat-value" id="stat-status"><span class="skeleton"></span></span>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card join-card">
+        <video class="media" src="minecraft-aquarium.3840x2160.mp4" autoplay muted loop playsinline></video>
+        <div class="title">How To Join</div>
+        <div class="join-content">
+          <div class="join-panel">
+            <div>
+              <div class="field-label">Server Name</div>
+              <div class="mc-field">WestCPvP<span class="cursor"></span></div>
+            </div>
+            <div>
+              <div class="field-label">Server Address</div>
+              <div class="mc-field muted">play.westcpvp.net</div>
+            </div>
+            <div class="join-actions">
+              <button class="pill" onclick="copyServerIP('join-toast')">Copy Address<span class="copied" id="join-toast">COPIED</span></button>
+              <a class="ghost" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Get Help</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <div>WestCPvP</div>
+      <div>Not associated with Mojang or Microsoft © 2026 WestCPvP. All Rights Reserved.</div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Support</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    const SERVER_IP = "play.westcpvp.net";
+    const DISCORD_INVITE = "KqpdvwfSU";
+
+    function copyServerIP(toastId) {
+      const toast = document.getElementById(toastId);
+      const showToast = () => {
+        if (!toast) return;
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1700);
+      };
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(SERVER_IP).then(showToast).catch(showToast);
+      } else {
+        const temp = document.createElement("textarea");
+        temp.value = SERVER_IP;
+        temp.style.position = "fixed";
+        temp.style.opacity = "0";
+        document.body.appendChild(temp);
+        temp.select();
+        try { document.execCommand("copy"); } catch (e) {}
+        temp.remove();
+        showToast();
+      }
+    }
+
+    function setStat(id, value, cls) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.textContent = value;
+      el.className = "stat-value" + (cls ? " " + cls : "");
+    }
+
+    function animateNumber(el, target) {
+      const startValue = parseInt((el.textContent || "0").replace(/[^\d]/g, ""), 10) || 0;
+      const start = performance.now();
+      const duration = 850;
+
+      function step(now) {
+        const progress = Math.min(1, (now - start) / duration);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(startValue + (target - startValue) * eased).toLocaleString();
+        if (progress < 1) requestAnimationFrame(step);
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    async function refreshServerStats() {
+      try {
+        const res = await fetch("https://api.mcstatus.io/v2/status/java/" + SERVER_IP, { cache: "reload" });
+        const data = await res.json();
+
+        if (!data.online) {
+          setStat("stat-online", "0", "offline");
+          setStat("stat-version", "—");
+          setStat("stat-status", "Offline", "offline");
+          return;
+        }
+
+        const onlineEl = document.getElementById("stat-online");
+        onlineEl.className = "stat-value online";
+        if (onlineEl.querySelector(".skeleton")) onlineEl.textContent = "0";
+        animateNumber(onlineEl, data.players?.online ?? 0);
+
+        const version = data.version?.name_clean?.replace(/^[a-z]+\s+/i, "") || "—";
+        setStat("stat-version", version);
+        setStat("stat-status", "Online", "online");
+      } catch {
+        setStat("stat-online", "—");
+        setStat("stat-version", "—");
+        setStat("stat-status", "?");
+      }
+    }
+
+    async function refreshDiscord() {
+      try {
+        const res = await fetch("https://discord.com/api/v9/invites/" + DISCORD_INVITE + "?with_counts=true", { cache: "reload" });
+        const data = await res.json();
+
+        const count = data.approximate_member_count;
+        const active = data.approximate_presence_count;
+        const countEl = document.getElementById("discord-count");
+        const lineEl = document.getElementById("discord-line");
+
+        if (count) {
+          countEl.textContent = count >= 1000
+            ? (count / 1000).toFixed(1).replace(".0", "") + "K+"
+            : count.toLocaleString();
+        } else {
+          countEl.textContent = "Join Us";
+        }
+
+        if (active != null) {
+          lineEl.innerHTML = '<span class="dot"></span><span>' + active.toLocaleString() + ' online</span>';
+        }
+      } catch {
+        document.getElementById("discord-count").textContent = "Join Us";
+      }
+    }
+
+    refreshServerStats();
+    refreshDiscord();
+    setInterval(refreshServerStats, 30000);
+    setInterval(refreshDiscord, 60000);
+  </script>
+</body>
+</html>
