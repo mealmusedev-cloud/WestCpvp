@@ -487,8 +487,99 @@
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      padding: 20px 16px 16px;
+      justify-content: space-between;
+      padding: 46px 14px 14px;
+      gap: 10px;
+    }
+
+    /* ── Mini leaderboard (inside stats card) ── */
+    .lb-mini {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .lb-mini-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .lb-mini-title {
+      font-size: 9.5px;
+      font-weight: 900;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.4);
+    }
+
+    .lb-refresh {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,.28);
+      display: flex;
+      align-items: center;
+      padding: 2px;
+      transition: color .18s ease;
+    }
+    .lb-refresh:hover { color: var(--cyan); }
+    .lb-refresh svg { width: 12px; height: 12px; }
+
+    .lb-mini-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+
+    .lb-mini-table thead th {
+      padding: 0 6px 5px;
+      text-align: left;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.28);
+      border-bottom: 1px solid rgba(255,255,255,.06);
+    }
+    .lb-mini-table thead th:not(:nth-child(2)) { text-align: right; }
+    .lb-mini-table thead th:first-child { text-align: left; width: 28px; }
+    .lb-mini-table thead th:nth-child(2) { text-align: left; }
+
+    .lb-mini-table tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      transition: background .15s ease;
+    }
+    .lb-mini-table tbody tr:hover { background: rgba(255,255,255,.04); }
+    .lb-mini-table tbody tr:last-child { border-bottom: none; }
+
+    .lb-mini-table tbody td {
+      padding: 5px 6px;
+      color: rgba(255,255,255,.65);
+      font-weight: 700;
+      text-align: right;
+    }
+    .lb-mini-table tbody td:first-child { text-align: left; }
+    .lb-mini-table tbody td:nth-child(2) { text-align: left; }
+
+    .lb-rank       { font-size: 10px; font-weight: 900; color: rgba(255,255,255,.28); }
+    .lb-rank.gold   { color: #fbbf24; text-shadow: 0 0 10px rgba(251,191,36,.5); }
+    .lb-rank.silver { color: #94a3b8; }
+    .lb-rank.bronze { color: #c2714a; }
+    .lb-name        { font-weight: 800; color: #fff; font-size: 12px; }
+    .lb-kills       { color: var(--cyan); font-weight: 900; }
+    .lb-kdr         { color: rgba(255,255,255,.5); }
+    .lb-streak      { color: var(--danger); font-weight: 800; }
+
+    .lb-empty {
+      text-align: center !important;
+      padding: 12px !important;
+      color: rgba(255,255,255,.28);
+      font-size: 11px;
+      font-weight: 600;
     }
 
     .live-badge {
@@ -675,123 +766,6 @@
       to   { background-position: -200% 0; }
     }
 
-    /* ── Leaderboard ── */
-    .leaderboard-section {
-      margin-top: 16px;
-      border-radius: var(--radius);
-      background: var(--panel);
-      border: 1px solid rgba(255,255,255,.07);
-      box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.04) inset;
-      overflow: hidden;
-      animation: fadeUp .55s .38s ease both;
-    }
-
-    .lb-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 18px 22px 14px;
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-
-    .lb-title {
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.55);
-    }
-
-    .lb-refresh {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.3);
-      cursor: pointer;
-      background: none;
-      border: none;
-      color: rgba(255,255,255,.35);
-      transition: color .18s ease;
-    }
-    .lb-refresh:hover { color: var(--cyan); }
-    .lb-refresh svg { width: 13px; height: 13px; }
-
-    .lb-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .lb-table thead tr {
-      background: rgba(0,0,0,.2);
-    }
-
-    .lb-table th {
-      padding: 9px 22px;
-      text-align: left;
-      font-size: 9.5px;
-      font-weight: 900;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.35);
-    }
-
-    .lb-table th:not(:first-child) { text-align: right; }
-
-    .lb-table tbody tr {
-      border-top: 1px solid rgba(255,255,255,.04);
-      transition: background .15s ease;
-    }
-
-    .lb-table tbody tr:hover { background: rgba(255,255,255,.03); }
-
-    .lb-table td {
-      padding: 11px 22px;
-      font-size: 13px;
-      font-weight: 700;
-      color: rgba(255,255,255,.75);
-    }
-
-    .lb-table td:not(:first-child):not(:nth-child(2)) { text-align: right; }
-
-    .lb-rank {
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .06em;
-      color: rgba(255,255,255,.3);
-      width: 36px;
-    }
-
-    .lb-rank.gold   { color: #fbbf24; text-shadow: 0 0 14px rgba(251,191,36,.5); }
-    .lb-rank.silver { color: #94a3b8; text-shadow: 0 0 10px rgba(148,163,184,.3); }
-    .lb-rank.bronze { color: #c2714a; text-shadow: 0 0 10px rgba(194,113,74,.3); }
-
-    .lb-name {
-      font-size: 13px;
-      font-weight: 800;
-      color: #fff;
-    }
-
-    .lb-kills {
-      color: var(--cyan);
-      font-weight: 900;
-      text-shadow: 0 0 12px rgba(52,231,255,.3);
-    }
-
-    .lb-kdr { color: rgba(255,255,255,.6); }
-
-    .lb-streak { color: var(--danger); font-weight: 800; }
-
-    .lb-empty {
-      text-align: center;
-      padding: 36px;
-      color: rgba(255,255,255,.28);
-      font-size: 13px;
-      font-weight: 700;
-    }
 
     /* ── Footer ── */
     .footer {
@@ -923,6 +897,33 @@
         <div class="title">Server Stats</div>
         <div class="live-badge"><span class="dot"></span>Live</div>
         <div class="stats-content">
+          <!-- Mini leaderboard -->
+          <div class="lb-mini">
+            <div class="lb-mini-header">
+              <span class="lb-mini-title">&#9876; Top Players</span>
+              <button class="lb-refresh" onclick="refreshLeaderboard()" aria-label="Refresh">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M23 4v6h-6M1 20v-6h6"/>
+                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                </svg>
+              </button>
+            </div>
+            <table class="lb-mini-table" aria-label="Player leaderboard">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Player</th>
+                  <th>Kills</th>
+                  <th>K/D</th>
+                  <th>Streak</th>
+                </tr>
+              </thead>
+              <tbody id="lb-body">
+                <tr><td colspan="5" class="lb-empty"><span class="skeleton" style="width:130px;height:12px;"></span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- Stat boxes -->
           <div class="stats-grid">
             <div class="stat-box">
               <div class="stat-label">Players Online</div>
@@ -966,35 +967,6 @@
       </article>
 
     </section>
-
-    <!-- Leaderboard -->
-    <div class="leaderboard-section">
-      <div class="lb-header">
-        <span class="lb-title">&#9876; Top Players</span>
-        <button class="lb-refresh" onclick="refreshLeaderboard()" aria-label="Refresh leaderboard">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M23 4v6h-6M1 20v-6h6"/>
-            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-          </svg>
-          Refresh
-        </button>
-      </div>
-      <table class="lb-table" aria-label="Player leaderboard">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Player</th>
-            <th>Kills</th>
-            <th>Deaths</th>
-            <th>K/D</th>
-            <th>Best Streak</th>
-          </tr>
-        </thead>
-        <tbody id="lb-body">
-          <tr><td colspan="6" class="lb-empty"><span class="skeleton" style="width:160px;height:14px;"></span></td></tr>
-        </tbody>
-      </table>
-    </div>
 
     <footer class="footer">
       <div>WestCPvP &mdash; Not associated with Mojang or Microsoft</div>
@@ -1116,7 +1088,6 @@
             <td class="lb-rank ${rankClass(i)}">${rankLabel(i)}</td>
             <td class="lb-name">${escapeHtml(p.name)}</td>
             <td class="lb-kills">${p.kills.toLocaleString()}</td>
-            <td>${p.deaths.toLocaleString()}</td>
             <td class="lb-kdr">${p.kdr}</td>
             <td class="lb-streak">${p.bestStreak}</td>
           </tr>`).join("");
