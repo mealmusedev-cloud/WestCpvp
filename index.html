@@ -6,41 +6,42 @@
   <title>WestCPvP | Home</title>
   <link rel="icon" href="Logo.png?v=5" />
 
-  <!-- Discord / Open Graph embed -->
   <meta property="og:type"        content="website" />
   <meta property="og:url"         content="https://westcpvp.net/" />
   <meta property="og:site_name"   content="WestCPvP" />
   <meta property="og:title"       content="WestCPvP — Java &amp; Bedrock PvP · Any Version" />
-  <meta property="og:description" content="Competitive Minecraft PvP — Java &amp; Bedrock, any version.&#10;Queue up, grind your rank, and fight your way to the top.&#10;&#10;⚔️ Ranked 1v1 duels &amp; team fights&#10;🗡️ Custom kits, gear &amp; loadouts&#10;🏆 Tournaments, events &amp; kill streaks&#10;📊 Live leaderboards &amp; stat tracking&#10;&#10;🌐 play.westcpvp.net" />
-  <meta property="og:image"       content="https://westcpvp.net/Logo.png" />
-  <meta property="og:image:width"  content="512" />
-  <meta property="og:image:height" content="512" />
+  <meta property="og:description" content="Competitive Minecraft PvP — Java &amp; Bedrock, any version. Queue up, grind your rank, and fight your way to the top. ⚔️ Ranked 1v1 duels 🏆 Tournaments 📊 Live leaderboards 🌐 play.westcpvp.net" />
+  <meta property="og:image"       content="https://westcpvp.net/banner.gif" />
+  <meta property="og:image:width"  content="468" />
+  <meta property="og:image:height" content="60" />
   <meta name="theme-color"        content="#34e7ff" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
   <link rel="dns-prefetch" href="https://api.mcstatus.io">
   <link rel="dns-prefetch" href="https://discord.com">
+  <link rel="dns-prefetch" href="https://mc-heads.net">
 
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --bg: #0a0a0c;
-      --panel: #141416;
-      --panel-light: #1a1a1e;
-      --text: #fff;
-      --muted: rgba(255,255,255,.62);
-      --muted-soft: rgba(255,255,255,.38);
-      --cyan: #34e7ff;
-      --cyan-dim: rgba(52,231,255,.18);
-      --blue: #4f8fff;
-      --discord: #5865f2;
-      --green: #22c55e;
-      --danger: #fb7185;
-      --radius: 20px;
-      --radius-sm: 14px;
+      --bg:         #0a0a0c;
+      --panel:      #141416;
+      --panel-lt:   #1a1a1e;
+      --text:       #fff;
+      --muted:      rgba(255,255,255,.62);
+      --dim:        rgba(255,255,255,.38);
+      --cyan:       #34e7ff;
+      --cyan-dim:   rgba(52,231,255,.18);
+      --discord:    #5865f2;
+      --green:      #22c55e;
+      --danger:     #fb7185;
+      --r:          20px;
+      --r-sm:       14px;
+      --gap:        16px;
     }
 
     html, body { min-height: 100%; }
@@ -55,1070 +56,990 @@
       padding: 40px 22px 32px;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
 
-    /* ── Background layers ── */
     body::before {
       content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -2;
+      position: fixed; inset: 0; z-index: -2;
       background:
-        radial-gradient(ellipse 900px 600px at 15% 10%, rgba(52,231,255,.09) 0%, transparent 60%),
-        radial-gradient(ellipse 700px 500px at 85% 80%, rgba(79,143,255,.11) 0%, transparent 60%),
-        radial-gradient(ellipse 500px 400px at 50% 50%, rgba(88,101,242,.07) 0%, transparent 55%),
+        radial-gradient(ellipse 900px 600px at 15% 10%,  rgba(52,231,255,.09)  0%, transparent 60%),
+        radial-gradient(ellipse 700px 500px at 85% 80%,  rgba(79,143,255,.11)  0%, transparent 60%),
+        radial-gradient(ellipse 500px 400px at 50% 50%,  rgba(88,101,242,.07)  0%, transparent 55%),
         linear-gradient(180deg, #0d0d10 0%, #08080b 100%);
+      animation: bgDrift 45s ease-in-out infinite;
     }
 
     body::after {
       content: "";
-      position: fixed;
-      inset: 0;
-      z-index: -1;
+      position: fixed; inset: 0; z-index: -1;
       pointer-events: none;
-      background-image: radial-gradient(rgba(255,255,255,.028) 1px, transparent 1px);
+      background-image: radial-gradient(rgba(255,255,255,.038) 1px, transparent 1px);
       background-size: 26px 26px;
       mask-image: radial-gradient(ellipse 80% 80% at center, black 30%, transparent 75%);
     }
 
-    /* ── Entrance animation ── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    /* ── Animations ── */
+    @keyframes fadeUp    { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes bgDrift   { 0%{transform:translate(0,0) scale(1)} 33%{transform:translate(24px,-18px) scale(1.025)} 66%{transform:translate(-18px,12px) scale(.98)} 100%{transform:translate(0,0) scale(1)} }
+    @keyframes pulse     { 0%{box-shadow:0 0 0 0 rgba(34,197,94,.7)} 70%{box-shadow:0 0 0 8px rgba(34,197,94,0)} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0)} }
+    @keyframes shimmer   { from{background-position:200% 0} to{background-position:-200% 0} }
+    @keyframes blink     { 50%{opacity:0} }
+    @keyframes glowPulse { 0%,100%{opacity:.5} 50%{opacity:1} }
+    @keyframes lbIn      { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes goldSheen { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
-    .bento > * {
-      animation: fadeUp .55s ease both;
-    }
-    .bento > *:nth-child(1) { animation-delay: .05s; }
-    .bento > *:nth-child(2) { animation-delay: .12s; }
-    .bento > *:nth-child(3) { animation-delay: .19s; }
-    .bento > *:nth-child(4) { animation-delay: .26s; }
-    .bento > *:nth-child(5) { animation-delay: .33s; }
-
-    /* ── Layout ── */
+    /* ── Page wrapper ── */
     .page { width: min(1100px, 100%); }
 
+    /* ── Bento grid ── */
     .bento {
       display: grid;
       grid-template-columns: 284px 1fr 1fr 210px;
       grid-template-rows: 300px 300px;
-      gap: 16px;
+      gap: var(--gap);
     }
+
+    .bento > * { animation: fadeUp .55s ease both; }
+    .bento > *:nth-child(1) { animation-delay:.05s; }
+    .bento > *:nth-child(2) { animation-delay:.11s; }
+    .bento > *:nth-child(3) { animation-delay:.17s; }
+    .bento > *:nth-child(4) { animation-delay:.23s; }
+    .bento > *:nth-child(5) { animation-delay:.29s; }
 
     /* ── Base card ── */
     .card, .logo-card, .copy-strip {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius);
+      border-radius: var(--r);
     }
 
     .card {
       background: var(--panel);
-      border: 1px solid rgba(255,255,255,.07);
-      box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.04) inset;
+      border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 2px 6px rgba(0,0,0,.35), 0 8px 30px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.05) inset;
       isolation: isolate;
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease, border-color .22s ease;
+      will-change: transform;
     }
 
     .card:hover {
       transform: translateY(-4px);
-      box-shadow:
-        0 16px 48px rgba(0,0,0,.6),
-        0 0 0 1px rgba(52,231,255,.14),
-        0 1px 0 rgba(255,255,255,.06) inset;
-      border-color: rgba(52,231,255,.18);
+      box-shadow: 0 8px 16px rgba(0,0,0,.4), 0 20px 60px rgba(0,0,0,.6), 0 0 0 1px rgba(52,231,255,.16), 0 1px 0 rgba(255,255,255,.07) inset;
+      border-color: rgba(52,231,255,.2);
     }
 
-    /* glass sheen */
     .card::after {
       content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 3;
+      position: absolute; inset: 0; z-index: 3;
       pointer-events: none;
       background: linear-gradient(135deg, rgba(255,255,255,.07) 0%, transparent 40%, transparent 60%, rgba(255,255,255,.025) 100%);
     }
 
-    /* ── Grid positions ── */
-    .area-ip    { grid-column: 1; grid-row: 1; display: grid; grid-template-rows: 1fr 58px; gap: 12px; }
-    .hero-card  { grid-column: 2 / 4; grid-row: 1; }
-    .discord-card { grid-column: 4; grid-row: 1; }
-    .stats-card { grid-column: 1 / 3; grid-row: 2; }
-    .join-card  { grid-column: 3 / 5; grid-row: 2; }
+    /* ── Grid areas ── */
+    .area-ip      { grid-column:1;   grid-row:1; display:grid; grid-template-rows:1fr 58px; gap:12px; }
+    .hero-card    { grid-column:2/4; grid-row:1; }
+    .discord-card { grid-column:4;   grid-row:1; }
+    .stats-card   { grid-column:1/3; grid-row:2; }
+    .join-card    { grid-column:3/5; grid-row:2; }
 
     /* ── Logo card ── */
     .logo-card {
       background: #000;
       border: 1px solid rgba(52,231,255,.18);
-      display: block;
-      padding: 0;
-      cursor: pointer;
+      display: block; padding: 0; cursor: pointer;
       isolation: isolate;
       box-shadow: 0 4px 24px rgba(0,0,0,.5), 0 0 40px rgba(52,231,255,.06);
-      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+      transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease, border-color .22s ease;
+      will-change: transform;
     }
 
     .logo-card:hover {
-      transform: translateY(-4px) scale(1.01);
-      border-color: rgba(52,231,255,.38);
-      box-shadow: 0 16px 48px rgba(0,0,0,.6), 0 0 60px rgba(52,231,255,.14);
-    }
-
-    @keyframes glowPulse {
-      0%, 100% { opacity: .5; }
-      50%       { opacity: 1; }
+      transform: translateY(-4px) scale(1.015);
+      border-color: rgba(52,231,255,.5);
+      box-shadow: 0 16px 48px rgba(0,0,0,.65), 0 0 80px rgba(52,231,255,.2), 0 0 0 1px rgba(52,231,255,.12);
     }
 
     .logo-card::before {
       content: "";
-      position: absolute;
-      inset: -2px;
-      border-radius: inherit;
+      position: absolute; inset: -2px; border-radius: inherit;
       background: linear-gradient(135deg, rgba(52,231,255,.22), transparent 50%, rgba(79,143,255,.14));
       z-index: 0;
       animation: glowPulse 3.5s ease-in-out infinite;
     }
 
     .server-logo {
-      position: absolute;
-      inset: 0;
-      z-index: 2;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
+      position: absolute; inset: 0; z-index: 2;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
       transition: transform .28s ease;
     }
 
     .logo-card:hover .server-logo { transform: scale(1.045); }
+
+    .logo-hint {
+      position: absolute; z-index: 10;
+      bottom: 0; left: 0; right: 0;
+      padding: 20px 12px 12px;
+      text-align: center;
+      font-size: 10px; font-weight: 900;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--cyan);
+      text-shadow: 0 0 16px rgba(52,231,255,.7);
+      background: linear-gradient(to top, rgba(0,0,0,.75) 0%, transparent 100%);
+      opacity: 0; transform: translateY(6px);
+      transition: opacity .22s ease, transform .22s ease;
+      pointer-events: none;
+    }
+
+    .logo-card:hover .logo-hint { opacity: 1; transform: translateY(0); }
 
     /* ── Copy strip ── */
     .copy-strip {
       border: 1px solid rgba(255,255,255,.09);
       background: linear-gradient(135deg, #1a1a1e, #141416);
       cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      padding: 0 18px;
-      color: white;
-      font: inherit;
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+      padding: 0 18px; color: white; font: inherit;
       box-shadow: 0 4px 16px rgba(0,0,0,.4);
-      transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease, background .22s ease;
+      transition: transform .22s cubic-bezier(.34,1.56,.64,1), box-shadow .22s ease, border-color .22s ease, background .22s ease;
+      will-change: transform;
     }
 
     .copy-strip:hover {
       transform: translateY(-3px);
-      background: linear-gradient(135deg, #202026, #1a1a20);
-      border-color: rgba(52,231,255,.22);
-      box-shadow: 0 8px 28px rgba(0,0,0,.5), 0 0 20px rgba(52,231,255,.07);
+      background: linear-gradient(135deg, #1e1e24 0%, #141418 60%, rgba(52,231,255,.04) 100%);
+      border-color: rgba(52,231,255,.28);
+      box-shadow: 0 8px 28px rgba(0,0,0,.5), 0 0 24px rgba(52,231,255,.1);
     }
 
-    .copy-strip svg { width: 22px; height: 22px; flex: 0 0 auto; opacity: .7; }
+    .copy-strip svg { width:22px; height:22px; flex:0 0 auto; opacity:.55; transition:opacity .22s ease, color .22s ease; }
+    .copy-strip:hover svg { opacity:.9; color:var(--cyan); }
+    .copy-strip:active { transform:translateY(0) scale(.98); transition-duration:.08s; }
 
     .ip-text {
-      font-size: 13px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, var(--cyan), #a0e8ff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 13px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase;
+      background: linear-gradient(90deg, #a0e8ff 0%, var(--cyan) 30%, #e0fbff 50%, var(--cyan) 70%, #a0e8ff 100%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      animation: goldSheen 3s linear infinite;
     }
 
     /* ── Toast ── */
     .copied {
-      position: absolute;
-      left: 50%;
-      top: -44px;
-      z-index: 30;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      height: 30px;
-      min-width: max-content;
-      padding: 0 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(52,231,255,.22);
-      background: rgba(10,10,14,.9);
-      color: rgba(255,255,255,.92);
+      position: absolute; left:50%; top:-44px; z-index:30;
+      display: inline-flex; align-items: center; gap: 6px;
+      height:30px; min-width:max-content; padding:0 12px;
+      border-radius:999px; border:1px solid rgba(52,231,255,.22);
+      background: rgba(10,10,14,.9); color: rgba(255,255,255,.92);
       box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 16px rgba(52,231,255,.14);
       backdrop-filter: blur(16px);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      opacity: 0;
-      pointer-events: none;
-      transform: translate(-50%, 8px) scale(.94);
+      font-size:10px; font-weight:900; letter-spacing:.12em; text-transform:uppercase;
+      opacity:0; pointer-events:none;
+      transform:translate(-50%,8px) scale(.94);
       transition: opacity .18s ease, transform .18s ease;
     }
 
     .copied::before {
-      content: "✓";
-      display: inline-grid;
-      place-items: center;
-      width: 15px;
-      height: 15px;
-      border-radius: 999px;
-      background: var(--cyan);
-      color: #03111a;
-      font-size: 10px;
-      font-weight: 900;
+      content:"✓"; display:inline-grid; place-items:center;
+      width:15px; height:15px; border-radius:999px;
+      background:var(--cyan); color:#03111a; font-size:10px; font-weight:900;
     }
 
-    .copied.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
+    .copied.show { opacity:1; transform:translate(-50%,0) scale(1); }
 
     /* ── Card title tag ── */
     .title {
-      position: absolute;
-      z-index: 5;
-      left: 16px;
-      top: 15px;
-      font-size: 11px;
-      font-weight: 900;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.5);
-      background: rgba(0,0,0,.3);
-      backdrop-filter: blur(10px);
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.1);
+      position: absolute; z-index:5; left:16px; top:15px;
+      font-size:10px; font-weight:900; letter-spacing:.16em; text-transform:uppercase;
+      color:rgba(255,255,255,.6);
+      background:rgba(0,0,0,.42); backdrop-filter:blur(14px);
+      padding:5px 11px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 2px 8px rgba(0,0,0,.3), 0 1px 0 rgba(255,255,255,.06) inset;
     }
 
     /* ── Media ── */
     .media {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-      filter: saturate(1.1) brightness(.95);
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; z-index:0;
+      filter:saturate(1.1) brightness(.95);
+    }
+    .hero-card  .media { filter:saturate(1.18) brightness(.88) contrast(1.04); }
+    .stats-card .media { filter:saturate(.72) brightness(1.05); }
+    .join-card  .media { filter:saturate(1.05) brightness(.82); }
+
+    /* ── Hero card ── */
+    .hero-card { border-top-color: rgba(52,231,255,.22) !important; }
+
+    .hero-card::after {
+      content:""; position:absolute; top:0; left:8%; right:8%; height:1px; z-index:5;
+      background:linear-gradient(90deg, transparent, rgba(52,231,255,.55) 30%, rgba(52,231,255,.55) 70%, transparent);
+      pointer-events:none;
     }
 
-    /* ── Hero ── */
     .hero-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
+      content:""; position:absolute; inset:0; z-index:1;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.02) 0%, rgba(0,0,0,.22) 40%, rgba(0,0,0,.82) 100%),
-        linear-gradient(90deg, rgba(0,0,0,.35) 0%, transparent 55%);
-      pointer-events: none;
+        radial-gradient(ellipse 55% 45% at 22% 85%, rgba(52,231,255,.09) 0%, transparent 60%),
+        linear-gradient(180deg, rgba(0,0,0,.04) 0%, rgba(0,0,0,.12) 28%, rgba(0,0,0,.72) 72%, rgba(0,0,0,.93) 100%),
+        linear-gradient(90deg,  rgba(0,0,0,.42) 0%, transparent 62%);
+      pointer-events:none;
     }
 
     .hero-content {
-      position: absolute;
-      z-index: 4;
-      left: 24px;
-      right: 24px;
-      bottom: 22px;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 14px;
+      position:absolute; z-index:4;
+      left:24px; right:24px; bottom:22px;
+      display:flex; flex-direction:column; align-items:flex-start; gap:14px;
     }
 
     .eyebrow {
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .2em;
-      text-transform: uppercase;
-      color: var(--cyan);
-      text-shadow: 0 0 16px rgba(52,231,255,.6);
+      display: inline-flex; align-items: center; gap: 7px;
+      font-size:10px; font-weight:800; letter-spacing:.18em; text-transform:uppercase;
+      color:var(--cyan);
+      background: rgba(52,231,255,.1); border: 1px solid rgba(52,231,255,.28);
+      padding: 4px 12px 4px 10px; border-radius: 999px;
+      text-shadow: 0 0 12px rgba(52,231,255,.5);
+    }
+    .eyebrow::before {
+      content:""; width:6px; height:6px; border-radius:999px; flex:0 0 auto;
+      background:var(--cyan);
+      box-shadow:0 0 0 0 rgba(52,231,255,.7);
+      animation:pulseCyan 2s infinite;
+    }
+    @keyframes pulseCyan {
+      0%   { box-shadow:0 0 0 0 rgba(52,231,255,.7); }
+      70%  { box-shadow:0 0 0 6px rgba(52,231,255,0); }
+      100% { box-shadow:0 0 0 0 rgba(52,231,255,0); }
     }
 
     .headline {
-      font-size: 42px;
-      line-height: .92;
-      font-weight: 900;
-      letter-spacing: -.055em;
-      background: linear-gradient(160deg, #fff 40%, rgba(255,255,255,.7));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(0 2px 12px rgba(0,0,0,.7));
+      font-size:44px; line-height:.9; font-weight:900; letter-spacing:-.058em;
+      background:linear-gradient(165deg, #fff 0%, #fff 38%, rgba(210,250,255,.82) 70%, rgba(52,231,255,.6) 100%);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+      filter:drop-shadow(0 2px 24px rgba(0,0,0,.85));
     }
 
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+    .hero-actions { display:flex; align-items:center; gap:14px; }
 
-    .hero-ip {
-      font-size: 12px;
-      font-weight: 700;
-      color: rgba(255,255,255,.45);
-      letter-spacing: .04em;
-    }
+    .hero-ip { font-size:12px; font-weight:700; color:rgba(255,255,255,.48); letter-spacing:.06em; }
 
     /* ── Pill button ── */
     .pill {
-      position: relative;
-      overflow: visible;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      height: 44px;
-      padding: 0 20px;
-      border: 1px solid rgba(52,231,255,.3);
-      border-radius: 999px;
-      color: #03111a;
-      background: linear-gradient(135deg, var(--cyan), #7ef8ff);
-      font: inherit;
-      font-size: 13px;
-      font-weight: 900;
-      text-decoration: none;
-      cursor: pointer;
-      white-space: nowrap;
-      box-shadow: 0 8px 24px rgba(52,231,255,.22), 0 0 40px rgba(52,231,255,.1);
-      transition: transform .18s ease, box-shadow .18s ease, filter .18s ease;
+      position:relative; overflow:visible;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
+      height:44px; padding:0 20px;
+      border:1px solid rgba(52,231,255,.3); border-radius:999px;
+      color:#03111a;
+      background:linear-gradient(110deg, var(--cyan) 0%, #7ef8ff 38%, #d4fcff 50%, #7ef8ff 62%, var(--cyan) 100%);
+      background-size:240% 100%; animation:goldSheen 3.5s linear infinite;
+      font:inherit; font-size:13px; font-weight:900;
+      text-decoration:none; cursor:pointer; white-space:nowrap;
+      box-shadow:0 8px 24px rgba(52,231,255,.22),0 0 40px rgba(52,231,255,.1);
+      transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
     }
 
-    .pill:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(52,231,255,.34), 0 0 60px rgba(52,231,255,.16);
-      filter: brightness(1.06);
-    }
+    .pill:hover  { transform:translateY(-2px); box-shadow:0 12px 32px rgba(52,231,255,.34),0 0 60px rgba(52,231,255,.16); filter:brightness(1.06); }
+    .pill:active { transform:translateY(0) scale(.97); box-shadow:0 4px 12px rgba(52,231,255,.2); filter:brightness(.97); transition-duration:.08s; }
 
     /* ── Discord card ── */
     .discord-card {
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 28px 20px;
-      background: linear-gradient(160deg, #14141a, #101018);
+      display:grid; place-items:center;
+      text-align:center; padding:28px 20px;
+      background:linear-gradient(160deg,#14141a,#101018);
+      border-top-color: rgba(88,101,242,.35) !important;
     }
 
     .discord-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
+      content:""; position:absolute; inset:0;
       background:
-        radial-gradient(circle 180px at 50% 35%, rgba(88,101,242,.22), transparent 65%),
-        radial-gradient(circle 120px at 50% 85%, rgba(88,101,242,.08), transparent 60%);
-      z-index: 0;
+        radial-gradient(circle 230px at 50% 25%, rgba(88,101,242,.3),  transparent 65%),
+        radial-gradient(circle 150px at 50% 90%, rgba(88,101,242,.12), transparent 60%);
+      z-index:0;
     }
 
-    .discord-inner { position: relative; z-index: 4; display: grid; justify-items: center; gap: 2px; }
-
-    .discord-icon {
-      width: 52px;
-      height: 52px;
-      margin-bottom: 14px;
-      fill: var(--discord);
-      filter: drop-shadow(0 0 18px rgba(88,101,242,.55));
+    .discord-card::after {
+      content:""; position:absolute; top:0; left:10%; right:10%; height:1px; z-index:5;
+      background:linear-gradient(90deg, transparent, rgba(88,101,242,.7) 30%, rgba(88,101,242,.7) 70%, transparent);
+      border-radius:999px;
+      pointer-events:none;
     }
 
-    .discord-count {
-      font-size: 34px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -.06em;
-      background: linear-gradient(135deg, #fff, rgba(255,255,255,.8));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+    .discord-inner { position:relative; z-index:4; display:grid; justify-items:center; gap:2px; }
+
+    .discord-icon { width:52px; height:52px; margin-bottom:14px; fill:var(--discord); filter:drop-shadow(0 0 12px rgba(88,101,242,.6)) drop-shadow(0 0 32px rgba(88,101,242,.3)); }
+
+    .discord-count-val {
+      font-size:38px; line-height:1; font-weight:900; letter-spacing:-.06em;
+      font-variant-numeric:tabular-nums;
+      background:linear-gradient(135deg, #fff, rgba(255,255,255,.75));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
     }
 
     .mini-line {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
+      display:flex; align-items:center; justify-content:center; gap:6px;
+      margin-top:6px; color:var(--muted); font-size:12px; font-weight:700;
     }
 
     .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: var(--green);
-      box-shadow: 0 0 0 0 rgba(34,197,94,.7);
-      animation: pulse 2s infinite;
-      flex: 0 0 auto;
+      width:7px; height:7px; border-radius:999px;
+      background:var(--green);
+      box-shadow:0 0 0 0 rgba(34,197,94,.7);
+      animation:pulse 2s infinite; flex:0 0 auto;
     }
 
-    @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(34,197,94,.7); }
-      70%  { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
-      100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+    .discord-btn {
+      margin-top:20px;
+      display:inline-flex; align-items:center; justify-content:center; gap:7px;
+      height:40px; padding:0 20px; border-radius:999px;
+      background:var(--discord); color:white;
+      font-size:12px; font-weight:900; text-decoration:none;
+      box-shadow:0 8px 28px rgba(88,101,242,.38), 0 0 0 1px rgba(88,101,242,.2);
+      transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
     }
 
-    .discord-button {
-      margin-top: 18px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 7px;
-      height: 38px;
-      padding: 0 18px;
-      border-radius: 999px;
-      background: var(--discord);
-      color: white;
-      font-size: 12px;
-      font-weight: 900;
-      text-decoration: none;
-      box-shadow: 0 8px 24px rgba(88,101,242,.3);
-      transition: transform .18s ease, box-shadow .18s ease;
-    }
-
-    .discord-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 32px rgba(88,101,242,.45);
-    }
+    .discord-btn:hover  { transform:translateY(-2px); box-shadow:0 14px 36px rgba(88,101,242,.52), 0 0 0 1px rgba(88,101,242,.3); filter:brightness(1.08); }
+    .discord-btn:active { transform:translateY(0) scale(.97); filter:brightness(.96); transition-duration:.08s; }
 
     /* ── Stats card ── */
-    .stats-card { background: var(--panel); }
+    .stats-card { background:var(--panel); }
 
     .stats-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
+      content:""; position:absolute; inset:0; z-index:1;
       background:
-        linear-gradient(180deg, rgba(0,0,0,.1) 0%, rgba(0,0,0,.65) 100%),
-        radial-gradient(400px 240px at 80% 20%, rgba(52,231,255,.12), transparent 65%);
-      pointer-events: none;
+        linear-gradient(180deg,rgba(0,0,0,.04) 0%,rgba(0,0,0,.38) 55%,rgba(0,0,0,.62) 100%),
+        radial-gradient(400px 240px at 80% 20%,rgba(52,231,255,.1),transparent 65%);
+      pointer-events:none;
     }
 
     .stats-content {
-      position: relative;
-      z-index: 4;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 46px 14px 14px;
-      gap: 10px;
+      position:relative; z-index:4; height:100%;
+      display:flex; flex-direction:column; justify-content:space-between;
+      padding:46px 14px 14px; gap:10px;
     }
 
-    /* ── Mini leaderboard (inside stats card) ── */
-    .lb-mini {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 0;
-      overflow: hidden;
+    /* ── Live badge ── */
+    .live-badge {
+      position:absolute; right:14px; top:14px; z-index:5;
+      display:inline-flex; align-items:center; gap:6px;
+      height:26px; padding:0 11px; border-radius:999px;
+      background:rgba(0,0,0,.52); border:1px solid rgba(34,197,94,.3);
+      color:rgba(255,255,255,.9); font-size:9.5px; font-weight:900;
+      letter-spacing:.15em; text-transform:uppercase;
+      backdrop-filter:blur(14px);
+      box-shadow:0 0 0 1px rgba(34,197,94,.08) inset, 0 2px 8px rgba(0,0,0,.35), 0 0 12px rgba(34,197,94,.12);
     }
+
+    /* ── Leaderboard ── */
+    .lb-mini { flex:1; display:flex; flex-direction:column; min-height:0; overflow:hidden; }
 
     .lb-mini-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 6px;
+      display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;
     }
 
-    .lb-mini-title {
-      font-size: 9.5px;
-      font-weight: 900;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.4);
-    }
+    .lb-mini-title { font-size:10px; font-weight:900; letter-spacing:.14em; text-transform:uppercase; color:rgba(255,255,255,.55); }
+
+    @keyframes spin { to { transform:rotate(360deg); } }
 
     .lb-refresh {
-      background: none;
-      border: none;
-      cursor: pointer;
-      color: rgba(255,255,255,.28);
-      display: flex;
-      align-items: center;
-      padding: 2px;
-      transition: color .18s ease;
+      background:none; border:none; cursor:pointer;
+      color:rgba(255,255,255,.28); display:flex; align-items:center; padding:2px;
+      transition:color .18s ease;
     }
-    .lb-refresh:hover { color: var(--cyan); }
-    .lb-refresh svg { width: 12px; height: 12px; }
+    .lb-refresh:hover { color:var(--cyan); }
+    .lb-refresh:hover svg { animation:spin .6s linear; }
+    .lb-refresh svg { width:12px; height:12px; }
 
-    .lb-mini-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
+    @keyframes lbIn { from{opacity:0;transform:translateX(-10px)} to{opacity:1;transform:translateX(0)} }
 
-    .lb-mini-table thead th {
-      padding: 0 6px 5px;
-      text-align: left;
-      font-size: 9px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.28);
-      border-bottom: 1px solid rgba(255,255,255,.06);
-    }
-    .lb-mini-table thead th:not(:nth-child(2)) { text-align: right; }
-    .lb-mini-table thead th:first-child { text-align: left; width: 28px; }
-    .lb-mini-table thead th:nth-child(2) { text-align: left; }
+    .lb-list { display:flex; flex-direction:column; gap:2px; overflow:hidden; backdrop-filter:blur(2px); }
 
-    .lb-mini-table tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,.04);
-      transition: background .15s ease;
-    }
-    .lb-mini-table tbody tr:hover { background: rgba(255,255,255,.04); }
-    .lb-mini-table tbody tr:last-child { border-bottom: none; }
-
-    .lb-mini-table tbody td {
-      padding: 5px 6px;
-      color: rgba(255,255,255,.65);
-      font-weight: 700;
-      text-align: right;
-    }
-    .lb-mini-table tbody td:first-child { text-align: left; }
-    .lb-mini-table tbody td:nth-child(2) { text-align: left; }
-
-    .lb-rank       { font-size: 10px; font-weight: 900; color: rgba(255,255,255,.28); }
-    .lb-rank.gold   { color: #fbbf24; text-shadow: 0 0 10px rgba(251,191,36,.5); }
-    .lb-rank.silver { color: #94a3b8; }
-    .lb-rank.bronze { color: #c2714a; }
-    .lb-name        { font-weight: 800; color: #fff; font-size: 12px; }
-    .lb-kills       { color: var(--cyan); font-weight: 900; }
-    .lb-kdr         { color: rgba(255,255,255,.5); }
-    .lb-streak      { color: var(--danger); font-weight: 800; }
-
-    .lb-empty {
-      text-align: center !important;
-      padding: 12px !important;
-      color: rgba(255,255,255,.28);
-      font-size: 11px;
-      font-weight: 600;
+    .lb-row {
+      display:grid;
+      grid-template-columns:24px 24px 1fr 34px 44px 30px;
+      align-items:center; gap:6px;
+      padding:5px 7px; border-radius:9px;
+      background:rgba(255,255,255,.055); border:1px solid transparent;
+      animation:lbIn .32s ease both;
+      transition:background .15s ease, border-color .15s ease, box-shadow .15s ease; cursor:default;
     }
 
-    .live-badge {
-      position: absolute;
-      right: 14px;
-      top: 14px;
-      z-index: 5;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      height: 28px;
-      padding: 0 11px;
-      border-radius: 999px;
-      background: rgba(0,0,0,.45);
-      border: 1px solid rgba(34,197,94,.25);
-      color: rgba(255,255,255,.85);
-      font-size: 10px;
-      font-weight: 900;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      backdrop-filter: blur(12px);
+    .lb-row:hover { background:rgba(255,255,255,.07); border-color:rgba(52,231,255,.12); box-shadow:inset 2px 0 0 rgba(52,231,255,.35); }
+    .lb-row.r1 {
+      background:rgba(251,191,36,.1); border-color:rgba(251,191,36,.2);
+      position:relative; box-shadow:inset 2px 0 0 rgba(251,191,36,.3);
+    }
+    .lb-row.r1::before {
+      content:""; position:absolute; inset:0; border-radius:9px; pointer-events:none;
+      background:linear-gradient(90deg,transparent 0%,rgba(251,191,36,.18) 40%,rgba(255,220,100,.28) 50%,rgba(251,191,36,.18) 60%,transparent 100%);
+      background-size:200% 100%;
+      animation:goldSheen 3.2s linear infinite;
+    }
+    .lb-row.r2 { background:rgba(148,163,184,.05); border-color:rgba(148,163,184,.12); box-shadow:inset 2px 0 0 rgba(148,163,184,.22); }
+    .lb-row.r3 { background:rgba(194,113,74,.06);  border-color:rgba(194,113,74,.12);  box-shadow:inset 2px 0 0 rgba(194,113,74,.22); }
+    .lb-row.r1:hover { background:rgba(251,191,36,.14);  box-shadow:inset 2px 0 0 rgba(251,191,36,.55); }
+    .lb-row.r2:hover { background:rgba(148,163,184,.08); box-shadow:inset 2px 0 0 rgba(148,163,184,.45); }
+    .lb-row.r3:hover { background:rgba(194,113,74,.09);  box-shadow:inset 2px 0 0 rgba(194,113,74,.45); }
+
+    .lb-badge {
+      display:grid; place-items:center;
+      width:22px; height:22px; border-radius:6px;
+      font-size:9.5px; font-weight:900;
+      background:rgba(255,255,255,.07); color:rgba(255,255,255,.3);
+    }
+    .lb-badge.gold   {
+      background:linear-gradient(135deg,rgba(251,191,36,.28),rgba(251,191,36,.14));
+      color:#fbbf24; font-size:12px;
+      box-shadow:0 0 8px rgba(251,191,36,.25), 0 0 0 1px rgba(251,191,36,.2) inset;
+    }
+    .lb-badge.silver { background:rgba(148,163,184,.18); color:#94a3b8; }
+    .lb-badge.bronze { background:rgba(194,113,74,.18);  color:#c2714a; }
+
+    .lb-avatar { width:24px; height:24px; border-radius:5px; image-rendering:pixelated; background:rgba(255,255,255,.06); }
+    .lb-row.r1 .lb-avatar { box-shadow:0 0 0 1px rgba(251,191,36,.5), 0 0 8px rgba(251,191,36,.3); }
+    .lb-row.r2 .lb-avatar { box-shadow:0 0 0 1px rgba(148,163,184,.4); }
+    .lb-row.r3 .lb-avatar { box-shadow:0 0 0 1px rgba(194,113,74,.4); }
+
+    .lb-player { display:flex; flex-direction:column; min-width:0; gap:3px; }
+    .lb-name   { font-size:12px; font-weight:800; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1; }
+    .lb-bar    { height:2px; background:rgba(255,255,255,.08); border-radius:99px; overflow:hidden; }
+    .lb-fill {
+      height:100%; border-radius:99px;
+      background:linear-gradient(90deg, rgba(52,231,255,.35) 0%, rgba(52,231,255,.9) 50%, rgba(52,231,255,.35) 100%);
+      background-size:200% 100%;
+      animation:goldSheen 2.8s linear infinite;
+      transition:width .7s cubic-bezier(.34,1.2,.64,1);
     }
 
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
+    .lb-kills  { font-size:13px; font-weight:900; color:var(--cyan); text-align:right; line-height:1; letter-spacing:-.02em; }
+
+    .lb-kdr { display:inline-flex; align-items:center; justify-content:center; height:18px; padding:0 5px; border-radius:5px; font-size:9.5px; font-weight:900; }
+    .lb-kdr.gr { background:rgba(34,197,94,.16);  color:#4ade80; }
+    .lb-kdr.gd { background:rgba(52,231,255,.13); color:#67e8f9; }
+    .lb-kdr.ok { background:rgba(251,191,36,.14); color:#fcd34d; }
+    .lb-kdr.bd { background:rgba(251,113,133,.14);color:#fb7185; }
+
+    .lb-str      { font-size:10px; font-weight:900; color:rgba(255,255,255,.35); text-align:right; line-height:1; }
+    .lb-str.hot  { color:#fb923c; }
+
+    .lb-empty-msg { text-align:center; padding:14px; color:rgba(255,255,255,.28); font-size:11px; font-weight:600; }
+
+    /* ── Skeleton ── */
+    .skeleton {
+      display:inline-block; border-radius:8px;
+      background:linear-gradient(90deg,rgba(255,255,255,.06),rgba(255,255,255,.14),rgba(255,255,255,.06));
+      background-size:200% 100%; animation:shimmer 1.3s infinite linear;
     }
+
+    /* ── Stat boxes ── */
+    .stats-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
 
     .stat-box {
-      padding: 14px;
-      border-radius: var(--radius-sm);
-      background: rgba(0,0,0,.48);
-      border: 1px solid rgba(255,255,255,.08);
-      backdrop-filter: blur(12px);
-      transition: border-color .2s ease;
+      padding:14px; border-radius:var(--r-sm);
+      background:rgba(0,0,0,.58); border:1px solid rgba(255,255,255,.08);
+      border-top:1px solid rgba(255,255,255,.14);
+      backdrop-filter:blur(12px); transition:border-color .2s ease, border-top-color .2s ease;
     }
-
-    .stat-box:hover { border-color: rgba(52,231,255,.2); }
+    .stat-box:hover { border-color:rgba(52,231,255,.18); border-top-color:rgba(52,231,255,.38); }
 
     .stat-label {
-      color: rgba(255,255,255,.45);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
+      display:flex; align-items:center; gap:6px;
+      color:rgba(255,255,255,.45); font-size:10px; font-weight:800;
+      letter-spacing:.14em; text-transform:uppercase; margin-bottom:10px;
     }
+    .stat-icon-wrap {
+      display:inline-flex; align-items:center; justify-content:center;
+      width:18px; height:18px; border-radius:5px; flex:0 0 auto;
+      background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.08);
+      transition:background .2s ease, border-color .2s ease;
+    }
+    .stat-box:hover .stat-icon-wrap { background:rgba(52,231,255,.1); border-color:rgba(52,231,255,.2); }
+    .stat-box:hover .stat-icon { opacity:1; }
+    .stat-icon { width:10px; height:10px; opacity:.7; transition:opacity .2s ease; }
 
-    .stat-value {
-      display: block;
-      color: #fff;
-      font-size: 26px;
-      line-height: 1;
-      font-weight: 900;
-      letter-spacing: -.04em;
-    }
+    .stat-value { display:block; color:#fff; font-size:28px; line-height:1; font-weight:900; letter-spacing:-.05em; font-variant-numeric:tabular-nums; }
+    .stat-value.online  { color:var(--green); text-shadow:0 0 24px rgba(34,197,94,.5), 0 0 48px rgba(34,197,94,.2); }
+    .stat-value.offline { color:var(--danger); text-shadow:0 0 20px rgba(251,113,133,.4); }
 
-    .stat-value.online {
-      color: var(--green);
-      text-shadow: 0 0 20px rgba(34,197,94,.4);
-    }
-    .stat-value.offline {
-      color: var(--danger);
-      text-shadow: 0 0 20px rgba(251,113,133,.3);
-    }
+    .status-badge { display:inline-flex; align-items:center; gap:5px; font-size:18px; font-weight:900; letter-spacing:-.01em; }
+    .status-dot { width:7px; height:7px; border-radius:999px; flex:0 0 auto; }
+    .status-dot.on  { background:var(--green); box-shadow:0 0 0 0 rgba(34,197,94,.7); animation:pulse 2s infinite; }
+    .status-dot.off { background:var(--danger); }
 
     /* ── Join card ── */
+    .join-card { border-top-color: rgba(52,231,255,.18) !important; }
+
+    .join-card::after {
+      content:""; position:absolute; top:0; left:10%; right:10%; height:1px; z-index:5;
+      background:linear-gradient(90deg, transparent, rgba(52,231,255,.4) 30%, rgba(52,231,255,.4) 70%, transparent);
+      pointer-events:none;
+    }
+
     .join-card::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      z-index: 1;
+      content:""; position:absolute; inset:0; z-index:1;
       background:
-        linear-gradient(100deg, rgba(0,0,0,.78) 0%, rgba(0,0,0,.44) 100%),
-        radial-gradient(400px 240px at 90% 15%, rgba(52,231,255,.16), transparent 65%);
-      pointer-events: none;
+        linear-gradient(100deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.44) 100%),
+        radial-gradient(400px 240px at 90% 15%,rgba(52,231,255,.16),transparent 65%);
+      pointer-events:none;
     }
 
     .join-content {
-      position: relative;
-      z-index: 4;
-      height: 100%;
-      padding: 56px 26px 22px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      position:relative; z-index:4; height:100%;
+      padding:56px 26px 22px;
+      display:flex; align-items:center; justify-content:center;
     }
 
-    .join-panel {
-      width: min(420px, 100%);
-      display: grid;
-      gap: 12px;
-    }
+    .join-panel { width:min(420px,100%); display:grid; gap:12px; }
 
-    .field-label {
-      color: rgba(255,255,255,.45);
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      margin-bottom: 6px;
-    }
+    .field-label { color:rgba(255,255,255,.55); font-size:10px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; margin-bottom:6px; }
 
     .mc-field {
-      min-height: 50px;
-      border: 1.5px solid rgba(255,255,255,.6);
-      background: rgba(0,0,0,.78);
-      display: flex;
-      align-items: center;
-      padding: 0 14px;
-      color: white;
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: -.03em;
-      border-radius: 6px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.04), 0 4px 16px rgba(0,0,0,.3);
+      min-height:50px; border:1.5px solid rgba(255,255,255,.38);
+      background:rgba(0,0,0,.78);
+      display:flex; align-items:center; padding:0 14px;
+      color:white; font-size:22px; font-weight:800; letter-spacing:-.03em;
+      border-radius:6px;
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.04),0 4px 16px rgba(0,0,0,.3);
+    }
+    .mc-field.muted { border-color:rgba(255,255,255,.18); color:rgba(255,255,255,.75); }
+    .mc-field:not(.muted) {
+      border-color:rgba(52,231,255,.45);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.04), 0 4px 16px rgba(0,0,0,.3), 0 0 0 1px rgba(52,231,255,.1), 0 0 16px rgba(52,231,255,.06);
     }
 
-    .mc-field.muted {
-      border-color: rgba(255,255,255,.4);
-      color: rgba(255,255,255,.75);
-    }
+    .cursor { display:inline-block; width:10px; height:1em; margin-left:4px; background:white; animation:blink 1s steps(2,start) infinite; transform:translateY(2px); }
 
-    .cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1em;
-      margin-left: 4px;
-      background: white;
-      animation: blink 1s steps(2, start) infinite;
-      transform: translateY(2px);
-    }
-    @keyframes blink { 50% { opacity: 0; } }
-
-    .join-actions {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .join-actions .pill {
-      height: 40px;
-      font-size: 12px;
-    }
+    .join-actions { display:flex; align-items:center; gap:10px; margin-top:4px; }
+    .join-actions .pill { height:40px; font-size:12px; }
 
     .ghost {
-      display: inline-flex;
-      align-items: center;
-      height: 40px;
-      padding: 0 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,.13);
-      background: rgba(255,255,255,.06);
-      color: rgba(255,255,255,.8);
-      text-decoration: none;
-      font-size: 12px;
-      font-weight: 800;
-      backdrop-filter: blur(10px);
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+      display:inline-flex; align-items:center;
+      height:40px; padding:0 16px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.13); background:rgba(255,255,255,.06);
+      color:rgba(255,255,255,.8); text-decoration:none;
+      font-size:12px; font-weight:800; backdrop-filter:blur(10px);
+      transition:transform .18s ease,background .18s ease,border-color .18s ease;
+    }
+    .ghost:hover  { transform:translateY(-2px); background:rgba(255,255,255,.11); border-color:rgba(255,255,255,.22); }
+    .ghost:active { transform:translateY(0) scale(.97); transition-duration:.08s; }
+
+    /* ── Banner card ── */
+    .banner-card {
+      display:flex; align-items:center; justify-content:space-between;
+      gap:24px; padding:18px 26px;
+      background:var(--panel); border:1px solid rgba(255,255,255,.07);
+      border-left:1px solid rgba(52,231,255,.18);
+      border-radius:var(--r);
+      box-shadow:0 4px 24px rgba(0,0,0,.5), 0 1px 0 rgba(255,255,255,.04) inset, -4px 0 24px rgba(52,231,255,.04);
+      position:relative; overflow:hidden;
+      margin-top:var(--gap);
+      animation:fadeUp .55s .35s ease both;
     }
 
-    .ghost:hover {
-      transform: translateY(-2px);
-      background: rgba(255,255,255,.11);
-      border-color: rgba(255,255,255,.22);
+    .banner-card::after {
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background:linear-gradient(100deg, rgba(52,231,255,.03) 0%, transparent 30%, transparent 70%, rgba(255,255,255,.015) 100%);
     }
 
-    /* ── Skeleton loader ── */
-    .skeleton {
-      display: inline-block;
-      border-radius: 8px;
-      background: linear-gradient(90deg,
-        rgba(255,255,255,.06),
-        rgba(255,255,255,.14),
-        rgba(255,255,255,.06));
-      background-size: 200% 100%;
-      animation: shimmer 1.3s infinite linear;
+    .server-banner {
+      display:block; width:468px; height:60px;
+      border-radius:8px; border:1px solid rgba(52,231,255,.18);
+      box-shadow:0 2px 16px rgba(0,0,0,.5),0 0 20px rgba(52,231,255,.07);
+      flex:0 0 auto; position:relative; z-index:1;
     }
 
-    @keyframes shimmer {
-      from { background-position: 200% 0; }
-      to   { background-position: -200% 0; }
-    }
+    .banner-right { display:flex; flex-direction:column; align-items:flex-end; gap:8px; position:relative; z-index:1; }
 
+    .banner-tagline { font-size:11px; font-weight:700; color:rgba(255,255,255,.48); letter-spacing:.08em; text-transform:uppercase; }
+
+    .vote-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      height:40px; padding:0 22px; border-radius:999px;
+      background:linear-gradient(110deg, #16a34a 0%, #22c55e 35%, #86efac 50%, #22c55e 65%, #16a34a 100%);
+      background-size:240% 100%; animation:goldSheen 3.8s linear infinite;
+      color:#052e16; font:inherit; font-size:13px; font-weight:900;
+      text-decoration:none; letter-spacing:.02em;
+      box-shadow:0 6px 20px rgba(34,197,94,.3),0 0 40px rgba(34,197,94,.1);
+      transition:transform .18s ease,box-shadow .18s ease,filter .18s ease;
+    }
+    .vote-btn:hover  { transform:translateY(-2px); box-shadow:0 10px 28px rgba(34,197,94,.44),0 0 50px rgba(34,197,94,.16); filter:brightness(1.06); }
+    .vote-btn:active { transform:translateY(0) scale(.97); filter:brightness(.97); transition-duration:.08s; }
+    .vote-btn svg { width:14px; height:14px; flex:0 0 auto; }
 
     /* ── Footer ── */
     .footer {
-      margin-top: 22px;
-      text-align: center;
-      color: rgba(255,255,255,.3);
-      font-size: 11px;
-      font-weight: 600;
-      line-height: 1.9;
-      animation: fadeUp .55s .4s ease both;
+      margin-top:var(--gap);
+      padding-top:20px;
+      border-top:1px solid rgba(255,255,255,.06);
+      text-align:center; color:rgba(255,255,255,.3);
+      font-size:11px; font-weight:600; line-height:1.9;
+      animation:fadeUp .55s .42s ease both;
     }
 
-    .footer-links {
-      margin-top: 6px;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 18px;
+    .footer-links { margin-top:6px; display:flex; justify-content:center; flex-wrap:wrap; gap:0; }
+
+    .footer a { color:rgba(255,255,255,.32); text-decoration:none; font-size:10px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; transition:color .18s ease; padding:0 14px; }
+    .footer a + a { border-left:1px solid rgba(255,255,255,.1); }
+    .footer a:hover { color:var(--cyan); }
+
+    /* ── Cursor-follow glow ── */
+    .card-glow {
+      position:absolute; inset:0; z-index:2; pointer-events:none; border-radius:inherit;
+      opacity:0; transition:opacity .35s ease;
+      will-change: opacity;
+      background:radial-gradient(circle 180px at var(--gx,50%) var(--gy,50%), rgba(52,231,255,.09), transparent 70%);
+    }
+    .card:hover .card-glow,
+    .logo-card:hover .card-glow { opacity:1; }
+    .discord-card .card-glow {
+      background:radial-gradient(circle 180px at var(--gx,50%) var(--gy,50%), rgba(88,101,242,.13), transparent 70%);
     }
 
-    .footer a {
-      color: rgba(255,255,255,.38);
-      text-decoration: none;
-      font-size: 10px;
-      font-weight: 800;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      transition: color .18s ease;
+    /* ── Focus rings ── */
+    :focus-visible {
+      outline: 2px solid rgba(52,231,255,.7);
+      outline-offset: 3px;
+      border-radius: 6px;
     }
-
-    .footer a:hover { color: var(--cyan); }
+    .pill:focus-visible, .discord-btn:focus-visible, .vote-btn:focus-visible, .ghost:focus-visible {
+      outline-offset: 4px;
+      border-radius: 999px;
+    }
 
     /* ── Responsive ── */
-    @media (max-width: 1100px) {
+    @media (max-width:1100px) {
       .bento {
-        grid-template-columns: minmax(220px, 1fr) minmax(200px, 1fr) minmax(200px, 1fr);
-        grid-template-rows: 300px 280px 280px;
+        grid-template-columns:minmax(220px,1fr) minmax(200px,1fr) minmax(200px,1fr);
+        grid-template-rows:300px 280px 280px;
       }
-      .area-ip      { grid-column: 1; grid-row: 1; }
-      .hero-card    { grid-column: 2 / 4; grid-row: 1; }
-      .discord-card { grid-column: 1; grid-row: 2; }
-      .stats-card   { grid-column: 2 / 4; grid-row: 2; }
-      .join-card    { grid-column: 1 / 4; grid-row: 3; }
+      .area-ip      { grid-column:1; grid-row:1; }
+      .hero-card    { grid-column:2/4; grid-row:1; }
+      .discord-card { grid-column:1; grid-row:2; }
+      .stats-card   { grid-column:2/4; grid-row:2; }
+      .join-card    { grid-column:1/4; grid-row:3; }
     }
 
-    @media (max-width: 720px) {
-      body { padding: 14px 12px 20px; place-items: start center; }
-      .bento {
-        grid-template-columns: 1fr;
-        grid-template-rows: 300px 240px 220px 240px 320px;
-        gap: 12px;
-      }
-      .area-ip, .hero-card, .discord-card, .stats-card, .join-card { grid-column: 1; }
-      .area-ip      { grid-row: 1; }
-      .hero-card    { grid-row: 2; }
-      .discord-card { grid-row: 3; }
-      .stats-card   { grid-row: 4; }
-      .join-card    { grid-row: 5; }
-      .hero-content { align-items: flex-start; flex-direction: column; }
-      .headline { font-size: 30px; }
-      .stats-grid { grid-template-columns: 1fr; }
-      .stat-box { min-height: 56px; display: flex; align-items: center; justify-content: space-between; }
-      .stat-label { margin-bottom: 0; }
-      .join-content { padding: 54px 14px 16px; }
-      .join-panel { width: 100%; }
-      .mc-field { font-size: 18px; }
+    @media (max-width:720px) {
+      body { padding:14px 12px 20px; place-items:start center; }
+      .bento { grid-template-columns:1fr; grid-template-rows:300px 240px 220px 240px 320px; gap:12px; }
+      .area-ip,.hero-card,.discord-card,.stats-card,.join-card { grid-column:1; }
+      .area-ip { grid-row:1; } .hero-card { grid-row:2; } .discord-card { grid-row:3; }
+      .stats-card { grid-row:4; } .join-card { grid-row:5; }
+      .headline { font-size:30px; }
+      .stats-grid { grid-template-columns:1fr; }
+      .stat-box { min-height:56px; display:flex; align-items:center; justify-content:space-between; }
+      .stat-label { margin-bottom:0; }
+      .join-content { padding:54px 14px 16px; }
+      .join-panel { width:100%; }
+      .mc-field { font-size:18px; }
+    }
+
+    @media (max-width:600px) {
+      .banner-card { flex-direction:column; align-items:center; padding:16px; gap:14px; }
+      .banner-right { align-items:center; }
+      .server-banner { width:100%; max-width:468px; height:auto; }
     }
   </style>
 </head>
 
 <body>
-  <main class="page">
-    <section class="bento" aria-label="WestCPvP landing page">
+<main class="page">
+  <section class="bento" aria-label="WestCPvP landing page">
 
-      <!-- Logo + Copy strip -->
-      <div class="area-ip">
-        <button class="logo-card" onclick="copyServerIP('ip-toast')" aria-label="Copy server IP">
-          <img src="Logo.png?v=6" alt="WestCPvP Logo" class="server-logo" loading="eager" fetchpriority="high">
-          <span class="copied" id="ip-toast">IP Copied</span>
-        </button>
+    <!-- Logo + IP copy -->
+    <div class="area-ip">
+      <button class="logo-card" onclick="copyServerIP('ip-toast')" aria-label="Copy server IP">
+        <img src="Logo.png?v=6" alt="WestCPvP Logo" class="server-logo" loading="eager" fetchpriority="high">
+        <span class="copied" id="ip-toast">IP Copied</span>
+        <span class="logo-hint">Click to copy IP</span>
+      </button>
 
-        <button class="copy-strip card" onclick="copyServerIP('strip-toast')" aria-label="Copy play.westcpvp.net">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M8 8.5H5.7c-1.1 0-2 .9-2 2v8.3c0 1.1.9 2 2 2H14c1.1 0 2-.9 2-2v-2.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M10 3.2h8.3c1.1 0 2 .9 2 2v8.3c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2V5.2c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
-          </svg>
-          <span class="ip-text">PLAY.WESTCPVP.NET</span>
-          <span class="copied" id="strip-toast">IP Copied</span>
-        </button>
+      <button class="copy-strip card" onclick="copyServerIP('strip-toast')" aria-label="Copy play.westcpvp.net">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M8 8.5H5.7c-1.1 0-2 .9-2 2v8.3c0 1.1.9 2 2 2H14c1.1 0 2-.9 2-2v-2.3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M10 3.2h8.3c1.1 0 2 .9 2 2v8.3c0 1.1-.9 2-2 2H10c-1.1 0-2-.9-2-2V5.2c0-1.1.9-2 2-2Z" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+        </svg>
+        <span class="ip-text">PLAY.WESTCPVP.NET</span>
+        <span class="copied" id="strip-toast">IP Copied</span>
+      </button>
+    </div>
+
+    <!-- Hero -->
+    <article class="card hero-card">
+      <video class="media" src="nature.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <div class="hero-content">
+        <div class="eyebrow">Competitive Minecraft PvP</div>
+        <h1 class="headline">Jump in.<br>Queue up.<br>Win fights.</h1>
+        <div class="hero-actions">
+          <button class="pill" onclick="copyServerIP('hero-toast')">
+            Copy IP
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span class="copied" id="hero-toast">IP Copied</span>
+          </button>
+          <span class="hero-ip">play.westcpvp.net</span>
+        </div>
       </div>
+    </article>
 
-      <!-- Hero -->
-      <article class="card hero-card">
-        <video class="media" src="nature.mp4" autoplay muted loop playsinline preload="metadata"></video>
-        <div class="hero-content">
-          <div class="eyebrow">Competitive Minecraft PvP</div>
-          <h1 class="headline">Jump in.<br>Queue up.<br>Win fights.</h1>
-          <div class="hero-actions">
-            <button class="pill" onclick="copyServerIP('hero-toast')">
-              Copy IP
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M5 12h14M13 5l7 7-7 7" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <span class="copied" id="hero-toast">IP Copied</span>
+    <!-- Discord -->
+    <article class="card discord-card">
+      <div class="discord-inner">
+        <svg class="discord-icon" viewBox="0 0 71 55" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M60.105 4.898A58.55 58.55 0 0 0 45.653.415a.22.22 0 0 0-.233.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0-.484-1.164-1.201-2.587-1.828-3.697a.228.228 0 0 0-.233-.11 58.386 58.386 0 0 0-14.451 4.483.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.38a.244.244 0 0 0 .093.166c6.073 4.46 11.955 7.167 17.729 8.962a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .233.028c.356.293.728.586 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.794 11.684-4.502 17.757-8.961a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.398a.18.18 0 0 0-.093-.084zm-36.38 32.427c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.827-7.156 6.38-7.156 3.583 0 6.438 3.24 6.382 7.156 0 3.945-2.827 7.156-6.381 7.156zm23.593 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156z"/></svg>
+        <div class="discord-count-val" id="discord-count"><span class="skeleton" style="width:72px;height:32px;display:inline-block"></span></div>
+        <div class="mini-line" id="discord-line"><span class="dot"></span><span>Discord Members</span></div>
+        <a class="discord-btn" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">
+          <svg width="15" height="15" viewBox="0 0 71 55" fill="currentColor" aria-hidden="true"><path d="M60.105 4.898A58.55 58.55 0 0 0 45.653.415a.22.22 0 0 0-.233.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0-.484-1.164-1.201-2.587-1.828-3.697a.228.228 0 0 0-.233-.11 58.386 58.386 0 0 0-14.451 4.483.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.38a.244.244 0 0 0 .093.166c6.073 4.46 11.955 7.167 17.729 8.962a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .233.028c.356.293.728.586 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.794 11.684-4.502 17.757-8.961a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.398a.18.18 0 0 0-.093-.084zm-36.38 32.427c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.827-7.156 6.38-7.156 3.583 0 6.438 3.24 6.382 7.156 0 3.945-2.827 7.156-6.381 7.156zm23.593 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156z"/></svg>
+          Join Discord
+        </a>
+      </div>
+    </article>
+
+    <!-- Stats + Leaderboard -->
+    <article class="card stats-card">
+      <video class="media" src="snow.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <div class="title">Server Stats</div>
+      <div class="live-badge"><span class="dot"></span>Live</div>
+      <div class="stats-content">
+        <div class="lb-mini">
+          <div class="lb-mini-header">
+            <span class="lb-mini-title">⚔ Top Players</span>
+            <button class="lb-refresh" onclick="refreshLeaderboard()" aria-label="Refresh leaderboard">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
             </button>
-            <span class="hero-ip">play.westcpvp.net</span>
+          </div>
+          <div id="lb-body" class="lb-list">
+            <div class="lb-empty-msg"><span class="skeleton" style="width:140px;height:12px;display:inline-block"></span></div>
           </div>
         </div>
-      </article>
-
-      <!-- Discord -->
-      <article class="card discord-card">
-        <div class="discord-inner">
-          <svg class="discord-icon" viewBox="0 0 71 55" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M60.105 4.898A58.55 58.55 0 0 0 45.653.415a.22.22 0 0 0-.233.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0-.484-1.164-1.201-2.587-1.828-3.697a.228.228 0 0 0-.233-.11 58.386 58.386 0 0 0-14.451 4.483.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.38a.244.244 0 0 0 .093.166c6.073 4.46 11.955 7.167 17.729 8.962a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .233.028c.356.293.728.586 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.794 11.684-4.502 17.757-8.961a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.398a.18.18 0 0 0-.093-.084zm-36.38 32.427c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.827-7.156 6.38-7.156 3.583 0 6.438 3.24 6.382 7.156 0 3.945-2.827 7.156-6.381 7.156zm23.593 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156z"/>
-          </svg>
-          <div class="discord-count" id="discord-count"><span class="skeleton" style="width:72px;height:32px;"></span></div>
-          <div class="mini-line" id="discord-line"><span class="dot"></span><span>Discord Members</span></div>
-          <a class="discord-button" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">
-            <svg width="15" height="15" viewBox="0 0 71 55" fill="currentColor" aria-hidden="true" style="opacity:.9"><path d="M60.105 4.898A58.55 58.55 0 0 0 45.653.415a.22.22 0 0 0-.233.11 40.784 40.784 0 0 0-1.8 3.697c-5.456-.817-10.886-.817-16.23 0-.484-1.164-1.201-2.587-1.828-3.697a.228.228 0 0 0-.233-.11 58.386 58.386 0 0 0-14.451 4.483.207.207 0 0 0-.095.082C1.578 18.73-.944 32.144.293 45.38a.244.244 0 0 0 .093.166c6.073 4.46 11.955 7.167 17.729 8.962a.23.23 0 0 0 .249-.082 42.08 42.08 0 0 0 3.627-5.9.225.225 0 0 0-.123-.312 38.772 38.772 0 0 1-5.539-2.64.228.228 0 0 1-.022-.378 31.17 31.17 0 0 0 1.1-.862.22.22 0 0 1 .23-.031c11.62 5.305 24.198 5.305 35.68 0a.219.219 0 0 1 .233.028c.356.293.728.586 1.103.865a.228.228 0 0 1-.02.378 36.384 36.384 0 0 1-5.54 2.637.227.227 0 0 0-.121.315 47.249 47.249 0 0 0 3.624 5.897.225.225 0 0 0 .249.084c5.801-1.794 11.684-4.502 17.757-8.961a.228.228 0 0 0 .092-.164c1.48-15.315-2.48-28.618-10.497-40.398a.18.18 0 0 0-.093-.084zm-36.38 32.427c-3.497 0-6.38-3.211-6.38-7.156 0-3.944 2.827-7.156 6.38-7.156 3.583 0 6.438 3.24 6.382 7.156 0 3.945-2.827 7.156-6.381 7.156zm23.593 0c-3.498 0-6.38-3.211-6.38-7.156 0-3.944 2.826-7.156 6.38-7.156 3.582 0 6.437 3.24 6.38 7.156 0 3.945-2.826 7.156-6.38 7.156z"/></svg>
-            Join Discord
-          </a>
-        </div>
-      </article>
-
-      <!-- Stats -->
-      <article class="card stats-card">
-        <video class="media" src="snow.mp4" autoplay muted loop playsinline preload="metadata"></video>
-        <div class="title">Server Stats</div>
-        <div class="live-badge"><span class="dot"></span>Live</div>
-        <div class="stats-content">
-          <!-- Mini leaderboard -->
-          <div class="lb-mini">
-            <div class="lb-mini-header">
-              <span class="lb-mini-title">&#9876; Top Players</span>
-              <button class="lb-refresh" onclick="refreshLeaderboard()" aria-label="Refresh">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M23 4v6h-6M1 20v-6h6"/>
-                  <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
-                </svg>
-              </button>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <div class="stat-label">
+              <span class="stat-icon-wrap"><svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+              Players
             </div>
-            <table class="lb-mini-table" aria-label="Player leaderboard">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Player</th>
-                  <th>Kills</th>
-                  <th>K/D</th>
-                  <th>Streak</th>
-                </tr>
-              </thead>
-              <tbody id="lb-body">
-                <tr><td colspan="5" class="lb-empty"><span class="skeleton" style="width:130px;height:12px;"></span></td></tr>
-              </tbody>
-            </table>
+            <span class="stat-value online" id="stat-online"><span class="skeleton" style="width:52px;height:22px;display:inline-block"></span></span>
           </div>
-          <!-- Stat boxes -->
-          <div class="stats-grid">
-            <div class="stat-box">
-              <div class="stat-label">Players Online</div>
-              <span class="stat-value" id="stat-online"><span class="skeleton" style="width:52px;height:22px;"></span></span>
+          <div class="stat-box">
+            <div class="stat-label">
+              <span class="stat-icon-wrap"><svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></span>
+              Version
             </div>
-            <div class="stat-box">
-              <div class="stat-label">Version</div>
-              <span class="stat-value" id="stat-version"><span class="skeleton" style="width:60px;height:22px;"></span></span>
+            <span class="stat-value" id="stat-version"><span class="skeleton" style="width:60px;height:22px;display:inline-block"></span></span>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">
+              <span class="stat-icon-wrap"><svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="currentColor" stroke="none"/></svg></span>
+              Status
             </div>
-            <div class="stat-box">
-              <div class="stat-label">Status</div>
-              <span class="stat-value" id="stat-status"><span class="skeleton" style="width:52px;height:22px;"></span></span>
-            </div>
+            <span class="stat-value" id="stat-status"><span class="skeleton" style="width:52px;height:22px;display:inline-block"></span></span>
           </div>
         </div>
-      </article>
-
-      <!-- How To Join -->
-      <article class="card join-card">
-        <video class="media" src="minecraft-aquarium.3840x2160.mp4" autoplay muted loop playsinline preload="metadata"></video>
-        <div class="title">How To Join</div>
-        <div class="join-content">
-          <div class="join-panel">
-            <div>
-              <div class="field-label">Server Name</div>
-              <div class="mc-field">WestCPvP<span class="cursor"></span></div>
-            </div>
-            <div>
-              <div class="field-label">Server Address</div>
-              <div class="mc-field muted">play.westcpvp.net</div>
-            </div>
-            <div class="join-actions">
-              <button class="pill" onclick="copyServerIP('join-toast')">
-                Copy Address
-                <span class="copied" id="join-toast">IP Copied</span>
-              </button>
-              <a class="ghost" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Get Help</a>
-            </div>
-          </div>
-        </div>
-      </article>
-
-    </section>
-
-    <footer class="footer">
-      <div>WestCPvP &mdash; Not associated with Mojang or Microsoft</div>
-      <div>&copy; 2026 WestCPvP. All Rights Reserved.</div>
-      <div class="footer-links">
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="support.html">Support</a>
-        <a href="terms.html">Terms of Service</a>
       </div>
-    </footer>
-  </main>
+    </article>
 
-  <script>
-    const SERVER_IP = "play.westcpvp.net";
-    const DISCORD_INVITE = "KqpdvwfSU";
+    <!-- How to Join -->
+    <article class="card join-card">
+      <video class="media" src="minecraft-aquarium.3840x2160.mp4" autoplay muted loop playsinline preload="metadata"></video>
+      <div class="title">How To Join</div>
+      <div class="join-content">
+        <div class="join-panel">
+          <div>
+            <div class="field-label">Server Name</div>
+            <div class="mc-field">WestCPvP<span class="cursor"></span></div>
+          </div>
+          <div>
+            <div class="field-label">Server Address</div>
+            <div class="mc-field muted">play.westcpvp.net</div>
+          </div>
+          <div class="join-actions">
+            <button class="pill" onclick="copyServerIP('join-toast')">
+              Copy Address
+              <span class="copied" id="join-toast">IP Copied</span>
+            </button>
+            <a class="ghost" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Get Help</a>
+          </div>
+        </div>
+      </div>
+    </article>
 
-    function copyServerIP(toastId) {
-      const toast = document.getElementById(toastId);
-      const showToast = () => {
-        if (!toast) return;
-        toast.classList.add("show");
-        setTimeout(() => toast.classList.remove("show"), 1500);
-      };
-      if (navigator.clipboard && window.isSecureContext) {
-        navigator.clipboard.writeText(SERVER_IP).then(showToast).catch(showToast);
-      } else {
-        const temp = document.createElement("textarea");
-        temp.value = SERVER_IP;
-        temp.style.cssText = "position:fixed;opacity:0";
-        document.body.appendChild(temp);
-        temp.select();
-        try { document.execCommand("copy"); } catch {}
-        temp.remove();
-        showToast();
-      }
+  </section>
+
+  <!-- Banner + Vote -->
+  <div class="banner-card">
+    <img src="banner.gif" alt="WestCPvP Server Banner" class="server-banner" loading="eager">
+    <div class="banner-right">
+      <span class="banner-tagline">Enjoying the server?</span>
+      <a class="vote-btn" href="https://www.planetminecraft.com/server/westcpvp/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 11l5-5 5 5M12 6v12"/></svg>
+        Vote on Planet Minecraft
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>WestCPvP &mdash; Not associated with Mojang or Microsoft</div>
+    <div>&copy; 2026 WestCPvP. All Rights Reserved.</div>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="support.html">Support</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+  </footer>
+</main>
+
+<script>
+  const SERVER_IP    = "play.westcpvp.net";
+  const DISCORD_CODE = "KqpdvwfSU";
+
+  function copyServerIP(toastId) {
+    const toast = document.getElementById(toastId);
+    const show  = () => { if (!toast) return; toast.classList.add("show"); setTimeout(() => toast.classList.remove("show"), 1500); };
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(SERVER_IP).then(show).catch(show);
+    } else {
+      const t = document.createElement("textarea");
+      t.value = SERVER_IP; t.style.cssText = "position:fixed;opacity:0";
+      document.body.appendChild(t); t.select();
+      try { document.execCommand("copy"); } catch {}
+      t.remove(); show();
     }
+  }
 
-    function setStat(id, value, cls) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      el.textContent = value;
-      el.className = "stat-value" + (cls ? " " + cls : "");
-    }
+  function setStat(id, value, cls) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = value;
+    el.className = "stat-value" + (cls ? " " + cls : "");
+  }
 
-    function animateNumber(el, target) {
-      const start = performance.now();
-      const from = parseInt((el.textContent || "0").replace(/\D/g, ""), 10) || 0;
-      (function step(now) {
-        const p = Math.min(1, (now - start) / 850);
-        const e = 1 - Math.pow(1 - p, 3);
-        el.textContent = Math.floor(from + (target - from) * e).toLocaleString();
-        if (p < 1) requestAnimationFrame(step);
-      })(start);
-    }
+  function animateNumber(el, target, fmt) {
+    const start = performance.now();
+    const from  = parseInt((el.textContent || "0").replace(/\D/g, ""), 10) || 0;
+    const format = fmt || (n => n.toLocaleString());
+    (function step(now) {
+      const p = Math.min(1, (now - start) / 850);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = format(Math.floor(from + (target - from) * e));
+      if (p < 1) requestAnimationFrame(step);
+    })(start);
+  }
 
-    async function refreshServerStats() {
-      try {
-        const res = await fetch("https://api.mcstatus.io/v2/status/java/" + SERVER_IP, { cache: "reload" });
-        const data = await res.json();
-        if (!data.online) {
-          setStat("stat-online", "0", "offline");
-          setStat("stat-version", "—");
-          setStat("stat-status", "Offline", "offline");
-          return;
-        }
-        const onlineEl = document.getElementById("stat-online");
-        onlineEl.className = "stat-value online";
-        if (onlineEl.querySelector(".skeleton")) onlineEl.textContent = "0";
-        animateNumber(onlineEl, data.players?.online ?? 0);
-        const version = data.version?.name_clean?.replace(/^[a-z]+\s+/i, "") || "—";
-        setStat("stat-version", version);
-        setStat("stat-status", "Online", "online");
-      } catch {
-        setStat("stat-online", "—");
+  function setStatus(online) {
+    const el = document.getElementById("stat-status");
+    if (!el) return;
+    el.className = "stat-value";
+    el.innerHTML = `<span class="status-badge"><span class="status-dot ${online ? "on" : "off"}"></span>${online ? "Online" : "Offline"}</span>`;
+  }
+
+  async function refreshServerStats() {
+    try {
+      const res  = await fetch("https://api.mcstatus.io/v2/status/java/" + SERVER_IP, { cache: "reload" });
+      const data = await res.json();
+      if (!data.online) {
+        setStat("stat-online", "0", "offline");
         setStat("stat-version", "—");
-        setStat("stat-status", "?");
+        setStatus(false); return;
       }
+      const el = document.getElementById("stat-online");
+      el.className = "stat-value online";
+      if (el.querySelector?.(".skeleton")) el.textContent = "0";
+      animateNumber(el, data.players?.online ?? 0);
+      setStat("stat-version", data.version?.name_clean?.replace(/^[a-z]+\s+/i, "") || "—");
+      setStatus(true);
+    } catch {
+      setStat("stat-online", "—");
+      setStat("stat-version", "—");
+      setStatus(false);
     }
+  }
 
-    async function refreshDiscord() {
-      try {
-        const res = await fetch("https://discord.com/api/v9/invites/" + DISCORD_INVITE + "?with_counts=true", { cache: "reload" });
-        const data = await res.json();
-        const count = data.approximate_member_count;
-        const active = data.approximate_presence_count;
-        const countEl = document.getElementById("discord-count");
-        const lineEl  = document.getElementById("discord-line");
-        if (count) {
-          countEl.textContent = count >= 1000
-            ? (count / 1000).toFixed(1).replace(".0", "") + "K+"
-            : count.toLocaleString();
-        } else {
-          countEl.textContent = "Join Us";
-        }
-        if (active != null) {
-          lineEl.innerHTML = '<span class="dot"></span><span>' + active.toLocaleString() + ' online now</span>';
-        }
-      } catch {
-        document.getElementById("discord-count").textContent = "Join Us";
+
+  function kdrClass(k) { return k >= 1.5 ? "gr" : k >= 1.0 ? "gd" : k >= 0.5 ? "ok" : "bd"; }
+
+  async function refreshLeaderboard() {
+    const container = document.getElementById("lb-body");
+    try {
+      const res  = await fetch("/leaderboard.json", { cache: "reload" });
+      const data = await res.json();
+      if (!data.length) { container.innerHTML = '<div class="lb-empty-msg">No stats yet — start playing!</div>'; return; }
+      const max = data[0].kills || 1;
+      container.innerHTML = data.map((p, i) => {
+        const bc  = i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "";
+        const rc  = i < 3 ? `r${i + 1}` : "";
+        const pct = Math.max(4, Math.round(p.kills / max * 100));
+        const hot = p.bestStreak >= 5;
+        return `<div class="lb-row ${rc}" style="animation-delay:${i * 26}ms">
+          <span class="lb-badge ${bc}">${i === 0 ? "👑" : i + 1}</span>
+          <img class="lb-avatar" src="https://mc-heads.net/avatar/${encodeURIComponent(p.name)}/24" alt="" loading="lazy" onerror="this.style.opacity='.25'">
+          <div class="lb-player">
+            <span class="lb-name">${esc(p.name)}</span>
+            <div class="lb-bar"><div class="lb-fill" style="width:${pct}%"></div></div>
+          </div>
+          <span class="lb-kills">${p.kills}</span>
+          <span class="lb-kdr ${kdrClass(p.kdr)}">${p.kdr}</span>
+          <span class="lb-str ${hot ? "hot" : ""}">${hot ? "🔥" : ""}${p.bestStreak}</span>
+        </div>`;
+      }).join("");
+    } catch {
+      container.innerHTML = '<div class="lb-empty-msg">Leaderboard offline — check back soon.</div>';
+    }
+  }
+
+  function esc(s) { return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+
+  /* ── Cursor-follow glow + 3D tilt ── */
+  document.querySelectorAll(".card, .logo-card").forEach(card => {
+    const glow = document.createElement("div");
+    glow.className = "card-glow";
+    card.appendChild(glow);
+    const isLogo  = card.classList.contains("logo-card");
+    const noTilt  = card.classList.contains("copy-strip");
+    card.addEventListener("mousemove", e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width;
+      const y = (e.clientY - r.top)  / r.height;
+      glow.style.setProperty("--gx", (x * 100) + "%");
+      glow.style.setProperty("--gy", (y * 100) + "%");
+      if (!noTilt) {
+        const tx = (0.5 - y) * 5;
+        const ty = (x - 0.5) * 5;
+        const scale = isLogo ? " scale(1.015)" : "";
+        card.style.transform = `perspective(900px) translateY(-4px)${scale} rotateX(${tx}deg) rotateY(${ty}deg)`;
       }
+    });
+    card.addEventListener("mouseleave", () => { if (!noTilt) card.style.transform = ""; });
+  });
+
+  /* ── Discord count animation ── */
+  async function refreshDiscord() {
+    try {
+      const res    = await fetch("https://discord.com/api/v9/invites/" + DISCORD_CODE + "?with_counts=true", { cache: "reload" });
+      const data   = await res.json();
+      const count  = data.approximate_member_count;
+      const active = data.approximate_presence_count;
+      const countEl = document.getElementById("discord-count");
+      if (countEl && count) {
+        countEl.textContent = "0";
+        animateNumber(countEl, count, n => n >= 1000 ? (n/1000).toFixed(1).replace(".0","")+"K+" : n.toLocaleString());
+      } else if (countEl) { countEl.textContent = "Join Us"; }
+      const lineEl = document.getElementById("discord-line");
+      if (lineEl && active != null)
+        lineEl.innerHTML = `<span class="dot"></span><span>${active.toLocaleString()} online now</span>`;
+    } catch {
+      const el = document.getElementById("discord-count");
+      if (el) el.textContent = "Join Us";
     }
+  }
 
-    const LEADERBOARD_API = "/leaderboard.json";
-
-    const rankClass = i => i === 0 ? "gold" : i === 1 ? "silver" : i === 2 ? "bronze" : "";
-    const rankLabel = i => i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : `#${i + 1}`;
-
-    async function refreshLeaderboard() {
-      const tbody = document.getElementById("lb-body");
-      try {
-        const res = await fetch(LEADERBOARD_API, { cache: "reload" });
-        const data = await res.json();
-        if (!data.length) {
-          tbody.innerHTML = '<tr><td colspan="6" class="lb-empty">No stats yet — start playing!</td></tr>';
-          return;
-        }
-        tbody.innerHTML = data.map((p, i) => `
-          <tr>
-            <td class="lb-rank ${rankClass(i)}">${rankLabel(i)}</td>
-            <td class="lb-name">${escapeHtml(p.name)}</td>
-            <td class="lb-kills">${p.kills.toLocaleString()}</td>
-            <td class="lb-kdr">${p.kdr}</td>
-            <td class="lb-streak">${p.bestStreak}</td>
-          </tr>`).join("");
-      } catch {
-        tbody.innerHTML = '<tr><td colspan="6" class="lb-empty">Leaderboard offline — check back soon.</td></tr>';
-      }
-    }
-
-    function escapeHtml(s) {
-      return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-    }
-
-    refreshServerStats();
-    refreshDiscord();
-    refreshLeaderboard();
-    setInterval(refreshServerStats, 30000);
-    setInterval(refreshDiscord, 60000);
-    setInterval(refreshLeaderboard, 60000);
-  </script>
+  refreshServerStats();
+  refreshDiscord();
+  refreshLeaderboard();
+  setInterval(refreshServerStats, 30000);
+  setInterval(refreshDiscord,     60000);
+  setInterval(refreshLeaderboard, 60000);
+</script>
 </body>
 </html>
