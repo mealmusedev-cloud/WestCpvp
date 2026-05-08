@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WestCPvP | Staff Application</title>
+  <link rel="icon" href="Logo.png?v=5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #101010;
+      --panel: #1c1c1e;
+      --panel-dark: #151516;
+      --text: #fff;
+      --muted: rgba(255,255,255,.68);
+      --muted-soft: rgba(255,255,255,.44);
+      --blue: #13b7f4;
+      --cyan: #34e7ff;
+      --discord: #5865f2;
+      --green: #22c55e;
+      --danger: #fb7185;
+      --radius: 22px;
+    }
+
+    html, body { min-height: 100%; }
+
+    body {
+      min-height: 100vh;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: #111;
+      padding: 38px 22px 30px;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      background:
+        radial-gradient(800px 520px at 18% 12%, rgba(19,183,244,.13), transparent 65%),
+        radial-gradient(700px 500px at 82% 74%, rgba(88,101,242,.10), transparent 66%),
+        linear-gradient(180deg, #111 0%, #0d0d0d 100%);
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(circle at center, black, transparent 78%);
+    }
+
+    .page {
+      width: min(940px, 100%);
+      margin: 0 auto;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 24px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 13px;
+      color: white;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 900;
+      letter-spacing: -.04em;
+    }
+
+    .brand-logo {
+      width: 54px;
+      height: 54px;
+      border-radius: 16px;
+      object-fit: cover;
+      box-shadow: 0 16px 35px rgba(0,0,0,.36);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .nav a, .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 39px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.07);
+      color: white;
+      text-decoration: none;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .02em;
+      cursor: pointer;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .nav a:hover, .button:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 260px;
+      border-radius: var(--radius);
+      background:
+        linear-gradient(135deg, rgba(19,183,244,.95), rgba(88,101,242,.72)),
+        radial-gradient(circle at 74% 30%, rgba(255,255,255,.30), transparent 35%);
+      box-shadow: 0 28px 70px rgba(0,0,0,.42);
+      border: 1px solid rgba(255,255,255,.10);
+      display: grid;
+      align-items: end;
+      padding: 28px;
+      margin-bottom: 24px;
+      isolation: isolate;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: -60%;
+      background: conic-gradient(from 180deg, transparent, rgba(255,255,255,.24), transparent 28%);
+      animation: spinGlow 9s linear infinite;
+      opacity: .48;
+      z-index: -1;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg, transparent 0%, rgba(0,0,0,.50) 100%),
+        radial-gradient(500px 260px at 80% 26%, rgba(255,255,255,.18), transparent 68%);
+      pointer-events: none;
+    }
+
+    @keyframes spinGlow { to { transform: rotate(1turn); } }
+
+    .hero-content { position: relative; z-index: 2; max-width: 650px; }
+
+    .eyebrow {
+      color: rgba(255,255,255,.75);
+      font-size: 12px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    h1 {
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .88;
+      font-weight: 900;
+      letter-spacing: -.075em;
+      text-shadow: 0 14px 34px rgba(0,0,0,.35);
+    }
+
+    .subtitle {
+      max-width: 700px;
+      margin-top: 16px;
+      color: rgba(255,255,255,.78);
+      font-size: 16px;
+      line-height: 1.7;
+      font-weight: 700;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: rgba(28,28,30,.92);
+      border: 1px solid rgba(255,255,255,.075);
+      box-shadow: 0 22px 60px rgba(0,0,0,.28);
+      padding: 24px;
+    }
+
+    .card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(255,255,255,.10), transparent 30%, transparent 66%, rgba(255,255,255,.035));
+      opacity: .55;
+    }
+
+    .card > * { position: relative; z-index: 1; }
+
+    h2 {
+      font-size: 24px;
+      line-height: 1;
+      font-weight: 900;
+      letter-spacing: -.045em;
+      margin-bottom: 6px;
+    }
+
+    .section-eyebrow {
+      color: var(--cyan);
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .section-blurb {
+      color: rgba(255,255,255,.66);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.65;
+      margin-bottom: 18px;
+    }
+
+    p, li {
+      color: rgba(255,255,255,.72);
+      font-size: 14px;
+      line-height: 1.8;
+      font-weight: 700;
+    }
+
+    .callout {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(52,231,255,.18);
+      background: rgba(52,231,255,.07);
+      color: rgba(255,255,255,.82);
+      font-size: 13px;
+      line-height: 1.7;
+      font-weight: 800;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .field-label {
+      color: rgba(255,255,255,.92);
+      font-size: 13px;
+      font-weight: 800;
+      line-height: 1.5;
+      letter-spacing: -.005em;
+    }
+
+    .field-help {
+      color: rgba(255,255,255,.5);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.6;
+      margin-top: -4px;
+    }
+
+    .req {
+      color: var(--cyan);
+      font-weight: 900;
+      margin-left: 4px;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    @media (max-width: 600px) {
+      .field-grid { grid-template-columns: 1fr; }
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    textarea,
+    select {
+      width: 100%;
+      min-height: 44px;
+      padding: 11px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(15,15,17,.85);
+      color: white;
+      font: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.5;
+      transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+      line-height: 1.65;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(255,255,255,.32);
+      font-weight: 600;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: rgba(52,231,255,.55);
+      background: rgba(15,15,17,.95);
+      box-shadow: 0 0 0 3px rgba(52,231,255,.14);
+    }
+
+    input[aria-invalid="true"],
+    textarea[aria-invalid="true"],
+    select[aria-invalid="true"],
+    .choice-group[data-invalid="true"] {
+      border-color: rgba(251,113,133,.7);
+    }
+
+    .choice-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 4px 0 0;
+    }
+
+    .choice {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.04);
+      color: rgba(255,255,255,.86);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .02em;
+      cursor: pointer;
+      user-select: none;
+      transition: transform .14s ease, background .14s ease, border-color .14s ease, color .14s ease;
+    }
+
+    .choice input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .choice:hover {
+      transform: translateY(-1px);
+      background: rgba(255,255,255,.08);
+      border-color: rgba(255,255,255,.22);
+    }
+
+    .choice.selected {
+      background: rgba(52,231,255,.16);
+      border-color: rgba(52,231,255,.55);
+      color: white;
+      box-shadow: 0 8px 22px rgba(52,231,255,.14);
+    }
+
+    .scale {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+      margin-top: 4px;
+    }
+
+    .scale .choice {
+      padding: 0;
+      min-width: 0;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .scale-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 8px;
+      color: rgba(255,255,255,.45);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    @media (max-width: 600px) {
+      .scale { grid-template-columns: repeat(5, 1fr); }
+    }
+
+    .ack {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(15,15,17,.6);
+      cursor: pointer;
+      margin-top: 10px;
+      transition: border-color .14s ease, background .14s ease;
+    }
+
+    .ack:hover { border-color: rgba(255,255,255,.18); background: rgba(15,15,17,.85); }
+
+    .ack.selected {
+      border-color: rgba(52,231,255,.5);
+      background: rgba(52,231,255,.08);
+    }
+
+    .ack input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .ack-tick {
+      flex-shrink: 0;
+      width: 22px;
+      height: 22px;
+      border-radius: 7px;
+      border: 1.5px solid rgba(255,255,255,.28);
+      background: rgba(255,255,255,.04);
+      display: grid;
+      place-items: center;
+      margin-top: 1px;
+      transition: background .14s ease, border-color .14s ease;
+    }
+
+    .ack-tick::after {
+      content: "";
+      width: 11px;
+      height: 11px;
+      border-radius: 3px;
+      background: var(--cyan);
+      transform: scale(0);
+      transition: transform .14s ease;
+    }
+
+    .ack.selected .ack-tick { border-color: var(--cyan); background: rgba(52,231,255,.10); }
+    .ack.selected .ack-tick::after { transform: scale(1); }
+
+    .ack-text {
+      color: rgba(255,255,255,.85);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.55;
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 22px;
+    }
+
+    .primary {
+      background: var(--cyan);
+      color: #061014;
+      border-color: transparent;
+      box-shadow: 0 14px 30px rgba(52,231,255,.20);
+      min-height: 46px;
+      padding: 0 22px;
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .primary:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .submit-status {
+      color: rgba(255,255,255,.55);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .04em;
+    }
+
+    .submit-status.error { color: var(--danger); }
+    .submit-status.ok    { color: var(--green); }
+
+    .success-card {
+      text-align: center;
+      padding: 40px 28px;
+    }
+
+    .success-card .check {
+      width: 64px;
+      height: 64px;
+      border-radius: 999px;
+      background: rgba(34,197,94,.16);
+      border: 1.5px solid rgba(34,197,94,.5);
+      color: var(--green);
+      display: grid;
+      place-items: center;
+      font-size: 30px;
+      font-weight: 900;
+      margin: 0 auto 18px;
+    }
+
+    .footer {
+      margin-top: 24px;
+      text-align: center;
+      color: rgba(255,255,255,.38);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.85;
+    }
+
+    .footer-links {
+      margin-top: 8px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .footer a {
+      color: rgba(255,255,255,.52);
+      text-decoration: none;
+      font-size: 10px;
+      font-weight: 900;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    .footer a:hover { color: white; }
+
+    @media (max-width: 680px) {
+      body { padding: 16px 12px 22px; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .nav { justify-content: flex-start; }
+      .hero { min-height: 230px; padding: 22px; }
+      .card { padding: 20px; }
+    }
+
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <a class="brand" href="index.html" aria-label="Back to WestCPvP home">
+        <img class="brand-logo" src="Logo.png?v=5" alt="WestCPvP Logo">
+        <span>WestCPvP</span>
+      </a>
+      <nav class="nav" aria-label="Site links">
+        <a href="index.html">Home</a><a href="staff.html" aria-current="page">Staff</a><a href="privacy.html">Privacy</a><a href="support.html">Support</a><a href="terms.html">Terms</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">Join the team</div>
+        <h1>Staff Application</h1>
+        <p class="subtitle">Take your time and answer everything honestly. Copy-paste, one-word answers, and rushed applications get auto-denied. A couple of sentences per question minimum — longer is usually better.</p>
+      </div>
+    </section>
+
+    <form id="staff-form" class="content-grid" novalidate>
+
+      <article class="card">
+        <div class="section-eyebrow">Section 1</div>
+        <h2>Basic Info</h2>
+        <p class="section-blurb">Just the essentials so we can identify you.</p>
+
+        <div class="field-grid">
+          <div class="field">
+            <label class="field-label" for="ign">Minecraft username (current IGN)<span class="req">*</span></label>
+            <input type="text" id="ign" name="ign" required maxlength="32" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="prev_igns">Previous IGNs (if any)</label>
+            <input type="text" id="prev_igns" name="prev_igns" maxlength="200" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="discord">Discord tag<span class="req">*</span></label>
+            <input type="text" id="discord" name="discord" required maxlength="64" placeholder="username or username#1234" autocomplete="off" />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="age">Age<span class="req">*</span></label>
+            <input type="number" id="age" name="age" required min="10" max="99" />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="country">Country / Timezone<span class="req">*</span></label>
+            <input type="text" id="country" name="country" required maxlength="80" placeholder="e.g. USA / EST (UTC-5)" />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="hours_day">Hours per day you can be active<span class="req">*</span></label>
+            <input type="text" id="hours_day" name="hours_day" required maxlength="40" placeholder="e.g. 3-4 hours" />
+          </div>
+
+          <div class="field">
+            <label class="field-label" for="days_week">Days per week<span class="req">*</span></label>
+            <input type="text" id="days_week" name="days_week" required maxlength="40" placeholder="e.g. 5-6 days" />
+          </div>
+
+          <div class="field">
+            <span class="field-label">Working microphone?<span class="req">*</span></span>
+            <div class="choice-group" data-name="mic" data-required="true" role="radiogroup">
+              <label class="choice"><input type="radio" name="mic" value="Yes" required>Yes</label>
+              <label class="choice"><input type="radio" name="mic" value="No">No</label>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label">Position you're applying for<span class="req">*</span></span>
+            <div class="choice-group" data-name="position" data-required="true" role="radiogroup">
+              <label class="choice"><input type="radio" name="position" value="Helper" required>Helper</label>
+              <label class="choice"><input type="radio" name="position" value="Moderator">Moderator</label>
+              <label class="choice"><input type="radio" name="position" value="Admin">Admin</label>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-eyebrow">Section 2</div>
+        <h2>Background</h2>
+        <p class="section-blurb">Your history with the game and this server.</p>
+
+        <div class="field">
+          <label class="field-label" for="mc_years">How long have you played Minecraft?<span class="req">*</span></label>
+          <input type="text" id="mc_years" name="mc_years" required maxlength="80" />
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="cpvp_years">How long have you played Crystal PvP specifically?<span class="req">*</span></label>
+          <input type="text" id="cpvp_years" name="cpvp_years" required maxlength="80" />
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="found_us">How did you find WestCPvP?<span class="req">*</span></label>
+          <textarea id="found_us" name="found_us" required maxlength="1500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="punishments">Have you ever been punished (banned, muted, warned) on this server or any other?<span class="req">*</span></label>
+          <div class="field-help">Be honest — list them and what they were for. We will check.</div>
+          <textarea id="punishments" name="punishments" required maxlength="2500"></textarea>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-eyebrow">Section 3</div>
+        <h2>Experience</h2>
+        <p class="section-blurb">Your prior staff and admin background.</p>
+
+        <div class="field">
+          <label class="field-label" for="prior_staff">Have you held a staff position on another Minecraft server before?<span class="req">*</span></label>
+          <div class="field-help">If yes, list the server, your role, how long you held it, and why you left.</div>
+          <textarea id="prior_staff" name="prior_staff" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Which tools/plugins are you familiar with?</span>
+          <div class="choice-group" data-name="tools">
+            <label class="choice"><input type="checkbox" name="tools" value="EssentialsX / CMI">EssentialsX / CMI</label>
+            <label class="choice"><input type="checkbox" name="tools" value="LuckPerms">LuckPerms</label>
+            <label class="choice"><input type="checkbox" name="tools" value="Vulcan / Grim / Matrix / Polar (anti-cheat)">Vulcan / Grim / Matrix / Polar</label>
+            <label class="choice"><input type="checkbox" name="tools" value="CoreProtect">CoreProtect</label>
+            <label class="choice"><input type="checkbox" name="tools" value="LiteBans / AdvancedBan">LiteBans / AdvancedBan</label>
+            <label class="choice"><input type="checkbox" name="tools" value="WorldGuard / WorldEdit">WorldGuard / WorldEdit</label>
+            <label class="choice"><input type="checkbox" name="tools" value="Discord moderation bots">Discord mod bots</label>
+            <label class="choice"><input type="checkbox" name="tools" value="None of the above">None of the above</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <span class="field-label">Rate your familiarity with Minecraft commands and basic server admin tasks<span class="req">*</span></span>
+          <div class="scale choice-group" data-name="skill_rating" data-required="true" role="radiogroup">
+            <!-- scale 1-10 -->
+            <label class="choice"><input type="radio" name="skill_rating" value="1" required>1</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="2">2</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="3">3</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="4">4</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="5">5</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="6">6</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="7">7</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="8">8</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="9">9</label>
+            <label class="choice"><input type="radio" name="skill_rating" value="10">10</label>
+          </div>
+          <div class="scale-labels"><span>Beginner</span><span>Expert</span></div>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="skill_explain">Explain the rating you just gave<span class="req">*</span></label>
+          <textarea id="skill_explain" name="skill_explain" required maxlength="2500"></textarea>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-eyebrow">Section 4</div>
+        <h2>Crystal PvP Knowledge</h2>
+        <p class="section-blurb">Show that you actually understand the game we run.</p>
+
+        <div class="field">
+          <label class="field-label" for="q_kb">What does "absolute zero knockback" mean in CPvP and why is it a thing?<span class="req">*</span></label>
+          <textarea id="q_kb" name="q_kb" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="q_pvptypes">What's the difference between obsidian, anchor, and bed PvP — and which is allowed on WestCPvP?<span class="req">*</span></label>
+          <textarea id="q_pvptypes" name="q_pvptypes" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="q_cheats">Name three common cheats used in CPvP and how you would identify someone using each<span class="req">*</span></label>
+          <div class="field-help">Cover Killaura, Reach, and Auto-Totem at minimum.</div>
+          <textarea id="q_cheats" name="q_cheats" required maxlength="3000"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="q_pearlsnap">A player is mid-fight, pearls into a wall, then suddenly snaps onto their opponent and crystals them in one tick. What's likely happening?<span class="req">*</span></label>
+          <textarea id="q_pearlsnap" name="q_pearlsnap" required maxlength="2500"></textarea>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-eyebrow">Section 5</div>
+        <h2>Scenarios</h2>
+        <p class="section-blurb">Answer each in 3–6 sentences. We're looking for <em>how you think</em>, not "I'd ban them."</p>
+
+        <div class="field">
+          <label class="field-label" for="s_slur">A player is repeatedly using the n-word in chat. Another staff member tells you to ignore it because the player is a donator. What do you do?<span class="req">*</span></label>
+          <textarea id="s_slur" name="s_slur" required maxlength="3000"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="s_killaura">You catch a player using kill aura on video. They're a long-term member with no prior punishments and they deny it. Walk through your full response — gathering evidence, communicating with the player, the punishment itself, and the appeal process.<span class="req">*</span></label>
+          <textarea id="s_killaura" name="s_killaura" required maxlength="3500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="s_triage">You're alone moderating chat. Three different reports come in within 60 seconds: a hacker in spawn, a player being doxxed in DMs, and a chat argument escalating into harassment. Order of priority and why?<span class="req">*</span></label>
+          <textarea id="s_triage" name="s_triage" required maxlength="3000"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="s_friend">A player you're friends with breaks a rule. How do you handle it?<span class="req">*</span></label>
+          <textarea id="s_friend" name="s_friend" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="s_admin">An admin tells you to ban a player and gives no reason. You don't see the offense yourself. What do you do?<span class="req">*</span></label>
+          <textarea id="s_admin" name="s_admin" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="s_appeal">Someone posts a screenshot in #appeals claiming they were falsely banned by you and the screenshot makes it look that way. How do you respond?<span class="req">*</span></label>
+          <textarea id="s_appeal" name="s_appeal" required maxlength="2500"></textarea>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-eyebrow">Section 6</div>
+        <h2>Personal</h2>
+        <p class="section-blurb">Tell us about you.</p>
+
+        <div class="field">
+          <label class="field-label" for="p_why">Why do you want to be staff on WestCPvP specifically?<span class="req">*</span></label>
+          <div class="field-help">Avoid generic "I want to help" answers — be specific about this server.</div>
+          <textarea id="p_why" name="p_why" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="p_unique">What do you bring to the team that other applicants might not?<span class="req">*</span></label>
+          <textarea id="p_unique" name="p_unique" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="p_weakness">What's your biggest weakness as a potential staff member?<span class="req">*</span></label>
+          <textarea id="p_weakness" name="p_weakness" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="p_notchosen">If you're not chosen this round, will you keep playing? Why or why not?<span class="req">*</span></label>
+          <textarea id="p_notchosen" name="p_notchosen" required maxlength="2500"></textarea>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="p_extra">Anything else you want us to know?</label>
+          <textarea id="p_extra" name="p_extra" maxlength="2500"></textarea>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="section-eyebrow">Section 7</div>
+        <h2>Acknowledgements</h2>
+        <p class="section-blurb">Read each carefully before checking.</p>
+
+        <div data-acks>
+          <label class="ack"><input type="checkbox" name="ack" value="rules" required><span class="ack-tick"></span><span class="ack-text">I have read the server rules in full.</span></label>
+          <label class="ack"><input type="checkbox" name="ack" value="truth" required><span class="ack-tick"></span><span class="ack-text">All information I've provided is true. Lying on this application is grounds for permanent denial.</span></label>
+          <label class="ack"><input type="checkbox" name="ack" value="discretion" required><span class="ack-tick"></span><span class="ack-text">I understand staff applications are reviewed at the team's discretion and a denial isn't personal.</span></label>
+          <label class="ack"><input type="checkbox" name="ack" value="nodm" required><span class="ack-tick"></span><span class="ack-text">I won't DM staff asking about my application status.</span></label>
+          <label class="ack"><input type="checkbox" name="ack" value="reapply" required><span class="ack-tick"></span><span class="ack-text">I understand a minimum of 2 weeks is required before re-applying after a denial.</span></label>
+        </div>
+
+        <div class="field">
+          <label class="field-label" for="signature">Signature — type your IGN to confirm<span class="req">*</span></label>
+          <input type="text" id="signature" name="signature" required maxlength="32" autocomplete="off" />
+        </div>
+
+        <div class="submit-row">
+          <button type="submit" class="button primary" id="submit-btn">Submit Application</button>
+          <span class="submit-status" id="submit-status" role="status" aria-live="polite"></span>
+        </div>
+      </article>
+    </form>
+
+    <section id="success-card" class="card success-card" hidden>
+      <div class="check">✓</div>
+      <h2 style="margin-bottom:10px;">Application submitted</h2>
+      <p>Thanks — your application is in. Staff will review when they're able. Don't DM staff asking about status.</p>
+      <div class="submit-row" style="justify-content:center;">
+        <a class="button discord" href="https://discord.gg/KqpdvwfSU" target="_blank" rel="noopener">Join Discord</a>
+        <a class="button" href="index.html">Back to Home</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div>WestCPvP</div>
+      <div>Not associated with Mojang or Microsoft © 2026 WestCPvP. All Rights Reserved.</div>
+      <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="support.html">Support</a>
+        <a href="terms.html">Terms of Service</a>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // Discord webhook URL — paste yours here.
+    // Discord → Server Settings → Integrations → Webhooks → New Webhook → Copy URL
+    // ─────────────────────────────────────────────────────────────
+    const WEBHOOK_URL = "https://discord.com/api/webhooks/1502203352375885885/NY5Jh_k66mluCo17rE4q1CgUJJjjc9wcDDH3sq_O5KEdXt_M20kl8UWtcQRmL6GZdSHj";
+
+    // Visual selection sync for radio/checkbox pills + acks
+    document.querySelectorAll(".choice-group").forEach(group => {
+      const updateSelection = () => {
+        group.querySelectorAll(".choice").forEach(label => {
+          const input = label.querySelector("input");
+          label.classList.toggle("selected", !!input && input.checked);
+        });
+        group.removeAttribute("data-invalid");
+      };
+      group.addEventListener("change", updateSelection);
+      updateSelection();
+    });
+
+    document.querySelectorAll(".ack").forEach(label => {
+      const input = label.querySelector("input");
+      const sync = () => label.classList.toggle("selected", input.checked);
+      input.addEventListener("change", sync);
+      sync();
+    });
+
+    // ── Helpers ─────────────────────────────────────────────────
+    const form = document.getElementById("staff-form");
+    const submitBtn = document.getElementById("submit-btn");
+    const status = document.getElementById("submit-status");
+    const successCard = document.getElementById("success-card");
+
+    function setStatus(text, kind) {
+      status.textContent = text || "";
+      status.classList.remove("error", "ok");
+      if (kind) status.classList.add(kind);
+    }
+
+    function getValue(name) {
+      const el = form.elements[name];
+      if (!el) return "";
+      if (el instanceof RadioNodeList || el.length !== undefined && el.tagName === undefined) {
+        // Multi-input: radio group OR checkbox group
+        const inputs = Array.from(el).filter(n => n && n.tagName === "INPUT");
+        if (inputs.length && inputs[0].type === "radio") {
+          const checked = inputs.find(i => i.checked);
+          return checked ? checked.value : "";
+        }
+        const checked = inputs.filter(i => i.checked).map(i => i.value);
+        return checked.join(", ");
+      }
+      return (el.value || "").trim();
+    }
+
+    function validate() {
+      let firstInvalid = null;
+
+      // Standard inputs
+      form.querySelectorAll("input, textarea, select").forEach(el => {
+        el.removeAttribute("aria-invalid");
+        if (el.type === "radio" || el.type === "checkbox") return;
+        if (el.required && !el.value.trim()) {
+          el.setAttribute("aria-invalid", "true");
+          if (!firstInvalid) firstInvalid = el;
+        }
+      });
+
+      // Required radio groups
+      form.querySelectorAll('.choice-group[data-required="true"]').forEach(group => {
+        const name = group.dataset.name;
+        const inputs = form.querySelectorAll(`input[name="${name}"]`);
+        const hasChecked = Array.from(inputs).some(i => i.checked);
+        if (!hasChecked) {
+          group.setAttribute("data-invalid", "true");
+          if (!firstInvalid) firstInvalid = group;
+        } else {
+          group.removeAttribute("data-invalid");
+        }
+      });
+
+      // All acknowledgements required
+      const acks = form.querySelectorAll('input[name="ack"]');
+      const allAcked = Array.from(acks).every(a => a.checked);
+      if (!allAcked) {
+        acks.forEach(a => {
+          if (!a.checked) a.closest(".ack").style.borderColor = "rgba(251,113,133,.7)";
+        });
+        if (!firstInvalid) firstInvalid = acks[0].closest(".ack");
+      } else {
+        acks.forEach(a => a.closest(".ack").style.borderColor = "");
+      }
+
+      // Signature must match IGN
+      const ign = getValue("ign");
+      const sig = getValue("signature");
+      const sigEl = form.elements["signature"];
+      if (ign && sig && sig.toLowerCase() !== ign.toLowerCase()) {
+        sigEl.setAttribute("aria-invalid", "true");
+        if (!firstInvalid) firstInvalid = sigEl;
+        setStatus("Signature must match your IGN exactly.", "error");
+        return false;
+      }
+
+      if (firstInvalid) {
+        firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+        if (firstInvalid.focus) firstInvalid.focus({ preventScroll: true });
+        setStatus("Please complete the highlighted fields.", "error");
+        return false;
+      }
+      return true;
+    }
+
+    // ── Build payloads for Discord (multiple messages, chunked) ─
+    // Discord limits: content 2000 chars, embed total 6000, field name 256, field value 1024, 25 fields/embed.
+
+    function chunkText(text, max) {
+      const out = [];
+      let s = text;
+      while (s.length > max) {
+        // try to break on whitespace within the last 80 chars of the chunk
+        let cut = s.lastIndexOf("\n", max);
+        if (cut < max - 200) cut = s.lastIndexOf(" ", max);
+        if (cut < max - 200) cut = max;
+        out.push(s.slice(0, cut));
+        s = s.slice(cut).replace(/^\s+/, "");
+      }
+      if (s) out.push(s);
+      return out;
+    }
+
+    function fieldsForQA(label, value) {
+      const v = (value || "—").toString();
+      const chunks = chunkText(v, 1000);
+      return chunks.map((chunk, i) => ({
+        name: i === 0 ? truncate(label, 256) : "↳ (cont.)",
+        value: chunk,
+        inline: false
+      }));
+    }
+
+    function truncate(s, n) {
+      s = (s || "").toString();
+      return s.length > n ? s.slice(0, n - 1) + "…" : s;
+    }
+
+    function buildEmbeds() {
+      const ign = getValue("ign");
+      const discord = getValue("discord");
+      const position = getValue("position");
+      const age = getValue("age");
+      const country = getValue("country");
+
+      const headerEmbed = {
+        title: `Staff Application — ${truncate(ign, 80)}`,
+        description: `**Position:** ${position || "—"}\n**Discord:** ${discord || "—"}`,
+        color: 0x34e7ff,
+        timestamp: new Date().toISOString(),
+        fields: [
+          { name: "IGN", value: ign || "—", inline: true },
+          { name: "Discord", value: discord || "—", inline: true },
+          { name: "Position", value: position || "—", inline: true },
+          { name: "Age", value: age || "—", inline: true },
+          { name: "Country / TZ", value: truncate(country, 1024) || "—", inline: true },
+          { name: "Mic", value: getValue("mic") || "—", inline: true },
+          { name: "Hours/day", value: truncate(getValue("hours_day"), 1024) || "—", inline: true },
+          { name: "Days/week", value: truncate(getValue("days_week"), 1024) || "—", inline: true },
+          { name: "Previous IGNs", value: truncate(getValue("prev_igns") || "—", 1024), inline: true },
+          { name: "Skill rating (1-10)", value: getValue("skill_rating") || "—", inline: true },
+          { name: "Tools known", value: truncate(getValue("tools") || "—", 1024), inline: false }
+        ]
+      };
+
+      const sections = [
+        {
+          title: "Background",
+          color: 0x13b7f4,
+          qas: [
+            ["How long playing Minecraft?", getValue("mc_years")],
+            ["How long playing CPvP?", getValue("cpvp_years")],
+            ["How they found WestCPvP", getValue("found_us")],
+            ["Prior punishments", getValue("punishments")]
+          ]
+        },
+        {
+          title: "Experience",
+          color: 0x13b7f4,
+          qas: [
+            ["Prior staff position?", getValue("prior_staff")],
+            ["Explain skill rating", getValue("skill_explain")]
+          ]
+        },
+        {
+          title: "Crystal PvP Knowledge",
+          color: 0x5865f2,
+          qas: [
+            ["Absolute zero knockback — meaning & why", getValue("q_kb")],
+            ["Obsidian vs anchor vs bed PvP", getValue("q_pvptypes")],
+            ["3 common CPvP cheats & how to ID them", getValue("q_cheats")],
+            ["Pearl-snap one-tick crystal scenario", getValue("q_pearlsnap")]
+          ]
+        },
+        {
+          title: "Scenarios",
+          color: 0xfb7185,
+          qas: [
+            ["Slur from a donator + staff says ignore", getValue("s_slur")],
+            ["Kill aura on video, denies it", getValue("s_killaura")],
+            ["Triage: hacker, doxx, harassment in 60s", getValue("s_triage")],
+            ["Friend breaks a rule", getValue("s_friend")],
+            ["Admin says ban with no reason", getValue("s_admin")],
+            ["Public appeal screenshot looks bad", getValue("s_appeal")]
+          ]
+        },
+        {
+          title: "Personal",
+          color: 0x22c55e,
+          qas: [
+            ["Why WestCPvP specifically?", getValue("p_why")],
+            ["What you bring others don't", getValue("p_unique")],
+            ["Biggest weakness as staff", getValue("p_weakness")],
+            ["If not chosen, keep playing?", getValue("p_notchosen")],
+            ["Anything else", getValue("p_extra")]
+          ]
+        }
+      ];
+
+      // Convert sections → embeds, respecting 25 fields & 6000 chars per embed
+      const messages = [{ embeds: [headerEmbed] }];
+
+      sections.forEach(section => {
+        let embed = { title: section.title, color: section.color, fields: [] };
+        let charCount = (embed.title || "").length;
+
+        const flush = () => {
+          if (embed.fields.length) {
+            messages.push({ embeds: [embed] });
+          }
+        };
+
+        section.qas.forEach(([label, value]) => {
+          const fields = fieldsForQA(label, value);
+          fields.forEach(f => {
+            const fSize = (f.name || "").length + (f.value || "").length;
+            if (embed.fields.length >= 25 || charCount + fSize > 5500) {
+              flush();
+              embed = { title: section.title + " (cont.)", color: section.color, fields: [] };
+              charCount = (embed.title || "").length;
+            }
+            embed.fields.push(f);
+            charCount += fSize;
+          });
+        });
+
+        flush();
+      });
+
+      // Footer message with acks/signature
+      messages.push({
+        embeds: [{
+          title: "Acknowledgements & Signature",
+          color: 0x34e7ff,
+          fields: [
+            { name: "Acks confirmed", value: "All 5 boxes checked.", inline: false },
+            { name: "Signature", value: truncate(getValue("signature"), 1024) || "—", inline: false }
+          ],
+          footer: { text: `Submitted by ${truncate(ign, 80)} • ${navigator.userAgent.slice(0, 80)}` }
+        }]
+      });
+
+      return messages;
+    }
+
+    async function postMessage(payload, attempt = 0) {
+      const res = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (res.status === 429 && attempt < 3) {
+        const retryAfter = Number(res.headers.get("retry-after") || 1) * 1000 + 250;
+        await new Promise(r => setTimeout(r, retryAfter));
+        return postMessage(payload, attempt + 1);
+      }
+      if (!res.ok) {
+        const body = await res.text().catch(() => "");
+        throw new Error(`Discord ${res.status}: ${body.slice(0, 200)}`);
+      }
+    }
+
+    async function submit() {
+      if (!WEBHOOK_URL) {
+        setStatus("Server isn't accepting applications yet — webhook missing. Tell an admin.", "error");
+        return;
+      }
+      if (!validate()) return;
+
+      submitBtn.disabled = true;
+      setStatus("Sending…");
+
+      try {
+        const messages = buildEmbeds();
+        for (let i = 0; i < messages.length; i++) {
+          await postMessage(messages[i]);
+          if (i < messages.length - 1) await new Promise(r => setTimeout(r, 350));
+          setStatus(`Sending… (${i + 1}/${messages.length})`);
+        }
+        // Success
+        form.hidden = true;
+        successCard.hidden = false;
+        successCard.scrollIntoView({ behavior: "smooth", block: "start" });
+      } catch (err) {
+        console.error(err);
+        setStatus("Submission failed. Try again, or DM an admin if it keeps happening.", "error");
+        submitBtn.disabled = false;
+      }
+    }
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      submit();
+    });
+  </script>
+</body>
+</html>
