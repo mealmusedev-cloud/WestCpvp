@@ -988,176 +988,181 @@
       return true;
     }
 
-    // ── Build payloads for Discord (multiple messages, chunked) ─
-    // Discord limits: content 2000 chars, embed total 6000, field name 256, field value 1024, 25 fields/embed.
-
-    function chunkText(text, max) {
-      const out = [];
-      let s = text;
-      while (s.length > max) {
-        // try to break on whitespace within the last 80 chars of the chunk
-        let cut = s.lastIndexOf("\n", max);
-        if (cut < max - 200) cut = s.lastIndexOf(" ", max);
-        if (cut < max - 200) cut = max;
-        out.push(s.slice(0, cut));
-        s = s.slice(cut).replace(/^\s+/, "");
-      }
-      if (s) out.push(s);
-      return out;
-    }
-
-    function fieldsForQA(label, value) {
-      const v = (value || "—").toString();
-      const chunks = chunkText(v, 1000);
-      return chunks.map((chunk, i) => ({
-        name: i === 0 ? truncate(label, 256) : "↳ (cont.)",
-        value: chunk,
-        inline: false
-      }));
-    }
+    // ── Build a single Discord message: short summary embed + .txt attachment ──
 
     function truncate(s, n) {
       s = (s || "").toString();
       return s.length > n ? s.slice(0, n - 1) + "…" : s;
     }
 
-    function buildEmbeds() {
-      const ign = getValue("ign");
-      const discord = getValue("discord");
-      const position = getValue("position");
-      const age = getValue("age");
-      const country = getValue("country");
+    function fmtAnswer(value) {
+      const v = (value || "").toString().trim();
+      return v ? v : "(no answer)";
+    }
 
-      const headerEmbed = {
-        title: `Staff Application — ${truncate(ign, 80)}`,
-        description: `**Position:** ${position || "—"}\n**Discord:** ${discord || "—"}`,
-        color: 0x34e7ff,
-        timestamp: new Date().toISOString(),
-        fields: [
-          { name: "IGN", value: ign || "—", inline: true },
-          { name: "Discord", value: discord || "—", inline: true },
-          { name: "Position", value: position || "—", inline: true },
-          { name: "Age", value: age || "—", inline: true },
-          { name: "Country / TZ", value: truncate(country, 1024) || "—", inline: true },
-          { name: "Mic", value: getValue("mic") || "—", inline: true },
-          { name: "Hours/day", value: truncate(getValue("hours_day"), 1024) || "—", inline: true },
-          { name: "Days/week", value: truncate(getValue("days_week"), 1024) || "—", inline: true },
-          { name: "Previous IGNs", value: truncate(getValue("prev_igns") || "—", 1024), inline: true },
-          { name: "Skill rating (1-10)", value: getValue("skill_rating") || "—", inline: true },
-          { name: "Tools known", value: truncate(getValue("tools") || "—", 1024), inline: false }
-        ]
-      };
+    function buildApplicationText() {
+      const now = new Date();
+      const stamp = now.toISOString().replace("T", " ").slice(0, 16) + " UTC";
+      const ign = fmtAnswer(getValue("ign"));
+      const discord = fmtAnswer(getValue("discord"));
+      const position = fmtAnswer(getValue("position"));
+
+      const line = "═".repeat(60);
+      const sub  = "─".repeat(60);
 
       const sections = [
         {
-          title: "Background",
-          color: 0x13b7f4,
-          qas: [
-            ["How long playing Minecraft?", getValue("mc_years")],
-            ["How long playing CPvP?", getValue("cpvp_years")],
-            ["How they found WestCPvP", getValue("found_us")],
-            ["Prior punishments", getValue("punishments")]
+          title: "BASIC INFO",
+          rows: [
+            ["IGN", getValue("ign")],
+            ["Previous IGNs", getValue("prev_igns")],
+            ["Discord", getValue("discord")],
+            ["Age", getValue("age")],
+            ["Country / Timezone", getValue("country")],
+            ["Hours per day", getValue("hours_day")],
+            ["Days per week", getValue("days_week")],
+            ["Microphone", getValue("mic")],
+            ["Position", getValue("position")]
           ]
         },
         {
-          title: "Experience",
-          color: 0x13b7f4,
-          qas: [
-            ["Prior staff position?", getValue("prior_staff")],
-            ["Explain skill rating", getValue("skill_explain")]
+          title: "BACKGROUND",
+          longform: [
+            ["How long have you played Minecraft?", getValue("mc_years")],
+            ["How long have you played Crystal PvP specifically?", getValue("cpvp_years")],
+            ["How did you find WestCPvP?", getValue("found_us")],
+            ["Prior punishments (banned/muted/warned anywhere)", getValue("punishments")]
           ]
         },
         {
-          title: "Crystal PvP Knowledge",
-          color: 0x5865f2,
-          qas: [
-            ["Absolute zero knockback — meaning & why", getValue("q_kb")],
-            ["Obsidian vs anchor vs bed PvP", getValue("q_pvptypes")],
-            ["3 common CPvP cheats & how to ID them", getValue("q_cheats")],
-            ["Pearl-snap one-tick crystal scenario", getValue("q_pearlsnap")]
+          title: "EXPERIENCE",
+          longform: [
+            ["Have you held a staff position on another server before?", getValue("prior_staff")]
+          ],
+          rows: [
+            ["Tools/plugins familiar with", getValue("tools")],
+            ["Skill rating (1-10)", getValue("skill_rating")]
+          ],
+          longformAfter: [
+            ["Explain the skill rating", getValue("skill_explain")]
           ]
         },
         {
-          title: "Scenarios",
-          color: 0xfb7185,
-          qas: [
-            ["Slur from a donator + staff says ignore", getValue("s_slur")],
-            ["Kill aura on video, denies it", getValue("s_killaura")],
-            ["Triage: hacker, doxx, harassment in 60s", getValue("s_triage")],
-            ["Friend breaks a rule", getValue("s_friend")],
+          title: "CRYSTAL PVP KNOWLEDGE",
+          longform: [
+            ["What does \"absolute zero knockback\" mean and why is it a thing?", getValue("q_kb")],
+            ["Obsidian vs anchor vs bed PvP — and which is allowed on WestCPvP?", getValue("q_pvptypes")],
+            ["Three common CPvP cheats and how to identify each", getValue("q_cheats")],
+            ["Pearl-snap one-tick crystal scenario — what's likely happening?", getValue("q_pearlsnap")]
+          ]
+        },
+        {
+          title: "SCENARIOS",
+          longform: [
+            ["Slur in chat + staff says ignore because donator", getValue("s_slur")],
+            ["Kill aura on video, long-term member denies it — full response", getValue("s_killaura")],
+            ["Triage: hacker, doxx, and harassment in 60 seconds", getValue("s_triage")],
+            ["A friend breaks a rule", getValue("s_friend")],
             ["Admin says ban with no reason", getValue("s_admin")],
-            ["Public appeal screenshot looks bad", getValue("s_appeal")]
+            ["Public appeal screenshot makes you look wrong", getValue("s_appeal")]
           ]
         },
         {
-          title: "Personal",
-          color: 0x22c55e,
-          qas: [
+          title: "PERSONAL",
+          longform: [
             ["Why WestCPvP specifically?", getValue("p_why")],
-            ["What you bring others don't", getValue("p_unique")],
-            ["Biggest weakness as staff", getValue("p_weakness")],
-            ["If not chosen, keep playing?", getValue("p_notchosen")],
-            ["Anything else", getValue("p_extra")]
+            ["What you bring that others might not", getValue("p_unique")],
+            ["Biggest weakness as a staff member", getValue("p_weakness")],
+            ["If not chosen, will you keep playing?", getValue("p_notchosen")],
+            ["Anything else?", getValue("p_extra")]
           ]
         }
       ];
 
-      // Convert sections → embeds, respecting 25 fields & 6000 chars per embed
-      const messages = [{ embeds: [headerEmbed] }];
+      const out = [];
+      out.push(line);
+      out.push("  WESTCPVP STAFF APPLICATION");
+      out.push(line);
+      out.push("");
+      out.push(`  IGN:        ${ign}`);
+      out.push(`  Discord:    ${discord}`);
+      out.push(`  Position:   ${position}`);
+      out.push(`  Submitted:  ${stamp}`);
+      out.push("");
 
       sections.forEach(section => {
-        let embed = { title: section.title, color: section.color, fields: [] };
-        let charCount = (embed.title || "").length;
+        out.push(sub);
+        out.push(`  ${section.title}`);
+        out.push(sub);
+        out.push("");
 
-        const flush = () => {
-          if (embed.fields.length) {
-            messages.push({ embeds: [embed] });
-          }
-        };
-
-        section.qas.forEach(([label, value]) => {
-          const fields = fieldsForQA(label, value);
-          fields.forEach(f => {
-            const fSize = (f.name || "").length + (f.value || "").length;
-            if (embed.fields.length >= 25 || charCount + fSize > 5500) {
-              flush();
-              embed = { title: section.title + " (cont.)", color: section.color, fields: [] };
-              charCount = (embed.title || "").length;
-            }
-            embed.fields.push(f);
-            charCount += fSize;
+        if (section.rows) {
+          const labelW = Math.max(...section.rows.map(r => r[0].length));
+          section.rows.forEach(([k, v]) => {
+            out.push(`  ${k.padEnd(labelW)}   ${fmtAnswer(v)}`);
           });
+          out.push("");
+        }
+
+        const longBlocks = [
+          ...(section.longform || []),
+          ...(section.longformAfter || [])
+        ];
+        longBlocks.forEach(([q, a]) => {
+          out.push(`▸ ${q}`);
+          out.push("");
+          fmtAnswer(a).split("\n").forEach(l => out.push(`  ${l}`));
+          out.push("");
         });
-
-        flush();
       });
 
-      // Footer message with acks/signature
-      messages.push({
-        embeds: [{
-          title: "Acknowledgements & Signature",
-          color: 0x34e7ff,
-          fields: [
-            { name: "Acks confirmed", value: "All 5 boxes checked.", inline: false },
-            { name: "Signature", value: truncate(getValue("signature"), 1024) || "—", inline: false }
-          ],
-          footer: { text: `Submitted by ${truncate(ign, 80)} • ${navigator.userAgent.slice(0, 80)}` }
-        }]
-      });
+      out.push(sub);
+      out.push("  ACKNOWLEDGEMENTS & SIGNATURE");
+      out.push(sub);
+      out.push("");
+      out.push("  ✓ Read server rules in full");
+      out.push("  ✓ All info provided is true");
+      out.push("  ✓ Reviews are at staff discretion");
+      out.push("  ✓ Won't DM staff about status");
+      out.push("  ✓ Understands 2-week re-apply minimum");
+      out.push("");
+      out.push(`  Signature: ${fmtAnswer(getValue("signature"))}`);
+      out.push("");
+      out.push(line);
+      out.push(`  Generated ${stamp} • staff.html`);
+      out.push(line);
 
-      return messages;
+      return out.join("\n");
     }
 
-    async function postMessage(payload, attempt = 0) {
-      const res = await fetch(WEBHOOK_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+    function buildSummaryEmbed() {
+      const ign = getValue("ign");
+      const discord = getValue("discord");
+      const position = getValue("position");
+      return {
+        title: `Staff Application — ${truncate(ign || "Unknown", 80)}`,
+        description:
+          `**Position:** ${position || "—"}\n` +
+          `**Discord:** ${discord || "—"}\n` +
+          `**Age:** ${getValue("age") || "—"} • **Country/TZ:** ${truncate(getValue("country"), 80) || "—"}\n` +
+          `**Active:** ${truncate(getValue("hours_day"), 40) || "—"} / ${truncate(getValue("days_week"), 40) || "—"}\n\n` +
+          `📎 Full application attached below.`,
+        color: 0x34e7ff,
+        timestamp: new Date().toISOString(),
+        footer: { text: "Open the .txt file to read the full application." }
+      };
+    }
+
+    async function postApplication(text, summaryEmbed, ignSlug, attempt = 0) {
+      const fd = new FormData();
+      fd.append("payload_json", JSON.stringify({ embeds: [summaryEmbed] }));
+      fd.append("files[0]", new Blob([text], { type: "text/plain" }), `staff-app-${ignSlug}.txt`);
+
+      const res = await fetch(WEBHOOK_URL, { method: "POST", body: fd });
       if (res.status === 429 && attempt < 3) {
         const retryAfter = Number(res.headers.get("retry-after") || 1) * 1000 + 250;
         await new Promise(r => setTimeout(r, retryAfter));
-        return postMessage(payload, attempt + 1);
+        return postApplication(text, summaryEmbed, ignSlug, attempt + 1);
       }
       if (!res.ok) {
         const body = await res.text().catch(() => "");
@@ -1176,13 +1181,12 @@
       setStatus("Sending…");
 
       try {
-        const messages = buildEmbeds();
-        for (let i = 0; i < messages.length; i++) {
-          await postMessage(messages[i]);
-          if (i < messages.length - 1) await new Promise(r => setTimeout(r, 350));
-          setStatus(`Sending… (${i + 1}/${messages.length})`);
-        }
-        // Success
+        const text = buildApplicationText();
+        const summary = buildSummaryEmbed();
+        const ignSlug = (getValue("ign") || "applicant").replace(/[^a-z0-9_-]+/gi, "_").slice(0, 24) || "applicant";
+
+        await postApplication(text, summary, ignSlug);
+
         form.hidden = true;
         successCard.hidden = false;
         successCard.scrollIntoView({ behavior: "smooth", block: "start" });
